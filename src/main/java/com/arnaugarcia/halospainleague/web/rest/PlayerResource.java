@@ -1,5 +1,10 @@
 package com.arnaugarcia.halospainleague.web.rest;
 
+import com.arnaugarcia.halospainleague.domain.ProfileConfiguration;
+import com.arnaugarcia.halospainleague.domain.enumeration.PlayerState;
+import com.arnaugarcia.halospainleague.repository.ProfileConfigurationRepository;
+import com.arnaugarcia.halospainleague.repository.UserRepository;
+import com.arnaugarcia.halospainleague.security.SecurityUtils;
 import com.codahale.metrics.annotation.Timed;
 import com.arnaugarcia.halospainleague.domain.Player;
 
@@ -8,6 +13,7 @@ import com.arnaugarcia.halospainleague.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +21,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +38,12 @@ public class PlayerResource {
 
     private final PlayerRepository playerRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ProfileConfigurationRepository profileConfigurationRepository;
+
     public PlayerResource(PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
     }
@@ -44,11 +57,16 @@ public class PlayerResource {
      */
     @PostMapping("/players")
     @Timed
-    public ResponseEntity<Player> createPlayer(@Valid @RequestBody Player player) throws URISyntaxException {
+    public ResponseEntity<Player> createPlayer(@RequestBody Player player) throws URISyntaxException {
         log.debug("REST request to save Player : {}", player);
         if (player.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new player cannot already have an ID")).body(null);
         }
+
+        player.setProfileConfiguration(profileConfigurationRepository.save(new ProfileConfiguration()));
+        player.setCreated(ZonedDateTime.now());
+        player.setState(PlayerState.FREE_AGENT);
+        player.setUser(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get());
         Player result = playerRepository.save(player);
         return ResponseEntity.created(new URI("/api/players/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
