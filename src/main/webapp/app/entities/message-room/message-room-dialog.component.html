@@ -70,6 +70,12 @@
                 This field is required.
             </small>
         </div>
+        <div class="form-group">
+            <label jhiTranslate="halospainleagueApp.messageRoom.player" for="field_player">Player</label>
+            <select class="form-control" id="field_player" multiple name="player" [(ngModel)]="messageRoom.players">
+                <option [ngValue]="getSelected(messageRoom.players, playerOption)" *ngFor="let playerOption of players; trackBy: trackPlayerById">{{playerOption.name}}</option>
+            </select>
+        </div>
         <div [hidden]="!(editForm.controls.message?.dirty && editForm.controls.message?.invalid)">
             <small class="form-text text-danger"
                 [hidden]="!editForm.controls.message?.errors?.required" jhiTranslate="entity.validation.required">

@@ -11,8 +11,8 @@ export class MessageRoom implements BaseEntity {
         public crated?: any,
         public isPublic?: boolean,
         public themes?: BaseEntity[],
-        public message?: BaseEntity,
         public players?: BaseEntity[],
+        public message?: BaseEntity,
     ) {
         this.isPublic = false;
     }

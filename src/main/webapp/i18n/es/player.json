@@ -34,11 +34,11 @@
             "user": "User",
             "socialAccount": "Social Account",
             "country": "Country",
-            "messageRoom": "Message Room",
             "profileConfiguration": "Profile Configuration",
             "notification": "Notification",
             "achievement": "Achievement",
-            "team": "Team"
+            "team": "Team",
+            "messageRoom": "Message Room"
         }
     }
 }

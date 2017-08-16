@@ -299,7 +299,7 @@ relationship ManyToMany{
     * Messages
     */
 	//Various players can be or own a MessageRoom
-	Player{messageRoom(title)} to MessageRoom{player(name)}
+	MessageRoom{player(name)} to Player{messageRoom(title)}
 }
 
 relationship OneToOne{

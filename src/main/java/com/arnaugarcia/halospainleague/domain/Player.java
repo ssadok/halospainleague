@@ -120,17 +120,6 @@ public class Player implements Serializable {
     @ManyToOne
     private Country country;
 
-    /**
-     * Messages
-     */
-    @ApiModelProperty(value = "Messages")
-    @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "player_message_room",
-               joinColumns = @JoinColumn(name="players_id", referencedColumnName="id"),
-               inverseJoinColumns = @JoinColumn(name="message_rooms_id", referencedColumnName="id"))
-    private Set<MessageRoom> messageRooms = new HashSet<>();
-
     @OneToOne(mappedBy = "player")
     @JsonIgnore
     private ProfileConfiguration profileConfiguration;
@@ -149,6 +138,11 @@ public class Player implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Team> teams = new HashSet<>();
+
+    @ManyToMany(mappedBy = "players")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<MessageRoom> messageRooms = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -443,31 +437,6 @@ public class Player implements Serializable {
         this.country = country;
     }
 
-    public Set<MessageRoom> getMessageRooms() {
-        return messageRooms;
-    }
-
-    public Player messageRooms(Set<MessageRoom> messageRooms) {
-        this.messageRooms = messageRooms;
-        return this;
-    }
-
-    public Player addMessageRoom(MessageRoom messageRoom) {
-        this.messageRooms.add(messageRoom);
-        messageRoom.getPlayers().add(this);
-        return this;
-    }
-
-    public Player removeMessageRoom(MessageRoom messageRoom) {
-        this.messageRooms.remove(messageRoom);
-        messageRoom.getPlayers().remove(this);
-        return this;
-    }
-
-    public void setMessageRooms(Set<MessageRoom> messageRooms) {
-        this.messageRooms = messageRooms;
-    }
-
     public ProfileConfiguration getProfileConfiguration() {
         return profileConfiguration;
     }
@@ -554,6 +523,31 @@ public class Player implements Serializable {
 
     public void setTeams(Set<Team> teams) {
         this.teams = teams;
+    }
+
+    public Set<MessageRoom> getMessageRooms() {
+        return messageRooms;
+    }
+
+    public Player messageRooms(Set<MessageRoom> messageRooms) {
+        this.messageRooms = messageRooms;
+        return this;
+    }
+
+    public Player addMessageRoom(MessageRoom messageRoom) {
+        this.messageRooms.add(messageRoom);
+        messageRoom.getPlayers().add(this);
+        return this;
+    }
+
+    public Player removeMessageRoom(MessageRoom messageRoom) {
+        this.messageRooms.remove(messageRoom);
+        messageRoom.getPlayers().remove(this);
+        return this;
+    }
+
+    public void setMessageRooms(Set<MessageRoom> messageRooms) {
+        this.messageRooms = messageRooms;
     }
 
     @Override

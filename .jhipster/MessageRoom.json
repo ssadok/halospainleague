@@ -9,17 +9,19 @@
             "otherEntityRelationshipName": "messageRoom"
         },
         {
+            "relationshipType": "many-to-many",
+            "javadoc": "Messages",
+            "otherEntityRelationshipName": "messageRoom",
+            "relationshipName": "player",
+            "otherEntityName": "player",
+            "otherEntityField": "name",
+            "ownerSide": true
+        },
+        {
             "relationshipType": "one-to-one",
             "relationshipValidateRules": "required",
             "relationshipName": "message",
             "otherEntityName": "message",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "messageRoom"
-        },
-        {
-            "relationshipType": "many-to-many",
-            "relationshipName": "player",
-            "otherEntityName": "player",
             "ownerSide": false,
             "otherEntityRelationshipName": "messageRoom"
         }

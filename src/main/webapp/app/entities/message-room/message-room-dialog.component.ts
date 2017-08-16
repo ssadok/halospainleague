@@ -9,8 +9,8 @@ import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { MessageRoom } from './message-room.model';
 import { MessageRoomPopupService } from './message-room-popup.service';
 import { MessageRoomService } from './message-room.service';
-import { Message, MessageService } from '../message';
 import { Player, PlayerService } from '../player';
+import { Message, MessageService } from '../message';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -22,17 +22,17 @@ export class MessageRoomDialogComponent implements OnInit {
     messageRoom: MessageRoom;
     isSaving: boolean;
 
-    messages: Message[];
-
     players: Player[];
+
+    messages: Message[];
 
     constructor(
         public activeModal: NgbActiveModal,
         private dataUtils: JhiDataUtils,
         private alertService: JhiAlertService,
         private messageRoomService: MessageRoomService,
-        private messageService: MessageService,
         private playerService: PlayerService,
+        private messageService: MessageService,
         private elementRef: ElementRef,
         private eventManager: JhiEventManager
     ) {
@@ -40,10 +40,10 @@ export class MessageRoomDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.messageService.query()
-            .subscribe((res: ResponseWrapper) => { this.messages = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.playerService.query()
             .subscribe((res: ResponseWrapper) => { this.players = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.messageService.query()
+            .subscribe((res: ResponseWrapper) => { this.messages = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     byteSize(field) {
@@ -111,11 +111,11 @@ export class MessageRoomDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    trackMessageById(index: number, item: Message) {
+    trackPlayerById(index: number, item: Player) {
         return item.id;
     }
 
-    trackPlayerById(index: number, item: Player) {
+    trackMessageById(index: number, item: Message) {
         return item.id;
     }
 

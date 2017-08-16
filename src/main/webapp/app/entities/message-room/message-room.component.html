@@ -22,6 +22,7 @@
             <th><span jhiTranslate="halospainleagueApp.messageRoom.cover">Cover</span></th>
             <th><span jhiTranslate="halospainleagueApp.messageRoom.crated">Crated</span></th>
             <th><span jhiTranslate="halospainleagueApp.messageRoom.isPublic">Is Public</span></th>
+            <th><span jhiTranslate="halospainleagueApp.messageRoom.player">Player</span></th>
             <th></th>
             </tr>
             </thead>
@@ -43,6 +44,11 @@
                 </td>
                 <td>{{messageRoom.crated | date:'medium'}}</td>
                 <td>{{messageRoom.isPublic}}</td>
+                <td>
+                    <span *ngFor="let player of messageRoom.players; let last = last">
+                            <a class="form-control-static" [routerLink]="['../player', player?.id ]">{{player.name}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

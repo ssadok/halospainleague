@@ -25,15 +25,6 @@
             "otherEntityField": "name"
         },
         {
-            "relationshipType": "many-to-many",
-            "javadoc": "Messages",
-            "otherEntityRelationshipName": "player",
-            "relationshipName": "messageRoom",
-            "otherEntityName": "messageRoom",
-            "otherEntityField": "title",
-            "ownerSide": true
-        },
-        {
             "relationshipType": "one-to-one",
             "relationshipValidateRules": "required",
             "relationshipName": "profileConfiguration",
@@ -58,6 +49,13 @@
             "relationshipType": "many-to-many",
             "relationshipName": "team",
             "otherEntityName": "team",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "player"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "messageRoom",
+            "otherEntityName": "messageRoom",
             "ownerSide": false,
             "otherEntityRelationshipName": "player"
         }

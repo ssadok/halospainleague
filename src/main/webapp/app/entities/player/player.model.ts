@@ -38,11 +38,11 @@ export class Player implements BaseEntity {
         public user?: User,
         public socialAccounts?: BaseEntity[],
         public country?: BaseEntity,
-        public messageRooms?: BaseEntity[],
         public profileConfiguration?: BaseEntity,
         public notifications?: BaseEntity[],
         public achievements?: BaseEntity[],
         public teams?: BaseEntity[],
+        public messageRooms?: BaseEntity[],
     ) {
     }
 }

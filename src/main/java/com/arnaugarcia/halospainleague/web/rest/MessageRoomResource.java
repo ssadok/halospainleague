@@ -96,7 +96,7 @@ public class MessageRoomResource {
                 .collect(Collectors.toList());
         }
         log.debug("REST request to get all MessageRooms");
-        return messageRoomRepository.findAll();
+        return messageRoomRepository.findAllWithEagerRelationships();
     }
 
     /**
@@ -109,7 +109,7 @@ public class MessageRoomResource {
     @Timed
     public ResponseEntity<MessageRoom> getMessageRoom(@PathVariable Long id) {
         log.debug("REST request to get MessageRoom : {}", id);
-        MessageRoom messageRoom = messageRoomRepository.findOne(id);
+        MessageRoom messageRoom = messageRoomRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(messageRoom));
     }
 

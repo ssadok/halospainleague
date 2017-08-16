@@ -21,8 +21,8 @@
             "crated": "Crated",
             "isPublic": "Is Public",
             "theme": "Theme",
-            "message": "Message",
-            "player": "Player"
+            "player": "Player",
+            "message": "Message"
         }
     }
 }

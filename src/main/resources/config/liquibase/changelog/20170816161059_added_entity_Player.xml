@@ -102,16 +102,5 @@
         </createTable>
         <dropDefaultValue tableName="player" columnName="created" columnDataType="datetime"/>
         
-        <createTable tableName="player_message_room">
-            <column name="message_rooms_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="players_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="players_id, message_rooms_id" tableName="player_message_room"/>
-        
     </changeSet>
 </databaseChangeLog>

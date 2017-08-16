@@ -11,10 +11,10 @@ import { PlayerPopupService } from './player-popup.service';
 import { PlayerService } from './player.service';
 import { User, UserService } from '../../shared';
 import { Country, CountryService } from '../country';
-import { MessageRoom, MessageRoomService } from '../message-room';
 import { ProfileConfiguration, ProfileConfigurationService } from '../profile-configuration';
 import { Achievement, AchievementService } from '../achievement';
 import { Team, TeamService } from '../team';
+import { MessageRoom, MessageRoomService } from '../message-room';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -30,13 +30,13 @@ export class PlayerDialogComponent implements OnInit {
 
     countries: Country[];
 
-    messagerooms: MessageRoom[];
-
     profileconfigurations: ProfileConfiguration[];
 
     achievements: Achievement[];
 
     teams: Team[];
+
+    messagerooms: MessageRoom[];
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -45,10 +45,10 @@ export class PlayerDialogComponent implements OnInit {
         private playerService: PlayerService,
         private userService: UserService,
         private countryService: CountryService,
-        private messageRoomService: MessageRoomService,
         private profileConfigurationService: ProfileConfigurationService,
         private achievementService: AchievementService,
         private teamService: TeamService,
+        private messageRoomService: MessageRoomService,
         private elementRef: ElementRef,
         private eventManager: JhiEventManager
     ) {
@@ -60,14 +60,14 @@ export class PlayerDialogComponent implements OnInit {
             .subscribe((res: ResponseWrapper) => { this.users = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.countryService.query()
             .subscribe((res: ResponseWrapper) => { this.countries = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
-        this.messageRoomService.query()
-            .subscribe((res: ResponseWrapper) => { this.messagerooms = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.profileConfigurationService.query()
             .subscribe((res: ResponseWrapper) => { this.profileconfigurations = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.achievementService.query()
             .subscribe((res: ResponseWrapper) => { this.achievements = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.teamService.query()
             .subscribe((res: ResponseWrapper) => { this.teams = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.messageRoomService.query()
+            .subscribe((res: ResponseWrapper) => { this.messagerooms = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     byteSize(field) {
@@ -143,10 +143,6 @@ export class PlayerDialogComponent implements OnInit {
         return item.id;
     }
 
-    trackMessageRoomById(index: number, item: MessageRoom) {
-        return item.id;
-    }
-
     trackProfileConfigurationById(index: number, item: ProfileConfiguration) {
         return item.id;
     }
@@ -156,6 +152,10 @@ export class PlayerDialogComponent implements OnInit {
     }
 
     trackTeamById(index: number, item: Team) {
+        return item.id;
+    }
+
+    trackMessageRoomById(index: number, item: MessageRoom) {
         return item.id;
     }
 

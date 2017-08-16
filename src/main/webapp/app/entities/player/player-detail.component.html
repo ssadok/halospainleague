@@ -88,12 +88,6 @@
                 <a [routerLink]="['/country', player.country?.id]">{{player.country?.name}}</a>
             </div>
         </dd>
-        <dt><span jhiTranslate="halospainleagueApp.player.messageRoom">Message Room</span></dt>
-        <dd>
-            <span *ngFor="let messageRoom of player.messageRooms; let last = last">
-                <a [routerLink]="['/message-room', messageRoom?.id ]">{{messageRoom.title}}</a>{{last ? '' : ', '}}
-            </span>
-        </dd>
     </dl>
 
     <button type="submit"

@@ -96,7 +96,7 @@ public class PlayerResource {
                 .collect(Collectors.toList());
         }
         log.debug("REST request to get all Players");
-        return playerRepository.findAllWithEagerRelationships();
+        return playerRepository.findAll();
     }
 
     /**
@@ -109,7 +109,7 @@ public class PlayerResource {
     @Timed
     public ResponseEntity<Player> getPlayer(@PathVariable Long id) {
         log.debug("REST request to get Player : {}", id);
-        Player player = playerRepository.findOneWithEagerRelationships(id);
+        Player player = playerRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(player));
     }
 

@@ -2,6 +2,7 @@ package com.arnaugarcia.halospainleague.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -57,14 +58,20 @@ public class MessageRoom implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Theme> themes = new HashSet<>();
 
+    /**
+     * Messages
+     */
+    @ApiModelProperty(value = "Messages")
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "message_room_player",
+               joinColumns = @JoinColumn(name="message_rooms_id", referencedColumnName="id"),
+               inverseJoinColumns = @JoinColumn(name="players_id", referencedColumnName="id"))
+    private Set<Player> players = new HashSet<>();
+
     @OneToOne(mappedBy = "messageRoom")
     @JsonIgnore
     private Message message;
-
-    @ManyToMany(mappedBy = "messageRooms")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Player> players = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -190,19 +197,6 @@ public class MessageRoom implements Serializable {
         this.themes = themes;
     }
 
-    public Message getMessage() {
-        return message;
-    }
-
-    public MessageRoom message(Message message) {
-        this.message = message;
-        return this;
-    }
-
-    public void setMessage(Message message) {
-        this.message = message;
-    }
-
     public Set<Player> getPlayers() {
         return players;
     }
@@ -226,6 +220,19 @@ public class MessageRoom implements Serializable {
 
     public void setPlayers(Set<Player> players) {
         this.players = players;
+    }
+
+    public Message getMessage() {
+        return message;
+    }
+
+    public MessageRoom message(Message message) {
+        this.message = message;
+        return this;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
     }
 
     @Override

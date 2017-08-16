@@ -20,16 +20,5 @@
                                  referencedColumnNames="id"
                                  referencedTableName="country"/>
 
-        <addForeignKeyConstraint baseColumnNames="players_id"
-                                 baseTableName="player_message_room"
-                                 constraintName="fk_player_message_room_players_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="player"/>
-        <addForeignKeyConstraint baseColumnNames="message_rooms_id"
-                                 baseTableName="player_message_room"
-                                 constraintName="fk_player_message_room_message_rooms_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="message_room"/>
-        
     </changeSet>
 </databaseChangeLog>
