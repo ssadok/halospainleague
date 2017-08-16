@@ -1,0 +1,132 @@
+entity Player {
+	name String required,
+    surname String,
+    phone String,
+    description TextBlob,
+    created ZonedDateTime required,
+    profilePhoto ImageBlob,
+    profileCover ImageBlob,
+    state PlayerState required,
+    instagram String,
+    twitter String,
+    youtube String,
+    facebook String,
+    gender Gender,
+    score Integer,
+    address String,
+    timeZone String
+}
+
+entity Country{
+	name String
+}
+
+entity Account{
+    nick String,
+    platform Platform,
+    token String
+}
+
+entity Achievement{
+	title String required,
+    description TextBlob,
+    score Integer,
+    type AchievementType required
+}
+
+entity ProfileConfiguration{
+	//Entity for the profile configuration
+	sendNews Boolean,
+    privateMessages Boolean,
+    teamInvites Boolean,
+    showDescription Boolean,
+    showScore Boolean,
+    showSocial Boolean,
+    active Boolean,
+    theme Theme required,
+    timeZone String,
+    lastLogin ZonedDateTime,
+    firstRun Boolean,
+    showTutorial Boolean
+}
+
+entity Notification{
+	title String,
+    content TextBlob,
+    creation ZonedDateTime,
+    read Booelan
+}
+
+entity MessageRoom{
+	title String,
+    image ImageBlob,
+    cover ImageBlob,
+    crated ZonedDateTime,
+    theme Theme,
+    public Boolean
+}
+
+entity Message{
+	content TextBlob,
+    created ZonedDateTime,
+    sent ZonedDateTime,
+    recived ZonedDateTime
+}
+//ENUMS
+enum Platform {
+  	PC, XB360, XBONE, PS3, PS4
+}
+
+enum AchievementType{
+	BADGE, TROPHY
+}
+
+
+enum PlayerState{
+	NOT_PLAYING, IN_TEAM, FREE_AGENT, NOT_SET
+}
+
+enum Gender{
+	MALE, FEMALE, OTHER, NOT_SPECIFIED
+}
+
+enum Theme{
+	DEFAULT, BLACK, WHITE
+}
+
+//Profile, User, Account and ProfileConfiguration
+relationship OneToOne{
+	//One player is assigned to a user
+	Player{user(login)} to User{player(name)},
+    
+    //One user have one ProfileConfiguration
+    Player to ProfileConfiguration{player(name)}
+}
+
+relationship ManyToOne{
+	//Varios jugadores pueden tener un solo Country
+    Player{country(name)} to Country{player(name)},
+    //Varias Notificaciones tienen asigandas un Jugador
+    Notification{player(name)} to Player{notification}
+}
+relationship OneToMany{
+    //A Player can have many Accounts
+    Player{account(nick)} to Account{player(name)}
+}
+
+relationship ManyToMany{
+	//Varios usuarios pueden tener varios logros
+	Achievement{player(name)} to Player{achievement(title)},
+    //Friend relationship
+    Player to Player
+}
+
+//Message relationships
+relationship ManyToMany{
+	Player{messageRoom(title)} to MessageRoom{player(name)}
+}
+
+relationship OneToOne{
+	Message{messageRoom(title)} to MessageRoom{message(id)}
+}
+

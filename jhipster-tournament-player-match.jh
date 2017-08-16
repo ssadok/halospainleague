@@ -1,0 +1,111 @@
+entity Game {
+	name String,
+    year ZonedDateTime,
+    photo ImageBlob,
+    rate Double min(0) max(5),
+	platform Platform,
+}
+
+entity Tournament{
+	name String,
+    coverImage ImageBlob,
+    platform Platform,
+    maxTeams Integer required,
+    registrationStarts ZonedDateTime,
+    registrationEnds ZonedDateTime,
+    tournamentBegins ZonedDateTime,
+    price Double,
+    gamesPerRound Integer,
+    description TextBlob,
+    type TournamentType
+}
+
+//entity League{
+
+//}
+
+entity Player {
+	name String,
+    surname String,
+    phone String,
+    profilePhoto ImageBlob,
+    profileCover ImageBlob,
+    state PlayerState,
+    gender Gender,
+    score Integer,
+    address String,
+    timeZone String
+}
+
+entity Team {
+	name String
+    cover ImageBlob,
+    profile ImageBlob,
+    web String,
+    experience Integer,
+    ping Integer,
+    tournamentType TournamentType,
+    created ZonedDateTime
+    wins Integer,
+    losses Integer,
+    streak Boolean,
+    position Integer,
+    premium Boolean
+}
+
+entity Match {
+	reference String,
+	duration Integer
+}
+
+entity Map {
+	nombre String,
+    image ImageBlob,
+    cover ImageBlob
+}
+
+entity ResultMatch {
+	reference String
+}
+
+
+//ENUMS
+enum Platform {
+  	PC, XB360, XBONE, PS3, PS4
+}
+enum TournamentType{	
+	ONE_VS_ONE, TWO_VS_TWO, THREE_VS_THREE, FOUR_VS_FOUR, FIVE_VS_FIVE, SIX_VS_SIX
+}
+
+enum PlayerState{
+	NOT_PLAYING, IN_TEAM, FREE_AGENT
+}
+
+enum Gender{
+	MALE, FEMALE, OTHER, NOT_SPECIFIED
+}
+
+relationship OneToMany{
+    //Un juego contiene varios mapas
+    Game{map(name)} to Map{game(name)},  
+  	//Un juego contiene varios torneos
+    Game{tournament(name)} to Tournament{game(name)},
+    //Un equipo puede estar en varios torneos
+    //Team{team(name)} to Tournament{tournament(name)},
+    //En un torneo se juegan varias partidas
+    Tournament{match(id)} to Match{tournament(name)},
+    Map{match(reference)} to Match{map(name)}
+  
+}
+
+relationship OneToOne{
+    //Una partida tiene un resultado
+    Match{resultMatch(name)} to ResultMatch{match(reference)}
+}
+relationship ManyToMany{
+	//Varios jugadores puede estar en varios Equipos
+	Player{team(name)} to Team{player(name)},
+  	//Varios Equipos pueden estar en varios Torneos    
+    Tournament{team(name)} to Team{torunament(name)}
+}
+	

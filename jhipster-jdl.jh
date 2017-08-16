@@ -1,0 +1,331 @@
+/**
+ * Class Game.
+ * @author arnaugarcia.
+ */
+entity Game {
+	name String,
+    year ZonedDateTime,
+    photo ImageBlob,
+    rate Double min(0) max(5),
+	platform Platform
+}
+
+/**
+ * Class Tournament.
+ * @author arnaugarcia.
+ */
+entity Tournament{
+	name String,
+    coverImage ImageBlob,
+    platform Platform,
+    maxTeams Integer required,
+    registrationStarts ZonedDateTime,
+    registrationEnds ZonedDateTime,
+    tournamentBegins ZonedDateTime,
+    price Double,
+    gamesPerRound Integer,
+    description TextBlob,
+    type TournamentType
+}
+//TODO DIVISION
+//Multiple Teams CAN belong to a division
+entity Division{
+
+}
+
+/**
+ * Class Team.
+ * @author arnaugarcia.
+ */
+entity Team {
+	name String
+    cover ImageBlob,
+    profile ImageBlob,
+    web String,
+    experience Integer,
+    ping Integer,
+    tournamentType TournamentType,
+    created ZonedDateTime
+    wins Integer,
+    losses Integer,
+    streak Boolean,
+    position Integer,
+    premium Boolean
+}
+
+/**
+ * Class Match.
+ * @author arnaugarcia.
+ */
+entity Match {
+	reference String,
+	duration Integer
+}
+
+/**
+ * Class Map.
+ * @author arnaugarcia.
+ */
+entity Map {
+	name String,
+    image ImageBlob,
+    cover ImageBlob
+}
+
+/**
+ * Class ResultMatch.
+ * @author arnaugarcia.
+ */
+entity ResultMatch {
+	reference String
+}
+
+/**
+ * Class Player.
+ * @author arnaugarcia.
+ */
+entity Player {
+	name String required,
+    surname String,
+    phone String,
+    description TextBlob,
+    created ZonedDateTime required,
+    profilePhoto ImageBlob,
+    profileCover ImageBlob,
+    state PlayerState required,
+    instagram String,
+    twitter String,
+    youtube String,
+    facebook String,
+    gender Gender,
+    score Integer,
+    address String,
+    timeZone String
+}
+
+
+/**
+ * Class Country.
+ * @author arnaugarcia.
+ */
+entity Country{
+	name String
+    latitude String,
+    longitude String
+}
+
+/**
+ * Class SocialAccount.
+ * @author arnaugarcia.
+ */
+entity SocialAccount{
+    nick String,
+    platform Platform,
+    token String
+}
+
+/**
+ * Class Achievement.
+ * @author arnaugarcia.
+ */
+entity Achievement{
+	//Entity for Achivements and Badgets
+	title String required,
+    description TextBlob,
+    score Integer,
+    type AchievementType required
+}
+
+/**
+ * Class ProfileConfiguration.
+ * @author arnaugarcia.
+ */
+entity ProfileConfiguration{
+	//Entity for the profile configuration
+	sendNews Boolean,
+    privateMessages Boolean,
+    teamInvites Boolean,
+    showDescription Boolean,
+    showScore Boolean,
+    showSocial Boolean,
+    showAge Boolean,
+    showGender Boolean,
+    active Boolean,
+    timeZone String,
+    lastLogin ZonedDateTime,
+    firstRun Boolean,
+    showTutorial Boolean
+}
+
+/**
+ * Class Notification.
+ * @author arnaugarcia.
+ */
+entity Notification{
+	title String,
+    content TextBlob,
+    creation ZonedDateTime,
+    type NotificationType,
+    token String,
+    read Boolean
+}
+
+/**
+ * Class MessageRoom.
+ * @author arnaugarcia.
+ */
+entity MessageRoom{
+	title String,
+    image ImageBlob,
+    cover ImageBlob,
+    crated ZonedDateTime,
+    isPublic Boolean
+}
+
+/**
+ * Class Message.
+ * @author arnaugarcia.
+ */
+entity Message{
+	content TextBlob,
+    created ZonedDateTime,
+    sent ZonedDateTime,
+    recived ZonedDateTime
+}
+
+/**
+ * Class Theme.
+ * @author arnaugarcia.
+ */
+entity Theme{
+	name String,
+    active Boolean,
+    header_color String,
+    font_color String,
+    link_color String
+    background_color String
+}
+
+/**
+ * Enumerations
+ */
+enum Platform {
+  	PC, XB360, XBONE, PS3, PS4
+}
+enum TournamentType{
+	ONE_VS_ONE, TWO_VS_TWO, THREE_VS_THREE, FOUR_VS_FOUR, FIVE_VS_FIVE, SIX_VS_SIX
+}
+
+enum PlayerState{
+	NOT_PLAYING, IN_TEAM, FREE_AGENT
+}
+
+enum Gender{
+	MALE, FEMALE, OTHER, NOT_SPECIFIED
+}
+
+enum AchievementType{
+	BADGE, TROPHY
+}
+
+enum PlayerState{
+	NOT_PLAYING, IN_TEAM, FREE_AGENT, NOT_SET
+}
+
+enum Gender{
+	MALE, FEMALE, OTHER, NOT_SPECIFIED
+}
+
+enum NotificationType{
+    NOTIFICATION, INVITATION, ALERT
+}
+
+/**
+ * Relationships
+ */
+
+relationship OneToMany{
+	/**
+    * Matches, Tornaments, Games and Maps
+    */
+    //Un juego contiene varios mapas
+    Game{map(name)} to Map{game(name)},
+  	//Un juego contiene varios torneos
+    Game{tournament(name)} to Tournament{game(name)},
+    //Un equipo puede estar en varios torneos
+    //Team{team(name)} to Tournament{tournament(name)},
+    //En un torneo se juegan varias partidas
+    Tournament{match(id)} to Match{tournament(name)},
+    Map{match(reference)} to Match{map(name)},
+
+  	/**
+    * Accounts and Settings
+    */
+    //A Player can have many Accounts
+    Player{socialAccount(nick)} to SocialAccount{player(name)},
+    ProfileConfiguration{theme(name) required} to Theme,
+    MessageRoom{theme(name) required} to Theme{messageRoom(title)}
+
+}
+relationship ManyToOne{
+  	/**
+    * Accounts and Settings
+    */
+	//Varios jugadores pueden tener un solo Country
+    Player{country(name)} to Country{player(name)},
+    //Varias Notificaciones tienen asigandas un Jugador
+    Notification{player(name)} to Player{notification}
+}
+
+relationship ManyToMany{
+	/**
+    * Achivements and Badgets
+    */
+	//Varios usuarios pueden tener varios logros
+	Achievement{player(name)} to Player{achievement(title)},
+
+    /**
+    * Matches, Tornaments and Games
+    */
+  	//Varios jugadores puede estar en varios Equipos
+	Player{team(name)} to Team{player(name)},
+  	//Varios Equipos pueden estar en varios Torneos
+    Tournament{team(name)} to Team{torunament(name)},
+
+    //Friend relationship
+    //Player{player(name)} to Player{player(name)},
+
+    /**
+    * Messages
+    */
+	//Various players can be or own a MessageRoom
+	Player{messageRoom(title)} to MessageRoom{player(name)}
+}
+
+relationship OneToOne{
+	/**
+    * Matches, Tornaments and Games
+    */
+    //Una partida tiene un resultado
+    Match{resultMatch(reference)} to ResultMatch{match(reference)},
+
+    /**
+    * Profile, User, Account and ProfileConfiguration
+    */
+  	//One player is assigned to a user
+	Player{user(login)} to User{player(name) required},
+    //One user have one ProfileConfiguration
+    ProfileConfiguration{player(name) required} to Player{profileConfiguration(id) required},
+
+	/**
+    * MESSAGES
+    */
+    //One Message belongs only a one MessageRoom
+    Message{messageRoom(title)} to MessageRoom{message(id) required}
+
+}
+/**
+ * JHipster JDL configurations
+ */
+
+ dto * with mapstruct
