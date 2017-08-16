@@ -1,0 +1,84 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "javadoc": "Matches, Tornaments and Games",
+            "otherEntityRelationshipName": "team",
+            "relationshipName": "player",
+            "otherEntityName": "player",
+            "otherEntityField": "name",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "torunament",
+            "otherEntityName": "tournament",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "team"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "cover",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "profile",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "web",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "experience",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "ping",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "tournamentType",
+            "fieldType": "TournamentType",
+            "fieldValues": "ONE_VS_ONE,TWO_VS_TWO,THREE_VS_THREE,FOUR_VS_FOUR,FIVE_VS_FIVE,SIX_VS_SIX"
+        },
+        {
+            "fieldName": "created",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "wins",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "losses",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "streak",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "position",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "premium",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20170816161055",
+    "javadoc": "Class Team.\n@author arnaugarcia.",
+    "entityTableName": "team",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

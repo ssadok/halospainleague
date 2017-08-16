@@ -1,0 +1,12 @@
+{
+    "halospainleagueApp": {
+        "Platform" : {
+            "null": "",
+            "PC": "PC",
+            "XB360": "XB360",
+            "XBONE": "XBONE",
+            "PS3": "PS3",
+            "PS4": "PS4"
+        }
+    }
+}

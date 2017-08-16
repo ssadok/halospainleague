@@ -1,0 +1,82 @@
+
+<div *ngIf="tournament">
+    <h2><span jhiTranslate="halospainleagueApp.tournament.detail.title">Tournament</span> {{tournament.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="halospainleagueApp.tournament.name">Name</span></dt>
+        <dd>
+            <span>{{tournament.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.tournament.coverImage">Cover Image</span></dt>
+        <dd>
+            <div *ngIf="tournament.coverImage">
+                <a (click)="openFile(tournament.coverImageContentType, tournament.coverImage)">
+                    <img [src]="'data:' + tournament.coverImageContentType + ';base64,' + tournament.coverImage" style="max-width: 100%;" alt="tournament image"/>
+                </a>
+                {{tournament.coverImageContentType}}, {{byteSize(tournament.coverImage)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.tournament.platform">Platform</span></dt>
+        <dd>
+            <span jhiTranslate="{{'halospainleagueApp.Platform.' + tournament.platform}}">{{tournament.platform}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.tournament.maxTeams">Max Teams</span></dt>
+        <dd>
+            <span>{{tournament.maxTeams}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.tournament.registrationStarts">Registration Starts</span></dt>
+        <dd>
+            <span>{{tournament.registrationStarts | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.tournament.registrationEnds">Registration Ends</span></dt>
+        <dd>
+            <span>{{tournament.registrationEnds | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.tournament.tournamentBegins">Tournament Begins</span></dt>
+        <dd>
+            <span>{{tournament.tournamentBegins | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.tournament.price">Price</span></dt>
+        <dd>
+            <span>{{tournament.price}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.tournament.gamesPerRound">Games Per Round</span></dt>
+        <dd>
+            <span>{{tournament.gamesPerRound}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.tournament.description">Description</span></dt>
+        <dd>
+            <span>{{tournament.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.tournament.type">Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'halospainleagueApp.TournamentType.' + tournament.type}}">{{tournament.type}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.tournament.team">Team</span></dt>
+        <dd>
+            <span *ngFor="let team of tournament.teams; let last = last">
+                <a [routerLink]="['/team', team?.id ]">{{team.name}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.tournament.game">Game</span></dt>
+        <dd>
+            <div *ngIf="tournament.game">
+                <a [routerLink]="['/game', tournament.game?.id]">{{tournament.game?.name}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'tournament/'+ tournament.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

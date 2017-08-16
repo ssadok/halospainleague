@@ -1,0 +1,46 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "javadoc": "Achivements and Badgets",
+            "otherEntityRelationshipName": "achievement",
+            "relationshipName": "player",
+            "otherEntityName": "player",
+            "otherEntityField": "name",
+            "ownerSide": true
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "score",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "AchievementType",
+            "fieldValues": "BADGE,TROPHY",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20170816161102",
+    "javadoc": "Class Achievement.\n@author arnaugarcia.",
+    "entityTableName": "achievement",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

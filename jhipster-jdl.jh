@@ -288,7 +288,7 @@ relationship ManyToMany{
     * Matches, Tornaments and Games
     */
   	//Varios jugadores puede estar en varios Equipos
-	Player{team(name)} to Team{player(name)},
+	Team{player(name)} to Player{team(name)},
   	//Varios Equipos pueden estar en varios Torneos
     Tournament{team(name)} to Team{torunament(name)},
 
@@ -328,4 +328,4 @@ relationship OneToOne{
  * JHipster JDL configurations
  */
 
- dto * with mapstruct
+ //dto * with mapstruct

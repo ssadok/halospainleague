@@ -1,0 +1,35 @@
+{
+    "halospainleagueApp": {
+        "profileConfiguration" : {
+            "home": {
+                "title": "Profile Configurations",
+                "createLabel": "Crear nuevo Profile Configuration",
+                "createOrEditLabel": "Crear o editar Profile Configuration"
+            },
+            "created": "Un nuevo Profile Configuration ha sido creado con el identificador {{ param }}",
+            "updated": "Un Profile Configuration ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Profile Configuration ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Profile Configuration {{ id }}?"
+            },
+            "detail": {
+                "title": "Profile Configuration"
+            },
+            "sendNews": "Send News",
+            "privateMessages": "Private Messages",
+            "teamInvites": "Team Invites",
+            "showDescription": "Show Description",
+            "showScore": "Show Score",
+            "showSocial": "Show Social",
+            "showAge": "Show Age",
+            "showGender": "Show Gender",
+            "active": "Active",
+            "timeZone": "Time Zone",
+            "lastLogin": "Last Login",
+            "firstRun": "First Run",
+            "showTutorial": "Show Tutorial",
+            "player": "Player",
+            "theme": "Theme"
+        }
+    }
+}

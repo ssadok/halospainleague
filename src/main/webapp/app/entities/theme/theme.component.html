@@ -1,0 +1,78 @@
+<div>
+    <h2>
+        <span jhiTranslate="halospainleagueApp.theme.home.title">Themes</span>
+        <button class="btn btn-primary float-right jh-create-entity create-theme" [routerLink]="['/', { outlets: { popup: ['theme-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="halospainleagueApp.theme.home.createLabel">
+            Create new Theme
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="themes">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="halospainleagueApp.theme.name">Name</span></th>
+            <th><span jhiTranslate="halospainleagueApp.theme.active">Active</span></th>
+            <th><span jhiTranslate="halospainleagueApp.theme.headercolor">Headercolor</span></th>
+            <th><span jhiTranslate="halospainleagueApp.theme.fontcolor">Fontcolor</span></th>
+            <th><span jhiTranslate="halospainleagueApp.theme.linkcolor">Linkcolor</span></th>
+            <th><span jhiTranslate="halospainleagueApp.theme.backgroundcolor">Backgroundcolor</span></th>
+            <th><span jhiTranslate="halospainleagueApp.theme.profileConfiguration">Profile Configuration</span></th>
+            <th><span jhiTranslate="halospainleagueApp.theme.messageRoom">Message Room</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let theme of themes ;trackBy: trackId">
+                <td><a [routerLink]="['../theme', theme.id ]">{{theme.id}}</a></td>
+                <td>{{theme.name}}</td>
+                <td>{{theme.active}}</td>
+                <td>{{theme.headercolor}}</td>
+                <td>{{theme.fontcolor}}</td>
+                <td>{{theme.linkcolor}}</td>
+                <td>{{theme.backgroundcolor}}</td>
+                <td>
+                    <div *ngIf="theme.profileConfiguration">
+                        <a [routerLink]="['../profile-configuration', theme.profileConfiguration?.id ]" >{{theme.profileConfiguration?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="theme.messageRoom">
+                        <a [routerLink]="['../message-room', theme.messageRoom?.id ]" >{{theme.messageRoom?.title}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../theme', theme.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'theme/'+ theme.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'theme/'+ theme.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

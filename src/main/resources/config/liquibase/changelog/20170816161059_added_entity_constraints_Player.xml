@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Player.
+    -->
+    <changeSet id="20170816161059-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="player"
+                                 constraintName="fk_player_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="country_id"
+                                 baseTableName="player"
+                                 constraintName="fk_player_country_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="country"/>
+
+        <addForeignKeyConstraint baseColumnNames="players_id"
+                                 baseTableName="player_message_room"
+                                 constraintName="fk_player_message_room_players_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="player"/>
+        <addForeignKeyConstraint baseColumnNames="message_rooms_id"
+                                 baseTableName="player_message_room"
+                                 constraintName="fk_player_message_room_message_rooms_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="message_room"/>
+        
+    </changeSet>
+</databaseChangeLog>

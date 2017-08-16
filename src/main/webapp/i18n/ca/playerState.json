@@ -1,0 +1,11 @@
+{
+    "halospainleagueApp": {
+        "PlayerState" : {
+            "null": "",
+            "NOT_PLAYING": "NOT_PLAYING",
+            "IN_TEAM": "IN_TEAM",
+            "FREE_AGENT": "FREE_AGENT",
+            "NOT_SET": "NOT_SET"
+        }
+    }
+}

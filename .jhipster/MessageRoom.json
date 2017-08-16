@@ -1,0 +1,57 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipValidateRules": "required",
+            "relationshipName": "theme",
+            "otherEntityName": "theme",
+            "otherEntityRelationshipName": "messageRoom"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "message",
+            "otherEntityName": "message",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "messageRoom"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "player",
+            "otherEntityName": "player",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "messageRoom"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "image",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "cover",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "crated",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "isPublic",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20170816161105",
+    "javadoc": "Class MessageRoom.\n@author arnaugarcia.",
+    "entityTableName": "message_room",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

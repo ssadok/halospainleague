@@ -1,0 +1,51 @@
+
+<div *ngIf="notification">
+    <h2><span jhiTranslate="halospainleagueApp.notification.detail.title">Notification</span> {{notification.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="halospainleagueApp.notification.title">Title</span></dt>
+        <dd>
+            <span>{{notification.title}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.notification.content">Content</span></dt>
+        <dd>
+            <span>{{notification.content}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.notification.creation">Creation</span></dt>
+        <dd>
+            <span>{{notification.creation | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.notification.type">Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'halospainleagueApp.NotificationType.' + notification.type}}">{{notification.type}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.notification.token">Token</span></dt>
+        <dd>
+            <span>{{notification.token}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.notification.read">Read</span></dt>
+        <dd>
+            <span>{{notification.read}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.notification.player">Player</span></dt>
+        <dd>
+            <div *ngIf="notification.player">
+                <a [routerLink]="['/player', notification.player?.id]">{{notification.player?.name}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'notification/'+ notification.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

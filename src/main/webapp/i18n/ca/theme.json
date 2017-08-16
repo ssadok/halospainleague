@@ -1,0 +1,28 @@
+{
+    "halospainleagueApp": {
+        "theme" : {
+            "home": {
+                "title": "Themes",
+                "createLabel": "Create a new Theme",
+                "createOrEditLabel": "Create or edit a Theme"
+            },
+            "created": "A new Theme is created with identifier {{ param }}",
+            "updated": "A Theme is updated with identifier {{ param }}",
+            "deleted": "A Theme is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Theme {{ id }}?"
+            },
+            "detail": {
+                "title": "Theme"
+            },
+            "name": "Name",
+            "active": "Active",
+            "headercolor": "Headercolor",
+            "fontcolor": "Fontcolor",
+            "linkcolor": "Linkcolor",
+            "backgroundcolor": "Backgroundcolor",
+            "profileConfiguration": "Profile Configuration",
+            "messageRoom": "Message Room"
+        }
+    }
+}

@@ -1,0 +1,89 @@
+
+<div *ngIf="team">
+    <h2><span jhiTranslate="halospainleagueApp.team.detail.title">Team</span> {{team.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="halospainleagueApp.team.name">Name</span></dt>
+        <dd>
+            <span>{{team.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.team.cover">Cover</span></dt>
+        <dd>
+            <div *ngIf="team.cover">
+                <a (click)="openFile(team.coverContentType, team.cover)">
+                    <img [src]="'data:' + team.coverContentType + ';base64,' + team.cover" style="max-width: 100%;" alt="team image"/>
+                </a>
+                {{team.coverContentType}}, {{byteSize(team.cover)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.team.profile">Profile</span></dt>
+        <dd>
+            <div *ngIf="team.profile">
+                <a (click)="openFile(team.profileContentType, team.profile)">
+                    <img [src]="'data:' + team.profileContentType + ';base64,' + team.profile" style="max-width: 100%;" alt="team image"/>
+                </a>
+                {{team.profileContentType}}, {{byteSize(team.profile)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.team.web">Web</span></dt>
+        <dd>
+            <span>{{team.web}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.team.experience">Experience</span></dt>
+        <dd>
+            <span>{{team.experience}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.team.ping">Ping</span></dt>
+        <dd>
+            <span>{{team.ping}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.team.tournamentType">Tournament Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'halospainleagueApp.TournamentType.' + team.tournamentType}}">{{team.tournamentType}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.team.created">Created</span></dt>
+        <dd>
+            <span>{{team.created | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.team.wins">Wins</span></dt>
+        <dd>
+            <span>{{team.wins}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.team.losses">Losses</span></dt>
+        <dd>
+            <span>{{team.losses}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.team.streak">Streak</span></dt>
+        <dd>
+            <span>{{team.streak}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.team.position">Position</span></dt>
+        <dd>
+            <span>{{team.position}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.team.premium">Premium</span></dt>
+        <dd>
+            <span>{{team.premium}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.team.player">Player</span></dt>
+        <dd>
+            <span *ngFor="let player of team.players; let last = last">
+                <a [routerLink]="['/player', player?.id ]">{{player.name}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'team/'+ team.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

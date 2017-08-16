@@ -1,0 +1,13 @@
+{
+    "halospainleagueApp": {
+        "TournamentType" : {
+            "null": "",
+            "ONE_VS_ONE": "ONE_VS_ONE",
+            "TWO_VS_TWO": "TWO_VS_TWO",
+            "THREE_VS_THREE": "THREE_VS_THREE",
+            "FOUR_VS_FOUR": "FOUR_VS_FOUR",
+            "FIVE_VS_FIVE": "FIVE_VS_FIVE",
+            "SIX_VS_SIX": "SIX_VS_SIX"
+        }
+    }
+}

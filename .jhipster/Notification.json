@@ -1,0 +1,45 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "player",
+            "otherEntityName": "player",
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "content",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "creation",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "NotificationType",
+            "fieldValues": "NOTIFICATION,INVITATION,ALERT"
+        },
+        {
+            "fieldName": "token",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "read",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20170816161104",
+    "javadoc": "Class Notification.\n@author arnaugarcia.",
+    "entityTableName": "notification",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

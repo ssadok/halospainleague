@@ -1,0 +1,22 @@
+{
+    "halospainleagueApp": {
+        "resultMatch" : {
+            "home": {
+                "title": "Result Matches",
+                "createLabel": "Create a new Result Match",
+                "createOrEditLabel": "Create or edit a Result Match"
+            },
+            "created": "A new Result Match is created with identifier {{ param }}",
+            "updated": "A Result Match is updated with identifier {{ param }}",
+            "deleted": "A Result Match is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Result Match {{ id }}?"
+            },
+            "detail": {
+                "title": "Result Match"
+            },
+            "reference": "Reference",
+            "match": "Match"
+        }
+    }
+}

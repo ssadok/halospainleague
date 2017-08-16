@@ -1,0 +1,69 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myThemeLabel" jhiTranslate="halospainleagueApp.theme.home.createOrEditLabel">Create or edit a Theme</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!theme.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="theme.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.theme.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="theme.name"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.theme.active" for="field_active">Active</label>
+            <input type="checkbox" class="form-control" name="active" id="field_active"
+                [(ngModel)]="theme.active"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.theme.headercolor" for="field_headercolor">Headercolor</label>
+            <input type="text" class="form-control" name="headercolor" id="field_headercolor"
+                [(ngModel)]="theme.headercolor"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.theme.fontcolor" for="field_fontcolor">Fontcolor</label>
+            <input type="text" class="form-control" name="fontcolor" id="field_fontcolor"
+                [(ngModel)]="theme.fontcolor"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.theme.linkcolor" for="field_linkcolor">Linkcolor</label>
+            <input type="text" class="form-control" name="linkcolor" id="field_linkcolor"
+                [(ngModel)]="theme.linkcolor"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.theme.backgroundcolor" for="field_backgroundcolor">Backgroundcolor</label>
+            <input type="text" class="form-control" name="backgroundcolor" id="field_backgroundcolor"
+                [(ngModel)]="theme.backgroundcolor"  />
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="halospainleagueApp.theme.profileConfiguration" for="field_profileConfiguration">Profile Configuration</label>
+            <select class="form-control" id="field_profileConfiguration" name="profileConfiguration" [(ngModel)]="theme.profileConfiguration" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="profileConfigurationOption.id === theme.profileConfiguration?.id ? theme.profileConfiguration : profileConfigurationOption" *ngFor="let profileConfigurationOption of profileconfigurations; trackBy: trackProfileConfigurationById">{{profileConfigurationOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="halospainleagueApp.theme.messageRoom" for="field_messageRoom">Message Room</label>
+            <select class="form-control" id="field_messageRoom" name="messageRoom" [(ngModel)]="theme.messageRoom" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="messageRoomOption.id === theme.messageRoom?.id ? theme.messageRoom : messageRoomOption" *ngFor="let messageRoomOption of messagerooms; trackBy: trackMessageRoomById">{{messageRoomOption.title}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

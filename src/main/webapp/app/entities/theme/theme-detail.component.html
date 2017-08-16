@@ -1,0 +1,57 @@
+
+<div *ngIf="theme">
+    <h2><span jhiTranslate="halospainleagueApp.theme.detail.title">Theme</span> {{theme.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="halospainleagueApp.theme.name">Name</span></dt>
+        <dd>
+            <span>{{theme.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.theme.active">Active</span></dt>
+        <dd>
+            <span>{{theme.active}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.theme.headercolor">Headercolor</span></dt>
+        <dd>
+            <span>{{theme.headercolor}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.theme.fontcolor">Fontcolor</span></dt>
+        <dd>
+            <span>{{theme.fontcolor}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.theme.linkcolor">Linkcolor</span></dt>
+        <dd>
+            <span>{{theme.linkcolor}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.theme.backgroundcolor">Backgroundcolor</span></dt>
+        <dd>
+            <span>{{theme.backgroundcolor}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.theme.profileConfiguration">Profile Configuration</span></dt>
+        <dd>
+            <div *ngIf="theme.profileConfiguration">
+                <a [routerLink]="['/profile-configuration', theme.profileConfiguration?.id]">{{theme.profileConfiguration?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.theme.messageRoom">Message Room</span></dt>
+        <dd>
+            <div *ngIf="theme.messageRoom">
+                <a [routerLink]="['/message-room', theme.messageRoom?.id]">{{theme.messageRoom?.title}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'theme/'+ theme.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

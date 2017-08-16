@@ -1,0 +1,34 @@
+{
+    "halospainleagueApp": {
+        "tournament" : {
+            "home": {
+                "title": "Tournaments",
+                "createLabel": "Crear nuevo Tournament",
+                "createOrEditLabel": "Crear o editar Tournament"
+            },
+            "created": "Un nuevo Tournament ha sido creado con el identificador {{ param }}",
+            "updated": "Un Tournament ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Tournament ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Tournament {{ id }}?"
+            },
+            "detail": {
+                "title": "Tournament"
+            },
+            "name": "Name",
+            "coverImage": "Cover Image",
+            "platform": "Platform",
+            "maxTeams": "Max Teams",
+            "registrationStarts": "Registration Starts",
+            "registrationEnds": "Registration Ends",
+            "tournamentBegins": "Tournament Begins",
+            "price": "Price",
+            "gamesPerRound": "Games Per Round",
+            "description": "Description",
+            "type": "Type",
+            "match": "Match",
+            "team": "Team",
+            "game": "Game"
+        }
+    }
+}

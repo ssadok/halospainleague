@@ -1,0 +1,10 @@
+{
+    "halospainleagueApp": {
+        "NotificationType" : {
+            "null": "",
+            "NOTIFICATION": "NOTIFICATION",
+            "INVITATION": "INVITATION",
+            "ALERT": "ALERT"
+        }
+    }
+}

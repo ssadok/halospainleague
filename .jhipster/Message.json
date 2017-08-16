@@ -1,0 +1,39 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "javadoc": "MESSAGES",
+            "relationshipName": "messageRoom",
+            "otherEntityName": "messageRoom",
+            "otherEntityField": "title",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "message(id)"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "content",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "created",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "sent",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "recived",
+            "fieldType": "ZonedDateTime"
+        }
+    ],
+    "changelogDate": "20170816161106",
+    "javadoc": "Class Message.\n@author arnaugarcia.",
+    "entityTableName": "message",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

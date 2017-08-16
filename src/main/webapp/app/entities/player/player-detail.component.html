@@ -1,0 +1,111 @@
+
+<div *ngIf="player">
+    <h2><span jhiTranslate="halospainleagueApp.player.detail.title">Player</span> {{player.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="halospainleagueApp.player.name">Name</span></dt>
+        <dd>
+            <span>{{player.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.surname">Surname</span></dt>
+        <dd>
+            <span>{{player.surname}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.phone">Phone</span></dt>
+        <dd>
+            <span>{{player.phone}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.description">Description</span></dt>
+        <dd>
+            <span>{{player.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.created">Created</span></dt>
+        <dd>
+            <span>{{player.created | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.profilePhoto">Profile Photo</span></dt>
+        <dd>
+            <div *ngIf="player.profilePhoto">
+                <a (click)="openFile(player.profilePhotoContentType, player.profilePhoto)">
+                    <img [src]="'data:' + player.profilePhotoContentType + ';base64,' + player.profilePhoto" style="max-width: 100%;" alt="player image"/>
+                </a>
+                {{player.profilePhotoContentType}}, {{byteSize(player.profilePhoto)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.profileCover">Profile Cover</span></dt>
+        <dd>
+            <div *ngIf="player.profileCover">
+                <a (click)="openFile(player.profileCoverContentType, player.profileCover)">
+                    <img [src]="'data:' + player.profileCoverContentType + ';base64,' + player.profileCover" style="max-width: 100%;" alt="player image"/>
+                </a>
+                {{player.profileCoverContentType}}, {{byteSize(player.profileCover)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.state">State</span></dt>
+        <dd>
+            <span jhiTranslate="{{'halospainleagueApp.PlayerState.' + player.state}}">{{player.state}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.instagram">Instagram</span></dt>
+        <dd>
+            <span>{{player.instagram}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.twitter">Twitter</span></dt>
+        <dd>
+            <span>{{player.twitter}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.youtube">Youtube</span></dt>
+        <dd>
+            <span>{{player.youtube}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.facebook">Facebook</span></dt>
+        <dd>
+            <span>{{player.facebook}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.gender">Gender</span></dt>
+        <dd>
+            <span jhiTranslate="{{'halospainleagueApp.Gender.' + player.gender}}">{{player.gender}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.score">Score</span></dt>
+        <dd>
+            <span>{{player.score}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.address">Address</span></dt>
+        <dd>
+            <span>{{player.address}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.timeZone">Time Zone</span></dt>
+        <dd>
+            <span>{{player.timeZone}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.user">User</span></dt>
+        <dd>
+            {{player.user?.login}}
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.country">Country</span></dt>
+        <dd>
+            <div *ngIf="player.country">
+                <a [routerLink]="['/country', player.country?.id]">{{player.country?.name}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.messageRoom">Message Room</span></dt>
+        <dd>
+            <span *ngFor="let messageRoom of player.messageRooms; let last = last">
+                <a [routerLink]="['/message-room', messageRoom?.id ]">{{messageRoom.title}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'player/'+ player.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

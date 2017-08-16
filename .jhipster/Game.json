@@ -1,0 +1,54 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "javadoc": "Matches, Tornaments, Games and Maps",
+            "relationshipName": "map",
+            "otherEntityName": "map",
+            "otherEntityRelationshipName": "game"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "tournament",
+            "otherEntityName": "tournament",
+            "otherEntityRelationshipName": "game"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "year",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "photo",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "rate",
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": 0,
+            "fieldValidateRulesMax": 5
+        },
+        {
+            "fieldName": "platform",
+            "fieldType": "Platform",
+            "fieldValues": "PC,XB360,XBONE,PS3,PS4"
+        }
+    ],
+    "changelogDate": "20170816161052",
+    "javadoc": "Class Game.\n@author arnaugarcia.",
+    "entityTableName": "game",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

@@ -1,0 +1,76 @@
+<div>
+    <h2>
+        <span jhiTranslate="halospainleagueApp.match.home.title">Matches</span>
+        <button class="btn btn-primary float-right jh-create-entity create-match" [routerLink]="['/', { outlets: { popup: ['match-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="halospainleagueApp.match.home.createLabel">
+            Create new Match
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="matches">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="halospainleagueApp.match.reference">Reference</span></th>
+            <th><span jhiTranslate="halospainleagueApp.match.duration">Duration</span></th>
+            <th><span jhiTranslate="halospainleagueApp.match.resultMatch">Result Match</span></th>
+            <th><span jhiTranslate="halospainleagueApp.match.tournament">Tournament</span></th>
+            <th><span jhiTranslate="halospainleagueApp.match.map">Map</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let match of matches ;trackBy: trackId">
+                <td><a [routerLink]="['../match', match.id ]">{{match.id}}</a></td>
+                <td>{{match.reference}}</td>
+                <td>{{match.duration}}</td>
+                <td>
+                    <div *ngIf="match.resultMatch">
+                        <a [routerLink]="['../result-match', match.resultMatch?.id ]" >{{match.resultMatch?.reference}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="match.tournament">
+                        <a [routerLink]="['../tournament', match.tournament?.id ]" >{{match.tournament?.name}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="match.map">
+                        <a [routerLink]="['../map', match.map?.id ]" >{{match.map?.name}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../match', match.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'match/'+ match.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'match/'+ match.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

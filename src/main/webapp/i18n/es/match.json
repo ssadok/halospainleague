@@ -1,0 +1,25 @@
+{
+    "halospainleagueApp": {
+        "match" : {
+            "home": {
+                "title": "Matches",
+                "createLabel": "Crear nuevo Match",
+                "createOrEditLabel": "Crear o editar Match"
+            },
+            "created": "Un nuevo Match ha sido creado con el identificador {{ param }}",
+            "updated": "Un Match ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Match ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Match {{ id }}?"
+            },
+            "detail": {
+                "title": "Match"
+            },
+            "reference": "Reference",
+            "duration": "Duration",
+            "resultMatch": "Result Match",
+            "tournament": "Tournament",
+            "map": "Map"
+        }
+    }
+}

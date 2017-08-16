@@ -1,0 +1,49 @@
+
+<div *ngIf="map">
+    <h2><span jhiTranslate="halospainleagueApp.map.detail.title">Map</span> {{map.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="halospainleagueApp.map.name">Name</span></dt>
+        <dd>
+            <span>{{map.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.map.image">Image</span></dt>
+        <dd>
+            <div *ngIf="map.image">
+                <a (click)="openFile(map.imageContentType, map.image)">
+                    <img [src]="'data:' + map.imageContentType + ';base64,' + map.image" style="max-width: 100%;" alt="map image"/>
+                </a>
+                {{map.imageContentType}}, {{byteSize(map.image)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.map.cover">Cover</span></dt>
+        <dd>
+            <div *ngIf="map.cover">
+                <a (click)="openFile(map.coverContentType, map.cover)">
+                    <img [src]="'data:' + map.coverContentType + ';base64,' + map.cover" style="max-width: 100%;" alt="map image"/>
+                </a>
+                {{map.coverContentType}}, {{byteSize(map.cover)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.map.game">Game</span></dt>
+        <dd>
+            <div *ngIf="map.game">
+                <a [routerLink]="['/game', map.game?.id]">{{map.game?.name}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'map/'+ map.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,132 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myTournamentLabel" jhiTranslate="halospainleagueApp.tournament.home.createOrEditLabel">Create or edit a Tournament</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!tournament.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="tournament.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.tournament.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="tournament.name"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.tournament.coverImage" for="field_coverImage">Cover Image</label>
+            <div>
+                <img [src]="'data:' + tournament.coverImageContentType + ';base64,' + tournament.coverImage" style="max-height: 100px;" *ngIf="tournament.coverImage" alt="tournament image"/>
+                <div *ngIf="tournament.coverImage" class="form-text text-danger clearfix">
+                    <span class="pull-left">{{tournament.coverImageContentType}}, {{byteSize(tournament.coverImage)}}</span>
+                    <button type="button" (click)="clearInputImage('coverImage', 'coverImageContentType', 'fileImage')" class="btn btn-default btn-xs pull-right">
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+                <input type="file" id="fileImage" (change)="setFileData($event, tournament, 'coverImage', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
+            </div>
+            <input type="hidden" class="form-control" name="coverImage" id="field_coverImage"
+                [(ngModel)]="tournament.coverImage"  />
+            <input type="hidden" class="form-control" name="coverImageContentType" id="field_coverImageContentType"
+                [(ngModel)]="tournament.coverImageContentType" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.tournament.platform" for="field_platform">Platform</label>
+            <select class="form-control" name="platform" [(ngModel)]="tournament.platform" id="field_platform" >
+                <option value="PC" jhiTranslate="halospainleagueApp.Platform.PC">PC</option>
+                <option value="XB360" jhiTranslate="halospainleagueApp.Platform.XB360">XB360</option>
+                <option value="XBONE" jhiTranslate="halospainleagueApp.Platform.XBONE">XBONE</option>
+                <option value="PS3" jhiTranslate="halospainleagueApp.Platform.PS3">PS3</option>
+                <option value="PS4" jhiTranslate="halospainleagueApp.Platform.PS4">PS4</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.tournament.maxTeams" for="field_maxTeams">Max Teams</label>
+            <input type="number" class="form-control" name="maxTeams" id="field_maxTeams"
+                [(ngModel)]="tournament.maxTeams" required />
+            <div [hidden]="!(editForm.controls.maxTeams?.dirty && editForm.controls.maxTeams?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.maxTeams?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.maxTeams?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.tournament.registrationStarts" for="field_registrationStarts">Registration Starts</label>
+            <div class="d-flex">
+                <input id="field_registrationStarts" type="datetime-local" class="form-control" name="registrationStarts" [(ngModel)]="tournament.registrationStarts"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.tournament.registrationEnds" for="field_registrationEnds">Registration Ends</label>
+            <div class="d-flex">
+                <input id="field_registrationEnds" type="datetime-local" class="form-control" name="registrationEnds" [(ngModel)]="tournament.registrationEnds"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.tournament.tournamentBegins" for="field_tournamentBegins">Tournament Begins</label>
+            <div class="d-flex">
+                <input id="field_tournamentBegins" type="datetime-local" class="form-control" name="tournamentBegins" [(ngModel)]="tournament.tournamentBegins"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.tournament.price" for="field_price">Price</label>
+            <input type="number" class="form-control" name="price" id="field_price"
+                [(ngModel)]="tournament.price"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.tournament.gamesPerRound" for="field_gamesPerRound">Games Per Round</label>
+            <input type="number" class="form-control" name="gamesPerRound" id="field_gamesPerRound"
+                [(ngModel)]="tournament.gamesPerRound"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.tournament.description" for="field_description">Description</label>
+            <textarea class="form-control" name="description" id="field_description"
+                [(ngModel)]="tournament.description"  ></textarea>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.tournament.type" for="field_type">Type</label>
+            <select class="form-control" name="type" [(ngModel)]="tournament.type" id="field_type" >
+                <option value="ONE_VS_ONE" jhiTranslate="halospainleagueApp.TournamentType.ONE_VS_ONE">ONE_VS_ONE</option>
+                <option value="TWO_VS_TWO" jhiTranslate="halospainleagueApp.TournamentType.TWO_VS_TWO">TWO_VS_TWO</option>
+                <option value="THREE_VS_THREE" jhiTranslate="halospainleagueApp.TournamentType.THREE_VS_THREE">THREE_VS_THREE</option>
+                <option value="FOUR_VS_FOUR" jhiTranslate="halospainleagueApp.TournamentType.FOUR_VS_FOUR">FOUR_VS_FOUR</option>
+                <option value="FIVE_VS_FIVE" jhiTranslate="halospainleagueApp.TournamentType.FIVE_VS_FIVE">FIVE_VS_FIVE</option>
+                <option value="SIX_VS_SIX" jhiTranslate="halospainleagueApp.TournamentType.SIX_VS_SIX">SIX_VS_SIX</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="halospainleagueApp.tournament.team" for="field_team">Team</label>
+            <select class="form-control" id="field_team" multiple name="team" [(ngModel)]="tournament.teams">
+                <option [ngValue]="getSelected(tournament.teams, teamOption)" *ngFor="let teamOption of teams; trackBy: trackTeamById">{{teamOption.name}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="halospainleagueApp.tournament.game" for="field_game">Game</label>
+            <select class="form-control" id="field_game" name="game" [(ngModel)]="tournament.game" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="gameOption.id === tournament.game?.id ? tournament.game : gameOption" *ngFor="let gameOption of games; trackBy: trackGameById">{{gameOption.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

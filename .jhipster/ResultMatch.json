@@ -1,0 +1,24 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "match",
+            "otherEntityName": "match",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "resultMatch"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "reference",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170816161058",
+    "javadoc": "Class ResultMatch.\n@author arnaugarcia.",
+    "entityTableName": "result_match",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

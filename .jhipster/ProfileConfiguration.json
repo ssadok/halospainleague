@@ -1,0 +1,81 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "player",
+            "otherEntityName": "player",
+            "otherEntityField": "name",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "profileConfiguration(id)"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipValidateRules": "required",
+            "relationshipName": "theme",
+            "otherEntityName": "theme",
+            "otherEntityRelationshipName": "profileConfiguration"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "sendNews",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "privateMessages",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "teamInvites",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "showDescription",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "showScore",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "showSocial",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "showAge",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "showGender",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "active",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "timeZone",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "lastLogin",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "firstRun",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "showTutorial",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20170816161103",
+    "javadoc": "Class ProfileConfiguration.\n@author arnaugarcia.",
+    "entityTableName": "profile_configuration",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

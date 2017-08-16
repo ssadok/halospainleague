@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Theme.
+    -->
+    <changeSet id="20170816161107-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="profile_configuration_id"
+                                 baseTableName="theme"
+                                 constraintName="fk_theme_profile_configuration_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="profile_configuration"/>
+
+        <addForeignKeyConstraint baseColumnNames="message_room_id"
+                                 baseTableName="theme"
+                                 constraintName="fk_theme_message_room_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="message_room"/>
+
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,86 @@
+<div>
+    <h2>
+        <span jhiTranslate="halospainleagueApp.profileConfiguration.home.title">Profile Configurations</span>
+        <button class="btn btn-primary float-right jh-create-entity create-profile-configuration" [routerLink]="['/', { outlets: { popup: ['profile-configuration-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="halospainleagueApp.profileConfiguration.home.createLabel">
+            Create new Profile Configuration
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="profileConfigurations">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="halospainleagueApp.profileConfiguration.sendNews">Send News</span></th>
+            <th><span jhiTranslate="halospainleagueApp.profileConfiguration.privateMessages">Private Messages</span></th>
+            <th><span jhiTranslate="halospainleagueApp.profileConfiguration.teamInvites">Team Invites</span></th>
+            <th><span jhiTranslate="halospainleagueApp.profileConfiguration.showDescription">Show Description</span></th>
+            <th><span jhiTranslate="halospainleagueApp.profileConfiguration.showScore">Show Score</span></th>
+            <th><span jhiTranslate="halospainleagueApp.profileConfiguration.showSocial">Show Social</span></th>
+            <th><span jhiTranslate="halospainleagueApp.profileConfiguration.showAge">Show Age</span></th>
+            <th><span jhiTranslate="halospainleagueApp.profileConfiguration.showGender">Show Gender</span></th>
+            <th><span jhiTranslate="halospainleagueApp.profileConfiguration.active">Active</span></th>
+            <th><span jhiTranslate="halospainleagueApp.profileConfiguration.timeZone">Time Zone</span></th>
+            <th><span jhiTranslate="halospainleagueApp.profileConfiguration.lastLogin">Last Login</span></th>
+            <th><span jhiTranslate="halospainleagueApp.profileConfiguration.firstRun">First Run</span></th>
+            <th><span jhiTranslate="halospainleagueApp.profileConfiguration.showTutorial">Show Tutorial</span></th>
+            <th><span jhiTranslate="halospainleagueApp.profileConfiguration.player">Player</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let profileConfiguration of profileConfigurations ;trackBy: trackId">
+                <td><a [routerLink]="['../profile-configuration', profileConfiguration.id ]">{{profileConfiguration.id}}</a></td>
+                <td>{{profileConfiguration.sendNews}}</td>
+                <td>{{profileConfiguration.privateMessages}}</td>
+                <td>{{profileConfiguration.teamInvites}}</td>
+                <td>{{profileConfiguration.showDescription}}</td>
+                <td>{{profileConfiguration.showScore}}</td>
+                <td>{{profileConfiguration.showSocial}}</td>
+                <td>{{profileConfiguration.showAge}}</td>
+                <td>{{profileConfiguration.showGender}}</td>
+                <td>{{profileConfiguration.active}}</td>
+                <td>{{profileConfiguration.timeZone}}</td>
+                <td>{{profileConfiguration.lastLogin | date:'medium'}}</td>
+                <td>{{profileConfiguration.firstRun}}</td>
+                <td>{{profileConfiguration.showTutorial}}</td>
+                <td>
+                    <div *ngIf="profileConfiguration.player">
+                        <a [routerLink]="['../player', profileConfiguration.player?.id ]" >{{profileConfiguration.player?.name}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../profile-configuration', profileConfiguration.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'profile-configuration/'+ profileConfiguration.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'profile-configuration/'+ profileConfiguration.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+<div>
+    <h2>
+        <span jhiTranslate="halospainleagueApp.messageRoom.home.title">Message Rooms</span>
+        <button class="btn btn-primary float-right jh-create-entity create-message-room" [routerLink]="['/', { outlets: { popup: ['message-room-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="halospainleagueApp.messageRoom.home.createLabel">
+            Create new Message Room
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="messageRooms">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="halospainleagueApp.messageRoom.title">Title</span></th>
+            <th><span jhiTranslate="halospainleagueApp.messageRoom.image">Image</span></th>
+            <th><span jhiTranslate="halospainleagueApp.messageRoom.cover">Cover</span></th>
+            <th><span jhiTranslate="halospainleagueApp.messageRoom.crated">Crated</span></th>
+            <th><span jhiTranslate="halospainleagueApp.messageRoom.isPublic">Is Public</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let messageRoom of messageRooms ;trackBy: trackId">
+                <td><a [routerLink]="['../message-room', messageRoom.id ]">{{messageRoom.id}}</a></td>
+                <td>{{messageRoom.title}}</td>
+                <td>
+                    <a *ngIf="messageRoom.image" (click)="openFile(messageRoom.imageContentType, messageRoom.image)">
+                        <img [src]="'data:' + messageRoom.imageContentType + ';base64,' + messageRoom.image" style="max-height: 30px;" alt="messageRoom image"/>
+                    </a>
+                    <span *ngIf="messageRoom.image">{{messageRoom.imageContentType}}, {{byteSize(messageRoom.image)}}</span>
+                </td>
+                <td>
+                    <a *ngIf="messageRoom.cover" (click)="openFile(messageRoom.coverContentType, messageRoom.cover)">
+                        <img [src]="'data:' + messageRoom.coverContentType + ';base64,' + messageRoom.cover" style="max-height: 30px;" alt="messageRoom image"/>
+                    </a>
+                    <span *ngIf="messageRoom.cover">{{messageRoom.coverContentType}}, {{byteSize(messageRoom.cover)}}</span>
+                </td>
+                <td>{{messageRoom.crated | date:'medium'}}</td>
+                <td>{{messageRoom.isPublic}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../message-room', messageRoom.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'message-room/'+ messageRoom.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'message-room/'+ messageRoom.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

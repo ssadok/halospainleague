@@ -1,0 +1,112 @@
+<div>
+    <h2>
+        <span jhiTranslate="halospainleagueApp.player.home.title">Players</span>
+        <button class="btn btn-primary float-right jh-create-entity create-player" [routerLink]="['/', { outlets: { popup: ['player-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="halospainleagueApp.player.home.createLabel">
+            Create new Player
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="players">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.name">Name</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.surname">Surname</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.phone">Phone</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.description">Description</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.created">Created</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.profilePhoto">Profile Photo</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.profileCover">Profile Cover</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.state">State</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.instagram">Instagram</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.twitter">Twitter</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.youtube">Youtube</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.facebook">Facebook</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.gender">Gender</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.score">Score</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.address">Address</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.timeZone">Time Zone</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.user">User</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.country">Country</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.messageRoom">Message Room</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let player of players ;trackBy: trackId">
+                <td><a [routerLink]="['../player', player.id ]">{{player.id}}</a></td>
+                <td>{{player.name}}</td>
+                <td>{{player.surname}}</td>
+                <td>{{player.phone}}</td>
+                <td>{{player.description}}</td>
+                <td>{{player.created | date:'medium'}}</td>
+                <td>
+                    <a *ngIf="player.profilePhoto" (click)="openFile(player.profilePhotoContentType, player.profilePhoto)">
+                        <img [src]="'data:' + player.profilePhotoContentType + ';base64,' + player.profilePhoto" style="max-height: 30px;" alt="player image"/>
+                    </a>
+                    <span *ngIf="player.profilePhoto">{{player.profilePhotoContentType}}, {{byteSize(player.profilePhoto)}}</span>
+                </td>
+                <td>
+                    <a *ngIf="player.profileCover" (click)="openFile(player.profileCoverContentType, player.profileCover)">
+                        <img [src]="'data:' + player.profileCoverContentType + ';base64,' + player.profileCover" style="max-height: 30px;" alt="player image"/>
+                    </a>
+                    <span *ngIf="player.profileCover">{{player.profileCoverContentType}}, {{byteSize(player.profileCover)}}</span>
+                </td>
+                <td jhiTranslate="{{'halospainleagueApp.PlayerState.' + player.state}}">{{player.state}}</td>
+                <td>{{player.instagram}}</td>
+                <td>{{player.twitter}}</td>
+                <td>{{player.youtube}}</td>
+                <td>{{player.facebook}}</td>
+                <td jhiTranslate="{{'halospainleagueApp.Gender.' + player.gender}}">{{player.gender}}</td>
+                <td>{{player.score}}</td>
+                <td>{{player.address}}</td>
+                <td>{{player.timeZone}}</td>
+                <td>
+                    {{player.user?.login}}
+                </td>
+                <td>
+                    <div *ngIf="player.country">
+                        <a [routerLink]="['../country', player.country?.id ]" >{{player.country?.name}}</a>
+                    </div>
+                </td>
+                <td>
+                    <span *ngFor="let messageRoom of player.messageRooms; let last = last">
+                            <a class="form-control-static" [routerLink]="['../message-room', messageRoom?.id ]">{{messageRoom.title}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../player', player.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'player/'+ player.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'player/'+ player.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

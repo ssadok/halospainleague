@@ -1,0 +1,43 @@
+
+<div *ngIf="achievement">
+    <h2><span jhiTranslate="halospainleagueApp.achievement.detail.title">Achievement</span> {{achievement.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="halospainleagueApp.achievement.title">Title</span></dt>
+        <dd>
+            <span>{{achievement.title}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.achievement.description">Description</span></dt>
+        <dd>
+            <span>{{achievement.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.achievement.score">Score</span></dt>
+        <dd>
+            <span>{{achievement.score}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.achievement.type">Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'halospainleagueApp.AchievementType.' + achievement.type}}">{{achievement.type}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.achievement.player">Player</span></dt>
+        <dd>
+            <span *ngFor="let player of achievement.players; let last = last">
+                <a [routerLink]="['/player', player?.id ]">{{player.name}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'achievement/'+ achievement.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

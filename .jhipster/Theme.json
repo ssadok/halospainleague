@@ -1,0 +1,49 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "profileConfiguration",
+            "otherEntityName": "profileConfiguration",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "messageRoom",
+            "otherEntityName": "messageRoom",
+            "otherEntityField": "title"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "active",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "headercolor",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "fontcolor",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "linkcolor",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "backgroundcolor",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170816161107",
+    "javadoc": "Class Theme.\n@author arnaugarcia.",
+    "entityTableName": "theme",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

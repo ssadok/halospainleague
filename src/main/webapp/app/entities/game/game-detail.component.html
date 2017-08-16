@@ -1,0 +1,46 @@
+
+<div *ngIf="game">
+    <h2><span jhiTranslate="halospainleagueApp.game.detail.title">Game</span> {{game.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="halospainleagueApp.game.name">Name</span></dt>
+        <dd>
+            <span>{{game.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.game.year">Year</span></dt>
+        <dd>
+            <span>{{game.year | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.game.photo">Photo</span></dt>
+        <dd>
+            <div *ngIf="game.photo">
+                <a (click)="openFile(game.photoContentType, game.photo)">
+                    <img [src]="'data:' + game.photoContentType + ';base64,' + game.photo" style="max-width: 100%;" alt="game image"/>
+                </a>
+                {{game.photoContentType}}, {{byteSize(game.photo)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.game.rate">Rate</span></dt>
+        <dd>
+            <span>{{game.rate}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.game.platform">Platform</span></dt>
+        <dd>
+            <span jhiTranslate="{{'halospainleagueApp.Platform.' + game.platform}}">{{game.platform}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'game/'+ game.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

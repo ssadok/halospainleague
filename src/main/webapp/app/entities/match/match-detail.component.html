@@ -1,0 +1,47 @@
+
+<div *ngIf="match">
+    <h2><span jhiTranslate="halospainleagueApp.match.detail.title">Match</span> {{match.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="halospainleagueApp.match.reference">Reference</span></dt>
+        <dd>
+            <span>{{match.reference}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.match.duration">Duration</span></dt>
+        <dd>
+            <span>{{match.duration}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.match.resultMatch">Result Match</span></dt>
+        <dd>
+            <div *ngIf="match.resultMatch">
+                <a [routerLink]="['/result-match', match.resultMatch?.id]">{{match.resultMatch?.reference}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.match.tournament">Tournament</span></dt>
+        <dd>
+            <div *ngIf="match.tournament">
+                <a [routerLink]="['/tournament', match.tournament?.id]">{{match.tournament?.name}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.match.map">Map</span></dt>
+        <dd>
+            <div *ngIf="match.map">
+                <a [routerLink]="['/map', match.map?.id]">{{match.map?.name}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'match/'+ match.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

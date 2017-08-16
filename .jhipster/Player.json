@@ -1,0 +1,151 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "javadoc": "Profile, User, Account and ProfileConfiguration",
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "player(name)"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "javadoc": "Accounts and Settings",
+            "relationshipName": "socialAccount",
+            "otherEntityName": "socialAccount",
+            "otherEntityRelationshipName": "player"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "javadoc": "Accounts and Settings",
+            "relationshipName": "country",
+            "otherEntityName": "country",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "javadoc": "Messages",
+            "otherEntityRelationshipName": "player",
+            "relationshipName": "messageRoom",
+            "otherEntityName": "messageRoom",
+            "otherEntityField": "title",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "profileConfiguration",
+            "otherEntityName": "profileConfiguration",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "player"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "notification",
+            "otherEntityName": "notification",
+            "otherEntityRelationshipName": "player"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "achievement",
+            "otherEntityName": "achievement",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "player"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "team",
+            "otherEntityName": "team",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "player"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "surname",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "phone",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "created",
+            "fieldType": "ZonedDateTime",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "profilePhoto",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "profileCover",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "state",
+            "fieldType": "PlayerState",
+            "fieldValues": "NOT_PLAYING,IN_TEAM,FREE_AGENT,NOT_SET",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "instagram",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "twitter",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "youtube",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "facebook",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "gender",
+            "fieldType": "Gender",
+            "fieldValues": "MALE,FEMALE,OTHER,NOT_SPECIFIED"
+        },
+        {
+            "fieldName": "score",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "address",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "timeZone",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170816161059",
+    "javadoc": "Class Player.\n@author arnaugarcia.",
+    "entityTableName": "player",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

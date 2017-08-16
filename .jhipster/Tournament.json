@@ -1,0 +1,84 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "match",
+            "otherEntityName": "match",
+            "otherEntityRelationshipName": "tournament"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "torunament",
+            "relationshipName": "team",
+            "otherEntityName": "team",
+            "otherEntityField": "name",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "game",
+            "otherEntityName": "game",
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "coverImage",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "platform",
+            "fieldType": "Platform",
+            "fieldValues": "PC,XB360,XBONE,PS3,PS4"
+        },
+        {
+            "fieldName": "maxTeams",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "registrationStarts",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "registrationEnds",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "tournamentBegins",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "price",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "gamesPerRound",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "TournamentType",
+            "fieldValues": "ONE_VS_ONE,TWO_VS_TWO,THREE_VS_THREE,FOUR_VS_FOUR,FIVE_VS_FIVE,SIX_VS_SIX"
+        }
+    ],
+    "changelogDate": "20170816161053",
+    "javadoc": "Class Tournament.\n@author arnaugarcia.",
+    "entityTableName": "tournament",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

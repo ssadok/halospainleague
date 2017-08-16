@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="autoIncrement" value="true"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <!--
+        Added the entity ProfileConfiguration.
+    -->
+    <changeSet id="20170816161103-1" author="jhipster">
+        <createTable tableName="profile_configuration">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="send_news" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="private_messages" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="team_invites" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="show_description" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="show_score" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="show_social" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="show_age" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="show_gender" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="active" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="time_zone" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="last_login" type="timestamp">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="first_run" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="show_tutorial" type="bit">
+                <constraints nullable="true" />
+            </column>
+            <column name="player_id" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+        <dropDefaultValue tableName="profile_configuration" columnName="last_login" columnDataType="datetime"/>
+        
+    </changeSet>
+</databaseChangeLog>

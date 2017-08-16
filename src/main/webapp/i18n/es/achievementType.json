@@ -1,0 +1,9 @@
+{
+    "halospainleagueApp": {
+        "AchievementType" : {
+            "null": "",
+            "BADGE": "BADGE",
+            "TROPHY": "TROPHY"
+        }
+    }
+}

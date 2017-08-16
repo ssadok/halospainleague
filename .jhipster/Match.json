@@ -1,0 +1,42 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "javadoc": "Matches, Tornaments and Games",
+            "relationshipName": "resultMatch",
+            "otherEntityName": "resultMatch",
+            "otherEntityField": "reference",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "match(reference)"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "tournament",
+            "otherEntityName": "tournament",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "map",
+            "otherEntityName": "map",
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "reference",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "duration",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20170816161056",
+    "javadoc": "Class Match.\n@author arnaugarcia.",
+    "entityTableName": "match",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

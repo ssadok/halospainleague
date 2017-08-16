@@ -1,0 +1,28 @@
+{
+    "halospainleagueApp": {
+        "messageRoom" : {
+            "home": {
+                "title": "Message Rooms",
+                "createLabel": "Create a new Message Room",
+                "createOrEditLabel": "Create or edit a Message Room"
+            },
+            "created": "A new Message Room is created with identifier {{ param }}",
+            "updated": "A Message Room is updated with identifier {{ param }}",
+            "deleted": "A Message Room is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Message Room {{ id }}?"
+            },
+            "detail": {
+                "title": "Message Room"
+            },
+            "title": "Title",
+            "image": "Image",
+            "cover": "Cover",
+            "crated": "Crated",
+            "isPublic": "Is Public",
+            "theme": "Theme",
+            "message": "Message",
+            "player": "Player"
+        }
+    }
+}

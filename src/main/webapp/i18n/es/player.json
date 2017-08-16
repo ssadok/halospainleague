@@ -1,0 +1,44 @@
+{
+    "halospainleagueApp": {
+        "player" : {
+            "home": {
+                "title": "Players",
+                "createLabel": "Crear nuevo Player",
+                "createOrEditLabel": "Crear o editar Player"
+            },
+            "created": "Un nuevo Player ha sido creado con el identificador {{ param }}",
+            "updated": "Un Player ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Player ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Player {{ id }}?"
+            },
+            "detail": {
+                "title": "Player"
+            },
+            "name": "Name",
+            "surname": "Surname",
+            "phone": "Phone",
+            "description": "Description",
+            "created": "Created",
+            "profilePhoto": "Profile Photo",
+            "profileCover": "Profile Cover",
+            "state": "State",
+            "instagram": "Instagram",
+            "twitter": "Twitter",
+            "youtube": "Youtube",
+            "facebook": "Facebook",
+            "gender": "Gender",
+            "score": "Score",
+            "address": "Address",
+            "timeZone": "Time Zone",
+            "user": "User",
+            "socialAccount": "Social Account",
+            "country": "Country",
+            "messageRoom": "Message Room",
+            "profileConfiguration": "Profile Configuration",
+            "notification": "Notification",
+            "achievement": "Achievement",
+            "team": "Team"
+        }
+    }
+}

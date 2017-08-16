@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="autoIncrement" value="true"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <!--
+        Added the entity Tournament.
+    -->
+    <changeSet id="20170816161053-1" author="jhipster">
+        <createTable tableName="tournament">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="cover_image" type="longblob">
+                <constraints nullable="true" />
+            </column>
+            <column name="cover_image_content_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="platform" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="max_teams" type="integer">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="registration_starts" type="timestamp">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="registration_ends" type="timestamp">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="tournament_begins" type="timestamp">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="price" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="games_per_round" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="description" type="clob">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="jhi_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="game_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+        <dropDefaultValue tableName="tournament" columnName="registration_starts" columnDataType="datetime"/>
+        <dropDefaultValue tableName="tournament" columnName="registration_ends" columnDataType="datetime"/>
+        <dropDefaultValue tableName="tournament" columnName="tournament_begins" columnDataType="datetime"/>
+        
+        <createTable tableName="tournament_team">
+            <column name="teams_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tournaments_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="tournaments_id, teams_id" tableName="tournament_team"/>
+        
+    </changeSet>
+</databaseChangeLog>

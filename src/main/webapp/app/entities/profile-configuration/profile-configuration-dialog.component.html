@@ -1,0 +1,110 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myProfileConfigurationLabel" jhiTranslate="halospainleagueApp.profileConfiguration.home.createOrEditLabel">Create or edit a Profile Configuration</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!profileConfiguration.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="profileConfiguration.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.profileConfiguration.sendNews" for="field_sendNews">Send News</label>
+            <input type="checkbox" class="form-control" name="sendNews" id="field_sendNews"
+                [(ngModel)]="profileConfiguration.sendNews"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.profileConfiguration.privateMessages" for="field_privateMessages">Private Messages</label>
+            <input type="checkbox" class="form-control" name="privateMessages" id="field_privateMessages"
+                [(ngModel)]="profileConfiguration.privateMessages"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.profileConfiguration.teamInvites" for="field_teamInvites">Team Invites</label>
+            <input type="checkbox" class="form-control" name="teamInvites" id="field_teamInvites"
+                [(ngModel)]="profileConfiguration.teamInvites"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.profileConfiguration.showDescription" for="field_showDescription">Show Description</label>
+            <input type="checkbox" class="form-control" name="showDescription" id="field_showDescription"
+                [(ngModel)]="profileConfiguration.showDescription"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.profileConfiguration.showScore" for="field_showScore">Show Score</label>
+            <input type="checkbox" class="form-control" name="showScore" id="field_showScore"
+                [(ngModel)]="profileConfiguration.showScore"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.profileConfiguration.showSocial" for="field_showSocial">Show Social</label>
+            <input type="checkbox" class="form-control" name="showSocial" id="field_showSocial"
+                [(ngModel)]="profileConfiguration.showSocial"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.profileConfiguration.showAge" for="field_showAge">Show Age</label>
+            <input type="checkbox" class="form-control" name="showAge" id="field_showAge"
+                [(ngModel)]="profileConfiguration.showAge"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.profileConfiguration.showGender" for="field_showGender">Show Gender</label>
+            <input type="checkbox" class="form-control" name="showGender" id="field_showGender"
+                [(ngModel)]="profileConfiguration.showGender"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.profileConfiguration.active" for="field_active">Active</label>
+            <input type="checkbox" class="form-control" name="active" id="field_active"
+                [(ngModel)]="profileConfiguration.active"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.profileConfiguration.timeZone" for="field_timeZone">Time Zone</label>
+            <input type="text" class="form-control" name="timeZone" id="field_timeZone"
+                [(ngModel)]="profileConfiguration.timeZone"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.profileConfiguration.lastLogin" for="field_lastLogin">Last Login</label>
+            <div class="d-flex">
+                <input id="field_lastLogin" type="datetime-local" class="form-control" name="lastLogin" [(ngModel)]="profileConfiguration.lastLogin"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.profileConfiguration.firstRun" for="field_firstRun">First Run</label>
+            <input type="checkbox" class="form-control" name="firstRun" id="field_firstRun"
+                [(ngModel)]="profileConfiguration.firstRun"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.profileConfiguration.showTutorial" for="field_showTutorial">Show Tutorial</label>
+            <input type="checkbox" class="form-control" name="showTutorial" id="field_showTutorial"
+                [(ngModel)]="profileConfiguration.showTutorial"  />
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="halospainleagueApp.profileConfiguration.player" for="field_player">Player</label>
+            <select class="form-control" id="field_player" name="player" [(ngModel)]="profileConfiguration.player" required>
+                <option [ngValue]="playerOption.id === profileConfiguration.player?.id ? profileConfiguration.player : playerOption" *ngFor="let playerOption of players; trackBy: trackPlayerById">{{playerOption.name}}</option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.player?.dirty && editForm.controls.player?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.player?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
+        <div [hidden]="!(editForm.controls.theme?.dirty && editForm.controls.theme?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.theme?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,79 @@
+
+<div *ngIf="profileConfiguration">
+    <h2><span jhiTranslate="halospainleagueApp.profileConfiguration.detail.title">Profile Configuration</span> {{profileConfiguration.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="halospainleagueApp.profileConfiguration.sendNews">Send News</span></dt>
+        <dd>
+            <span>{{profileConfiguration.sendNews}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.profileConfiguration.privateMessages">Private Messages</span></dt>
+        <dd>
+            <span>{{profileConfiguration.privateMessages}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.profileConfiguration.teamInvites">Team Invites</span></dt>
+        <dd>
+            <span>{{profileConfiguration.teamInvites}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.profileConfiguration.showDescription">Show Description</span></dt>
+        <dd>
+            <span>{{profileConfiguration.showDescription}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.profileConfiguration.showScore">Show Score</span></dt>
+        <dd>
+            <span>{{profileConfiguration.showScore}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.profileConfiguration.showSocial">Show Social</span></dt>
+        <dd>
+            <span>{{profileConfiguration.showSocial}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.profileConfiguration.showAge">Show Age</span></dt>
+        <dd>
+            <span>{{profileConfiguration.showAge}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.profileConfiguration.showGender">Show Gender</span></dt>
+        <dd>
+            <span>{{profileConfiguration.showGender}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.profileConfiguration.active">Active</span></dt>
+        <dd>
+            <span>{{profileConfiguration.active}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.profileConfiguration.timeZone">Time Zone</span></dt>
+        <dd>
+            <span>{{profileConfiguration.timeZone}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.profileConfiguration.lastLogin">Last Login</span></dt>
+        <dd>
+            <span>{{profileConfiguration.lastLogin | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.profileConfiguration.firstRun">First Run</span></dt>
+        <dd>
+            <span>{{profileConfiguration.firstRun}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.profileConfiguration.showTutorial">Show Tutorial</span></dt>
+        <dd>
+            <span>{{profileConfiguration.showTutorial}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.profileConfiguration.player">Player</span></dt>
+        <dd>
+            <div *ngIf="profileConfiguration.player">
+                <a [routerLink]="['/player', profileConfiguration.player?.id]">{{profileConfiguration.player?.name}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'profile-configuration/'+ profileConfiguration.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

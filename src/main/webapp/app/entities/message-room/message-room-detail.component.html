@@ -1,0 +1,51 @@
+
+<div *ngIf="messageRoom">
+    <h2><span jhiTranslate="halospainleagueApp.messageRoom.detail.title">Message Room</span> {{messageRoom.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="halospainleagueApp.messageRoom.title">Title</span></dt>
+        <dd>
+            <span>{{messageRoom.title}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.messageRoom.image">Image</span></dt>
+        <dd>
+            <div *ngIf="messageRoom.image">
+                <a (click)="openFile(messageRoom.imageContentType, messageRoom.image)">
+                    <img [src]="'data:' + messageRoom.imageContentType + ';base64,' + messageRoom.image" style="max-width: 100%;" alt="messageRoom image"/>
+                </a>
+                {{messageRoom.imageContentType}}, {{byteSize(messageRoom.image)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.messageRoom.cover">Cover</span></dt>
+        <dd>
+            <div *ngIf="messageRoom.cover">
+                <a (click)="openFile(messageRoom.coverContentType, messageRoom.cover)">
+                    <img [src]="'data:' + messageRoom.coverContentType + ';base64,' + messageRoom.cover" style="max-width: 100%;" alt="messageRoom image"/>
+                </a>
+                {{messageRoom.coverContentType}}, {{byteSize(messageRoom.cover)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.messageRoom.crated">Crated</span></dt>
+        <dd>
+            <span>{{messageRoom.crated | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.messageRoom.isPublic">Is Public</span></dt>
+        <dd>
+            <span>{{messageRoom.isPublic}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'message-room/'+ messageRoom.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
