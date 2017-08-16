@@ -73,9 +73,7 @@
             <column name="show_tutorial" type="bit">
                 <constraints nullable="true" />
             </column>
-            <column name="player_id" type="bigint">
-                <constraints unique="true" nullable="false" />
-            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="profile_configuration" columnName="last_login" columnDataType="datetime"/>

@@ -10,8 +10,8 @@ import { Player } from './player.model';
 import { PlayerPopupService } from './player-popup.service';
 import { PlayerService } from './player.service';
 import { User, UserService } from '../../shared';
-import { Country, CountryService } from '../country';
 import { ProfileConfiguration, ProfileConfigurationService } from '../profile-configuration';
+import { Country, CountryService } from '../country';
 import { Achievement, AchievementService } from '../achievement';
 import { Team, TeamService } from '../team';
 import { MessageRoom, MessageRoomService } from '../message-room';
@@ -28,9 +28,9 @@ export class PlayerDialogComponent implements OnInit {
 
     users: User[];
 
-    countries: Country[];
-
     profileconfigurations: ProfileConfiguration[];
+
+    countries: Country[];
 
     achievements: Achievement[];
 
@@ -44,8 +44,8 @@ export class PlayerDialogComponent implements OnInit {
         private alertService: JhiAlertService,
         private playerService: PlayerService,
         private userService: UserService,
-        private countryService: CountryService,
         private profileConfigurationService: ProfileConfigurationService,
+        private countryService: CountryService,
         private achievementService: AchievementService,
         private teamService: TeamService,
         private messageRoomService: MessageRoomService,
@@ -58,10 +58,21 @@ export class PlayerDialogComponent implements OnInit {
         this.isSaving = false;
         this.userService.query()
             .subscribe((res: ResponseWrapper) => { this.users = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.profileConfigurationService
+            .query({filter: 'player(name)-is-null'})
+            .subscribe((res: ResponseWrapper) => {
+                if (!this.player.profileConfiguration || !this.player.profileConfiguration.id) {
+                    this.profileconfigurations = res.json;
+                } else {
+                    this.profileConfigurationService
+                        .find(this.player.profileConfiguration.id)
+                        .subscribe((subRes: ProfileConfiguration) => {
+                            this.profileconfigurations = [subRes].concat(res.json);
+                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
+                }
+            }, (res: ResponseWrapper) => this.onError(res.json));
         this.countryService.query()
             .subscribe((res: ResponseWrapper) => { this.countries = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
-        this.profileConfigurationService.query()
-            .subscribe((res: ResponseWrapper) => { this.profileconfigurations = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.achievementService.query()
             .subscribe((res: ResponseWrapper) => { this.achievements = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.teamService.query()
@@ -139,11 +150,11 @@ export class PlayerDialogComponent implements OnInit {
         return item.id;
     }
 
-    trackCountryById(index: number, item: Country) {
+    trackProfileConfigurationById(index: number, item: ProfileConfiguration) {
         return item.id;
     }
 
-    trackProfileConfigurationById(index: number, item: ProfileConfiguration) {
+    trackCountryById(index: number, item: Country) {
         return item.id;
     }
 

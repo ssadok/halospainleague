@@ -80,21 +80,15 @@
                 [(ngModel)]="profileConfiguration.showTutorial"  />
         </div>
 
-        <div class="form-group">
-            <label jhiTranslate="halospainleagueApp.profileConfiguration.player" for="field_player">Player</label>
-            <select class="form-control" id="field_player" name="player" [(ngModel)]="profileConfiguration.player" required>
-                <option [ngValue]="playerOption.id === profileConfiguration.player?.id ? profileConfiguration.player : playerOption" *ngFor="let playerOption of players; trackBy: trackPlayerById">{{playerOption.name}}</option>
-            </select>
+        <div [hidden]="!(editForm.controls.theme?.dirty && editForm.controls.theme?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.theme?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
         </div>
         <div [hidden]="!(editForm.controls.player?.dirty && editForm.controls.player?.invalid)">
             <small class="form-text text-danger"
                 [hidden]="!editForm.controls.player?.errors?.required" jhiTranslate="entity.validation.required">
-                This field is required.
-            </small>
-        </div>
-        <div [hidden]="!(editForm.controls.theme?.dirty && editForm.controls.theme?.invalid)">
-            <small class="form-text text-danger"
-                [hidden]="!editForm.controls.theme?.errors?.required" jhiTranslate="entity.validation.required">
                 This field is required.
             </small>
         </div>

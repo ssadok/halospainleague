@@ -315,7 +315,7 @@ relationship OneToOne{
   	//One player is assigned to a user
 	Player{user(login)} to User{player(name) required},
     //One user have one ProfileConfiguration
-    ProfileConfiguration{player(name) required} to Player{profileConfiguration(id) required},
+    Player{profileConfiguration(id) required} to ProfileConfiguration{player(name) required},
 
 	/**
     * MESSAGES

@@ -28,8 +28,8 @@
             "lastLogin": "Last Login",
             "firstRun": "First Run",
             "showTutorial": "Show Tutorial",
-            "player": "Player",
-            "theme": "Theme"
+            "theme": "Theme",
+            "player": "Player"
         }
     }
 }

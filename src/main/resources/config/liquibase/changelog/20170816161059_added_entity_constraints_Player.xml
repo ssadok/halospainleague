@@ -14,6 +14,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
 
+        <addForeignKeyConstraint baseColumnNames="profile_configuration_id"
+                                 baseTableName="player"
+                                 constraintName="fk_player_profile_configuration_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="profile_configuration"/>
+
         <addForeignKeyConstraint baseColumnNames="country_id"
                                  baseTableName="player"
                                  constraintName="fk_player_country_id"

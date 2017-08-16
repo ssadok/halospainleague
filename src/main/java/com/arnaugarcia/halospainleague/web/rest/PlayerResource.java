@@ -17,8 +17,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * REST controller for managing Player.
@@ -82,19 +80,11 @@ public class PlayerResource {
     /**
      * GET  /players : get all the players.
      *
-     * @param filter the filter of the request
      * @return the ResponseEntity with status 200 (OK) and the list of players in body
      */
     @GetMapping("/players")
     @Timed
-    public List<Player> getAllPlayers(@RequestParam(required = false) String filter) {
-        if ("profileconfiguration-is-null".equals(filter)) {
-            log.debug("REST request to get all Players where profileConfiguration is null");
-            return StreamSupport
-                .stream(playerRepository.findAll().spliterator(), false)
-                .filter(player -> player.getProfileConfiguration() == null)
-                .collect(Collectors.toList());
-        }
+    public List<Player> getAllPlayers() {
         log.debug("REST request to get all Players");
         return playerRepository.findAll();
     }

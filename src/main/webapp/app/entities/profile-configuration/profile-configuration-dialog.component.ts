@@ -34,19 +34,8 @@ export class ProfileConfigurationDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.playerService
-            .query({filter: 'profileconfiguration(id)-is-null'})
-            .subscribe((res: ResponseWrapper) => {
-                if (!this.profileConfiguration.player || !this.profileConfiguration.player.id) {
-                    this.players = res.json;
-                } else {
-                    this.playerService
-                        .find(this.profileConfiguration.player.id)
-                        .subscribe((subRes: Player) => {
-                            this.players = [subRes].concat(res.json);
-                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
-                }
-            }, (res: ResponseWrapper) => this.onError(res.json));
+        this.playerService.query()
+            .subscribe((res: ResponseWrapper) => { this.players = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {

@@ -104,6 +104,11 @@ public class Player implements Serializable {
     @JoinColumn(unique = true)
     private User user;
 
+    @OneToOne(optional = false)
+    @NotNull
+    @JoinColumn(unique = true)
+    private ProfileConfiguration profileConfiguration;
+
     /**
      * Accounts and Settings
      */
@@ -119,10 +124,6 @@ public class Player implements Serializable {
     @ApiModelProperty(value = "Accounts and Settings")
     @ManyToOne
     private Country country;
-
-    @OneToOne(mappedBy = "player")
-    @JsonIgnore
-    private ProfileConfiguration profileConfiguration;
 
     @OneToMany(mappedBy = "player")
     @JsonIgnore
@@ -399,6 +400,19 @@ public class Player implements Serializable {
         this.user = user;
     }
 
+    public ProfileConfiguration getProfileConfiguration() {
+        return profileConfiguration;
+    }
+
+    public Player profileConfiguration(ProfileConfiguration profileConfiguration) {
+        this.profileConfiguration = profileConfiguration;
+        return this;
+    }
+
+    public void setProfileConfiguration(ProfileConfiguration profileConfiguration) {
+        this.profileConfiguration = profileConfiguration;
+    }
+
     public Set<SocialAccount> getSocialAccounts() {
         return socialAccounts;
     }
@@ -435,19 +449,6 @@ public class Player implements Serializable {
 
     public void setCountry(Country country) {
         this.country = country;
-    }
-
-    public ProfileConfiguration getProfileConfiguration() {
-        return profileConfiguration;
-    }
-
-    public Player profileConfiguration(ProfileConfiguration profileConfiguration) {
-        this.profileConfiguration = profileConfiguration;
-        return this;
-    }
-
-    public void setProfileConfiguration(ProfileConfiguration profileConfiguration) {
-        this.profileConfiguration = profileConfiguration;
     }
 
     public Set<Notification> getNotifications() {

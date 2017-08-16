@@ -82,6 +82,12 @@
         <dd>
             {{player.user?.login}}
         </dd>
+        <dt><span jhiTranslate="halospainleagueApp.player.profileConfiguration">Profile Configuration</span></dt>
+        <dd>
+            <div *ngIf="player.profileConfiguration">
+                <a [routerLink]="['/profile-configuration', player.profileConfiguration?.id]">{{player.profileConfiguration?.id}}</a>
+            </div>
+        </dd>
         <dt><span jhiTranslate="halospainleagueApp.player.country">Country</span></dt>
         <dd>
             <div *ngIf="player.country">

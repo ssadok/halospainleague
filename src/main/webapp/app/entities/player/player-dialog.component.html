@@ -157,10 +157,9 @@
             </select>
         </div>
         <div class="form-group">
-            <label jhiTranslate="halospainleagueApp.player.country" for="field_country">Country</label>
-            <select class="form-control" id="field_country" name="country" [(ngModel)]="player.country" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="countryOption.id === player.country?.id ? player.country : countryOption" *ngFor="let countryOption of countries; trackBy: trackCountryById">{{countryOption.name}}</option>
+            <label jhiTranslate="halospainleagueApp.player.profileConfiguration" for="field_profileConfiguration">Profile Configuration</label>
+            <select class="form-control" id="field_profileConfiguration" name="profileConfiguration" [(ngModel)]="player.profileConfiguration" required>
+                <option [ngValue]="profileConfigurationOption.id === player.profileConfiguration?.id ? player.profileConfiguration : profileConfigurationOption" *ngFor="let profileConfigurationOption of profileconfigurations; trackBy: trackProfileConfigurationById">{{profileConfigurationOption.id}}</option>
             </select>
         </div>
         <div [hidden]="!(editForm.controls.profileConfiguration?.dirty && editForm.controls.profileConfiguration?.invalid)">
@@ -168,6 +167,13 @@
                 [hidden]="!editForm.controls.profileConfiguration?.errors?.required" jhiTranslate="entity.validation.required">
                 This field is required.
             </small>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="halospainleagueApp.player.country" for="field_country">Country</label>
+            <select class="form-control" id="field_country" name="country" [(ngModel)]="player.country" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="countryOption.id === player.country?.id ? player.country : countryOption" *ngFor="let countryOption of countries; trackBy: trackCountryById">{{countryOption.name}}</option>
+            </select>
         </div>
     </div>
     <div class="modal-footer">

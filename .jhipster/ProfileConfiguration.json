@@ -2,19 +2,18 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipType": "one-to-one",
-            "relationshipValidateRules": "required",
-            "relationshipName": "player",
-            "otherEntityName": "player",
-            "otherEntityField": "name",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "profileConfiguration(id)"
-        },
-        {
             "relationshipType": "one-to-many",
             "relationshipValidateRules": "required",
             "relationshipName": "theme",
             "otherEntityName": "theme",
+            "otherEntityRelationshipName": "profileConfiguration"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "player",
+            "otherEntityName": "player",
+            "ownerSide": false,
             "otherEntityRelationshipName": "profileConfiguration"
         }
     ],

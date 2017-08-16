@@ -68,15 +68,14 @@ public class ProfileConfiguration implements Serializable {
     @Column(name = "show_tutorial")
     private Boolean showTutorial;
 
-    @OneToOne(optional = false)
-    @NotNull
-    @JoinColumn(unique = true)
-    private Player player;
-
     @OneToMany(mappedBy = "profileConfiguration")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Theme> themes = new HashSet<>();
+
+    @OneToOne(mappedBy = "profileConfiguration")
+    @JsonIgnore
+    private Player player;
 
     public Long getId() {
         return id;
@@ -255,19 +254,6 @@ public class ProfileConfiguration implements Serializable {
         this.showTutorial = showTutorial;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    public ProfileConfiguration player(Player player) {
-        this.player = player;
-        return this;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
     public Set<Theme> getThemes() {
         return themes;
     }
@@ -291,6 +277,19 @@ public class ProfileConfiguration implements Serializable {
 
     public void setThemes(Set<Theme> themes) {
         this.themes = themes;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public ProfileConfiguration player(Player player) {
+        this.player = player;
+        return this;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     @Override

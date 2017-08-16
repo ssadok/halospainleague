@@ -34,6 +34,7 @@
             <th><span jhiTranslate="halospainleagueApp.player.address">Address</span></th>
             <th><span jhiTranslate="halospainleagueApp.player.timeZone">Time Zone</span></th>
             <th><span jhiTranslate="halospainleagueApp.player.user">User</span></th>
+            <th><span jhiTranslate="halospainleagueApp.player.profileConfiguration">Profile Configuration</span></th>
             <th><span jhiTranslate="halospainleagueApp.player.country">Country</span></th>
             <th></th>
             </tr>
@@ -69,6 +70,11 @@
                 <td>{{player.timeZone}}</td>
                 <td>
                     {{player.user?.login}}
+                </td>
+                <td>
+                    <div *ngIf="player.profileConfiguration">
+                        <a [routerLink]="['../profile-configuration', player.profileConfiguration?.id ]" >{{player.profileConfiguration?.id}}</a>
+                    </div>
                 </td>
                 <td>
                     <div *ngIf="player.country">

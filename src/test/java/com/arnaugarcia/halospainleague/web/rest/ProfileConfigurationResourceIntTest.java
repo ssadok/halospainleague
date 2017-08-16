@@ -3,8 +3,8 @@ package com.arnaugarcia.halospainleague.web.rest;
 import com.arnaugarcia.halospainleague.HalospainleagueApp;
 
 import com.arnaugarcia.halospainleague.domain.ProfileConfiguration;
-import com.arnaugarcia.halospainleague.domain.Player;
 import com.arnaugarcia.halospainleague.domain.Theme;
+import com.arnaugarcia.halospainleague.domain.Player;
 import com.arnaugarcia.halospainleague.repository.ProfileConfigurationRepository;
 import com.arnaugarcia.halospainleague.web.rest.errors.ExceptionTranslator;
 
@@ -134,15 +134,15 @@ public class ProfileConfigurationResourceIntTest {
             .firstRun(DEFAULT_FIRST_RUN)
             .showTutorial(DEFAULT_SHOW_TUTORIAL);
         // Add required entity
-        Player player = PlayerResourceIntTest.createEntity(em);
-        em.persist(player);
-        em.flush();
-        profileConfiguration.setPlayer(player);
-        // Add required entity
         Theme theme = ThemeResourceIntTest.createEntity(em);
         em.persist(theme);
         em.flush();
         profileConfiguration.getThemes().add(theme);
+        // Add required entity
+        Player player = PlayerResourceIntTest.createEntity(em);
+        em.persist(player);
+        em.flush();
+        profileConfiguration.setPlayer(player);
         return profileConfiguration;
     }
 

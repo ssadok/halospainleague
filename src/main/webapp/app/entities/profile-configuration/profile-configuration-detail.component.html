@@ -56,12 +56,6 @@
         <dd>
             <span>{{profileConfiguration.showTutorial}}</span>
         </dd>
-        <dt><span jhiTranslate="halospainleagueApp.profileConfiguration.player">Player</span></dt>
-        <dd>
-            <div *ngIf="profileConfiguration.player">
-                <a [routerLink]="['/player', profileConfiguration.player?.id]">{{profileConfiguration.player?.name}}</a>
-            </div>
-        </dd>
     </dl>
 
     <button type="submit"
