@@ -63,6 +63,34 @@ entity Match {
 }
 
 /**
+ * Class ResultMatch.
+ * @author arnaugarcia.
+ */
+entity ResultMatch {
+	reference String
+}
+
+/**
+ * Class ModeMatch.
+ * @author arnaugarcia.
+ */
+entity MatchMode {
+	reference String,
+    timeToWin Integer,
+  	scoreToWin Integer,
+    gameMode GameMode
+}
+
+/**
+ * Class Match.
+ * @author arnaugarcia.
+ */
+entity TeamList {
+	reference String,
+    score Integer
+}
+
+/**
  * Class Map.
  * @author arnaugarcia.
  */
@@ -70,14 +98,6 @@ entity Map {
 	name String,
     image ImageBlob,
     cover ImageBlob
-}
-
-/**
- * Class ResultMatch.
- * @author arnaugarcia.
- */
-entity ResultMatch {
-	reference String
 }
 
 /**
@@ -240,6 +260,10 @@ enum NotificationType{
     NOTIFICATION, INVITATION, ALERT
 }
 
+enum GameMode{
+	SLAYER, FLAGS, OBJECTIVE
+}
+
 /**
  * Relationships
  */
@@ -291,6 +315,8 @@ relationship ManyToMany{
 	Team{player(name)} to Player{team(name)},
   	//Varios Equipos pueden estar en varios Torneos
     Tournament{team(name)} to Team{torunament(name)},
+    //Varios equipos pueden estar en una match list
+    Match{teamList(reference)} to TeamList{match(reference)},
 
     //Friend relationship
     //Player{player(name)} to Player{player(name)},
@@ -300,6 +326,7 @@ relationship ManyToMany{
     */
 	//Various players can be or own a MessageRoom
 	MessageRoom{player(name)} to Player{messageRoom(title)}
+
 }
 
 relationship OneToOne{
