@@ -28,5 +28,6 @@
     "entityTableName": "social_account",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "no",
+    "jpaMetamodelFiltering": true
 }

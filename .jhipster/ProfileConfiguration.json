@@ -76,5 +76,6 @@
     "entityTableName": "profile_configuration",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "no",
+    "jpaMetamodelFiltering": true
 }

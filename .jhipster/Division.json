@@ -6,5 +6,6 @@
     "entityTableName": "division",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "no",
+    "jpaMetamodelFiltering": true
 }

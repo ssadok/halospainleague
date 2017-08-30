@@ -5,34 +5,6 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161052_added_entity_Game.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161053_added_entity_Tournament.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161054_added_entity_Division.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161055_added_entity_Team.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161056_added_entity_Match.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161057_added_entity_Map.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161058_added_entity_ResultMatch.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161059_added_entity_Player.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161100_added_entity_Country.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161101_added_entity_SocialAccount.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161102_added_entity_Achievement.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161103_added_entity_ProfileConfiguration.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161104_added_entity_Notification.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161105_added_entity_MessageRoom.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161106_added_entity_Message.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161107_added_entity_Theme.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <include file="config/liquibase/changelog/20170816161053_added_entity_constraints_Tournament.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161056_added_entity_constraints_Match.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161057_added_entity_constraints_Map.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161059_added_entity_constraints_Player.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161101_added_entity_constraints_SocialAccount.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161102_added_entity_constraints_Achievement.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161103_added_entity_constraints_ProfileConfiguration.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161104_added_entity_constraints_Notification.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161106_added_entity_constraints_Message.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161107_added_entity_constraints_Theme.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161055_added_entity_constraints_Team.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170816161105_added_entity_constraints_MessageRoom.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

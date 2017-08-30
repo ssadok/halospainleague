@@ -50,5 +50,6 @@
     "entityTableName": "game",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "no",
+    "jpaMetamodelFiltering": true
 }

@@ -55,5 +55,6 @@
     "entityTableName": "message_room",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "no",
+    "jpaMetamodelFiltering": true
 }

@@ -7,22 +7,6 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Entitats",
-                "game": "Game",
-                "tournament": "Tournament",
-                "division": "Division",
-                "team": "Team",
-                "match": "Match",
-                "map": "Map",
-                "resultMatch": "Result Match",
-                "player": "Player",
-                "country": "Country",
-                "socialAccount": "Social Account",
-                "achievement": "Achievement",
-                "profileConfiguration": "Profile Configuration",
-                "notification": "Notification",
-                "messageRoom": "Message Room",
-                "message": "Message",
-                "theme": "Theme",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
