@@ -32,6 +32,7 @@
             <th><span jhiTranslate="halospainleagueApp.team.premium">Premium</span></th>
             <th><span jhiTranslate="halospainleagueApp.team.player">Player</span></th>
             <th><span jhiTranslate="halospainleagueApp.team.teamList">Team List</span></th>
+            <th><span jhiTranslate="halospainleagueApp.team.division">Division</span></th>
             <th></th>
             </tr>
             </thead>
@@ -70,6 +71,11 @@
                     <span *ngFor="let teamList of team.teamLists; let last = last">
                             <a class="form-control-static" [routerLink]="['../team-list', teamList?.id ]">{{teamList.reference}}</a>{{last ? '' : ', '}}
                         </span>
+                </td>
+                <td>
+                    <div *ngIf="team.division">
+                        <a [routerLink]="['../division', team.division?.id ]" >{{team.division?.name}}</a>
+                    </div>
                 </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">

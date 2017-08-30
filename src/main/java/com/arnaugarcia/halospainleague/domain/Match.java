@@ -1,5 +1,6 @@
 package com.arnaugarcia.halospainleague.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Cache;
@@ -7,6 +8,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -48,6 +51,11 @@ public class Match implements Serializable {
 
     @ManyToOne
     private Map map;
+
+    @OneToMany(mappedBy = "match")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<MatchMode> matchModes = new HashSet<>();
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
@@ -134,6 +142,31 @@ public class Match implements Serializable {
 
     public void setMap(Map map) {
         this.map = map;
+    }
+
+    public Set<MatchMode> getMatchModes() {
+        return matchModes;
+    }
+
+    public Match matchModes(Set<MatchMode> matchModes) {
+        this.matchModes = matchModes;
+        return this;
+    }
+
+    public Match addMatchMode(MatchMode matchMode) {
+        this.matchModes.add(matchMode);
+        matchMode.setMatch(this);
+        return this;
+    }
+
+    public Match removeMatchMode(MatchMode matchMode) {
+        this.matchModes.remove(matchMode);
+        matchMode.setMatch(null);
+        return this;
+    }
+
+    public void setMatchModes(Set<MatchMode> matchModes) {
+        this.matchModes = matchModes;
     }
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 

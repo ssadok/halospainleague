@@ -20,6 +20,12 @@
         <dd>
             <span jhiTranslate="{{'halospainleagueApp.GameMode.' + matchMode.gameMode}}">{{matchMode.gameMode}}</span>
         </dd>
+        <dt><span jhiTranslate="halospainleagueApp.matchMode.match">Match</span></dt>
+        <dd>
+            <div *ngIf="matchMode.match">
+                <a [routerLink]="['/match', matchMode.match?.id]">{{matchMode.match?.reference}}</a>
+            </div>
+        </dd>
     </dl>
 
     <button type="submit"

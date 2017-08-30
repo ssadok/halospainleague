@@ -35,5 +35,6 @@
     <include file="config/liquibase/changelog/20170816161105_added_entity_constraints_MessageRoom.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170816161106_added_entity_constraints_Message.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170816161107_added_entity_constraints_Theme.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170830133634_added_entity_constraints_MatchMode.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

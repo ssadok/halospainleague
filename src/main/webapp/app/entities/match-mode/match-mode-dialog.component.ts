@@ -9,6 +9,8 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { MatchMode } from './match-mode.model';
 import { MatchModePopupService } from './match-mode-popup.service';
 import { MatchModeService } from './match-mode.service';
+import { Match, MatchService } from '../match';
+import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-match-mode-dialog',
@@ -19,16 +21,21 @@ export class MatchModeDialogComponent implements OnInit {
     matchMode: MatchMode;
     isSaving: boolean;
 
+    matches: Match[];
+
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private matchModeService: MatchModeService,
+        private matchService: MatchService,
         private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
+        this.matchService.query()
+            .subscribe((res: ResponseWrapper) => { this.matches = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -69,6 +76,10 @@ export class MatchModeDialogComponent implements OnInit {
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
+    }
+
+    trackMatchById(index: number, item: Match) {
+        return item.id;
     }
 }
 

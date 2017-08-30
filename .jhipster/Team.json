@@ -19,6 +19,12 @@
             "ownerSide": true
         },
         {
+            "relationshipType": "many-to-one",
+            "relationshipName": "division",
+            "otherEntityName": "division",
+            "otherEntityField": "name"
+        },
+        {
             "relationshipType": "many-to-many",
             "relationshipName": "torunament",
             "otherEntityName": "tournament",

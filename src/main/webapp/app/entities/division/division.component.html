@@ -17,12 +17,18 @@
             <thead>
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="halospainleagueApp.division.name">Name</span></th>
+            <th><span jhiTranslate="halospainleagueApp.division.maxPlayers">Max Players</span></th>
+            <th><span jhiTranslate="halospainleagueApp.division.divisionType">Division Type</span></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let division of divisions ;trackBy: trackId">
                 <td><a [routerLink]="['../division', division.id ]">{{division.id}}</a></td>
+                <td>{{division.name}}</td>
+                <td>{{division.maxPlayers}}</td>
+                <td jhiTranslate="{{'halospainleagueApp.DivisionType.' + division.divisionType}}">{{division.divisionType}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

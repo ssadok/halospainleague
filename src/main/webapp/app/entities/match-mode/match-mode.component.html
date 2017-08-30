@@ -21,6 +21,7 @@
             <th><span jhiTranslate="halospainleagueApp.matchMode.timeToWin">Time To Win</span></th>
             <th><span jhiTranslate="halospainleagueApp.matchMode.scoreToWin">Score To Win</span></th>
             <th><span jhiTranslate="halospainleagueApp.matchMode.gameMode">Game Mode</span></th>
+            <th><span jhiTranslate="halospainleagueApp.matchMode.match">Match</span></th>
             <th></th>
             </tr>
             </thead>
@@ -31,6 +32,11 @@
                 <td>{{matchMode.timeToWin}}</td>
                 <td>{{matchMode.scoreToWin}}</td>
                 <td jhiTranslate="{{'halospainleagueApp.GameMode.' + matchMode.gameMode}}">{{matchMode.gameMode}}</td>
+                <td>
+                    <div *ngIf="matchMode.match">
+                        <a [routerLink]="['../match', matchMode.match?.id ]" >{{matchMode.match?.reference}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

@@ -14,7 +14,11 @@
             },
             "detail": {
                 "title": "Division"
-            }
+            },
+            "name": "Name",
+            "maxPlayers": "Max Players",
+            "divisionType": "Division Type",
+            "team": "Team"
         }
     }
 }

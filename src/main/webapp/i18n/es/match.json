@@ -20,7 +20,8 @@
             "resultMatch": "Result Match",
             "teamList": "Team List",
             "tournament": "Tournament",
-            "map": "Map"
+            "map": "Map",
+            "matchMode": "Match Mode"
         }
     }
 }

@@ -78,6 +78,12 @@
                 <a [routerLink]="['/team-list', teamList?.id ]">{{teamList.reference}}</a>{{last ? '' : ', '}}
             </span>
         </dd>
+        <dt><span jhiTranslate="halospainleagueApp.team.division">Division</span></dt>
+        <dd>
+            <div *ngIf="team.division">
+                <a [routerLink]="['/division', team.division?.id]">{{team.division?.name}}</a>
+            </div>
+        </dd>
     </dl>
 
     <button type="submit"

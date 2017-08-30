@@ -30,5 +30,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="team_list"/>
         
+        <addForeignKeyConstraint baseColumnNames="division_id"
+                                 baseTableName="team"
+                                 constraintName="fk_team_division_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="division"/>
+
     </changeSet>
 </databaseChangeLog>

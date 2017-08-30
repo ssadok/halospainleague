@@ -18,7 +18,8 @@
             "reference": "Reference",
             "timeToWin": "Time To Win",
             "scoreToWin": "Score To Win",
-            "gameMode": "Game Mode"
+            "gameMode": "Game Mode",
+            "match": "Match"
         }
     }
 }

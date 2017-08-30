@@ -97,6 +97,9 @@ public class Team implements Serializable {
                inverseJoinColumns = @JoinColumn(name="team_lists_id", referencedColumnName="id"))
     private Set<TeamList> teamLists = new HashSet<>();
 
+    @ManyToOne
+    private Division division;
+
     @ManyToMany(mappedBy = "teams")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -354,6 +357,19 @@ public class Team implements Serializable {
 
     public void setTeamLists(Set<TeamList> teamLists) {
         this.teamLists = teamLists;
+    }
+
+    public Division getDivision() {
+        return division;
+    }
+
+    public Team division(Division division) {
+        this.division = division;
+        return this;
+    }
+
+    public void setDivision(Division division) {
+        this.division = division;
     }
 
     public Set<Tournament> getTorunaments() {

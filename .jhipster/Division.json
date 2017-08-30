@@ -1,11 +1,31 @@
 {
     "fluentMethods": true,
-    "relationships": [],
-    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "team",
+            "otherEntityName": "team",
+            "otherEntityRelationshipName": "division"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "maxPlayers",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "divisionType",
+            "fieldType": "DivisionType",
+            "fieldValues": "GOLD,SILVER,BRONCE"
+        }
+    ],
     "changelogDate": "20170816161054",
     "entityTableName": "division",
     "dto": "no",
     "pagination": "no",
-    "service": "no",
-    "jpaMetamodelFiltering": true
+    "service": "no"
 }

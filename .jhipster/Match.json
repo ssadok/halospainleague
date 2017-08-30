@@ -29,6 +29,12 @@
             "relationshipName": "map",
             "otherEntityName": "map",
             "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "matchMode",
+            "otherEntityName": "matchMode",
+            "otherEntityRelationshipName": "match"
         }
     ],
     "fields": [

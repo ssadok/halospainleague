@@ -39,6 +39,9 @@ public class MatchMode implements Serializable {
     @Column(name = "game_mode")
     private GameMode gameMode;
 
+    @ManyToOne
+    private Match match;
+
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -98,6 +101,19 @@ public class MatchMode implements Serializable {
 
     public void setGameMode(GameMode gameMode) {
         this.gameMode = gameMode;
+    }
+
+    public Match getMatch() {
+        return match;
+    }
+
+    public MatchMode match(Match match) {
+        this.match = match;
+        return this;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
     }
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 

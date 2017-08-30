@@ -1,0 +1,10 @@
+{
+    "halospainleagueApp": {
+        "DivisionType" : {
+            "null": "",
+            "GOLD": "GOLD",
+            "SILVER": "SILVER",
+            "BRONCE": "BRONCE"
+        }
+    }
+}

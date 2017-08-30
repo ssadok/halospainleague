@@ -11,6 +11,7 @@ import { TeamPopupService } from './team-popup.service';
 import { TeamService } from './team.service';
 import { Player, PlayerService } from '../player';
 import { TeamList, TeamListService } from '../team-list';
+import { Division, DivisionService } from '../division';
 import { Tournament, TournamentService } from '../tournament';
 import { ResponseWrapper } from '../../shared';
 
@@ -27,6 +28,8 @@ export class TeamDialogComponent implements OnInit {
 
     teamlists: TeamList[];
 
+    divisions: Division[];
+
     tournaments: Tournament[];
 
     constructor(
@@ -36,6 +39,7 @@ export class TeamDialogComponent implements OnInit {
         private teamService: TeamService,
         private playerService: PlayerService,
         private teamListService: TeamListService,
+        private divisionService: DivisionService,
         private tournamentService: TournamentService,
         private elementRef: ElementRef,
         private eventManager: JhiEventManager
@@ -48,6 +52,8 @@ export class TeamDialogComponent implements OnInit {
             .subscribe((res: ResponseWrapper) => { this.players = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.teamListService.query()
             .subscribe((res: ResponseWrapper) => { this.teamlists = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.divisionService.query()
+            .subscribe((res: ResponseWrapper) => { this.divisions = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.tournamentService.query()
             .subscribe((res: ResponseWrapper) => { this.tournaments = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
@@ -113,6 +119,10 @@ export class TeamDialogComponent implements OnInit {
     }
 
     trackTeamListById(index: number, item: TeamList) {
+        return item.id;
+    }
+
+    trackDivisionById(index: number, item: Division) {
         return item.id;
     }
 

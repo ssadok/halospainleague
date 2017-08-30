@@ -30,7 +30,9 @@ entity Tournament{
 //TODO DIVISION
 //Multiple Teams CAN belong to a division
 entity Division{
-
+	name String
+    maxPlayers Integer,
+    divisionType DivisionType
 }
 
 /**
@@ -264,6 +266,10 @@ enum GameMode{
 	SLAYER, FLAGS, OBJECTIVE
 }
 
+enum DivisionType{
+	GOLD, SILVER, BRONCE
+}
+
 /**
  * Relationships
  */
@@ -281,6 +287,8 @@ relationship OneToMany{
     //En un torneo se juegan varias partidas
     Tournament{match(reference)} to Match{tournament(name)},
     Map{match(reference)} to Match{map(name)},
+    //Una division puede contener varios equipos
+    Division{team(name)} to Team{division(name)},
 
   	/**
     * Accounts and Settings
@@ -298,7 +306,9 @@ relationship ManyToOne{
 	//Varios jugadores pueden tener un solo Country
     Player{country(name)} to Country{player(name)},
     //Varias Notificaciones tienen asigandas un Jugador
-    Notification{player(name)} to Player{notification}
+    Notification{player(name)} to Player{notification},
+    //Varios tipos de partida pueden estar en una partida
+    MatchMode{match(reference)} to Match{matchMode(reference)}
 }
 
 relationship ManyToMany{
@@ -336,7 +346,7 @@ relationship OneToOne{
     */
     //Una partida tiene un resultado
     Match{resultMatch(reference)} to ResultMatch{match(reference)},
-    Match{teamList(reference)} to TeamList{match(reference)}
+    Match{teamList(reference)} to TeamList{match(reference)},
 
     /**
     * Profile, User, Account and ProfileConfiguration

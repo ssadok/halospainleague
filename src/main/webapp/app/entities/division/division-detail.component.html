@@ -4,6 +4,18 @@
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="halospainleagueApp.division.name">Name</span></dt>
+        <dd>
+            <span>{{division.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.division.maxPlayers">Max Players</span></dt>
+        <dd>
+            <span>{{division.maxPlayers}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.division.divisionType">Division Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'halospainleagueApp.DivisionType.' + division.divisionType}}">{{division.divisionType}}</span>
+        </dd>
     </dl>
 
     <button type="submit"

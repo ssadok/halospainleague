@@ -28,6 +28,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.arnaugarcia.halospainleague.domain.enumeration.DivisionType;
 /**
  * Test class for the DivisionResource REST controller.
  *
@@ -36,6 +37,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = HalospainleagueApp.class)
 public class DivisionResourceIntTest {
+
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
+    private static final Integer DEFAULT_MAX_PLAYERS = 1;
+    private static final Integer UPDATED_MAX_PLAYERS = 2;
+
+    private static final DivisionType DEFAULT_DIVISION_TYPE = DivisionType.GOLD;
+    private static final DivisionType UPDATED_DIVISION_TYPE = DivisionType.SILVER;
 
     @Autowired
     private DivisionRepository divisionRepository;
@@ -73,7 +83,10 @@ public class DivisionResourceIntTest {
      * if they test an entity which requires the current entity.
      */
     public static Division createEntity(EntityManager em) {
-        Division division = new Division();
+        Division division = new Division()
+            .name(DEFAULT_NAME)
+            .maxPlayers(DEFAULT_MAX_PLAYERS)
+            .divisionType(DEFAULT_DIVISION_TYPE);
         return division;
     }
 
@@ -97,6 +110,9 @@ public class DivisionResourceIntTest {
         List<Division> divisionList = divisionRepository.findAll();
         assertThat(divisionList).hasSize(databaseSizeBeforeCreate + 1);
         Division testDivision = divisionList.get(divisionList.size() - 1);
+        assertThat(testDivision.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testDivision.getMaxPlayers()).isEqualTo(DEFAULT_MAX_PLAYERS);
+        assertThat(testDivision.getDivisionType()).isEqualTo(DEFAULT_DIVISION_TYPE);
     }
 
     @Test
@@ -128,7 +144,10 @@ public class DivisionResourceIntTest {
         restDivisionMockMvc.perform(get("/api/divisions?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(division.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(division.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].maxPlayers").value(hasItem(DEFAULT_MAX_PLAYERS)))
+            .andExpect(jsonPath("$.[*].divisionType").value(hasItem(DEFAULT_DIVISION_TYPE.toString())));
     }
 
     @Test
@@ -141,7 +160,10 @@ public class DivisionResourceIntTest {
         restDivisionMockMvc.perform(get("/api/divisions/{id}", division.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(division.getId().intValue()));
+            .andExpect(jsonPath("$.id").value(division.getId().intValue()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+            .andExpect(jsonPath("$.maxPlayers").value(DEFAULT_MAX_PLAYERS))
+            .andExpect(jsonPath("$.divisionType").value(DEFAULT_DIVISION_TYPE.toString()));
     }
 
     @Test
@@ -161,6 +183,10 @@ public class DivisionResourceIntTest {
 
         // Update the division
         Division updatedDivision = divisionRepository.findOne(division.getId());
+        updatedDivision
+            .name(UPDATED_NAME)
+            .maxPlayers(UPDATED_MAX_PLAYERS)
+            .divisionType(UPDATED_DIVISION_TYPE);
 
         restDivisionMockMvc.perform(put("/api/divisions")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -171,6 +197,9 @@ public class DivisionResourceIntTest {
         List<Division> divisionList = divisionRepository.findAll();
         assertThat(divisionList).hasSize(databaseSizeBeforeUpdate);
         Division testDivision = divisionList.get(divisionList.size() - 1);
+        assertThat(testDivision.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testDivision.getMaxPlayers()).isEqualTo(UPDATED_MAX_PLAYERS);
+        assertThat(testDivision.getDivisionType()).isEqualTo(UPDATED_DIVISION_TYPE);
     }
 
     @Test

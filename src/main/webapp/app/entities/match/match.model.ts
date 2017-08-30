@@ -9,6 +9,7 @@ export class Match implements BaseEntity {
         public teamList?: BaseEntity,
         public tournament?: BaseEntity,
         public map?: BaseEntity,
+        public matchModes?: BaseEntity[],
     ) {
     }
 }

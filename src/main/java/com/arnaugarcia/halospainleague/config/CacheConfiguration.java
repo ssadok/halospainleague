@@ -80,6 +80,8 @@ public class CacheConfiguration {
             cm.createCache(com.arnaugarcia.halospainleague.domain.MatchMode.class.getName(), jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.TeamList.class.getName(), jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.TeamList.class.getName() + ".teams", jcacheConfiguration);
+            cm.createCache(com.arnaugarcia.halospainleague.domain.Division.class.getName() + ".teams", jcacheConfiguration);
+            cm.createCache(com.arnaugarcia.halospainleague.domain.Match.class.getName() + ".matchModes", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

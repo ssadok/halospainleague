@@ -12,6 +12,24 @@
             <input type="text" class="form-control" id="id" name="id"
                    [(ngModel)]="division.id" readonly />
         </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.division.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="division.name"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.division.maxPlayers" for="field_maxPlayers">Max Players</label>
+            <input type="number" class="form-control" name="maxPlayers" id="field_maxPlayers"
+                [(ngModel)]="division.maxPlayers"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.division.divisionType" for="field_divisionType">Division Type</label>
+            <select class="form-control" name="divisionType" [(ngModel)]="division.divisionType" id="field_divisionType" >
+                <option value="GOLD">{{'halospainleagueApp.DivisionType.GOLD' | translate}}</option>
+                <option value="SILVER">{{'halospainleagueApp.DivisionType.SILVER' | translate}}</option>
+                <option value="BRONCE">{{'halospainleagueApp.DivisionType.BRONCE' | translate}}</option>
+            </select>
+        </div>
 
     </div>
     <div class="modal-footer">
