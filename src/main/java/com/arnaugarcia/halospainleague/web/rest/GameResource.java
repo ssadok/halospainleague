@@ -30,7 +30,6 @@ public class GameResource {
     private static final String ENTITY_NAME = "game";
 
     private final GameRepository gameRepository;
-
     public GameResource(GameRepository gameRepository) {
         this.gameRepository = gameRepository;
     }
@@ -87,7 +86,7 @@ public class GameResource {
     public List<Game> getAllGames() {
         log.debug("REST request to get all Games");
         return gameRepository.findAll();
-    }
+        }
 
     /**
      * GET  /games/:id : get the "id" game.

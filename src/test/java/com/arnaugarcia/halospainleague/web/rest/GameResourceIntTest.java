@@ -83,7 +83,7 @@ public class GameResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        GameResource gameResource = new GameResource(gameRepository);
+        final GameResource gameResource = new GameResource(gameRepository);
         this.restGameMockMvc = MockMvcBuilders.standaloneSetup(gameResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

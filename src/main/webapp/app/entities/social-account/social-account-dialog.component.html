@@ -20,11 +20,11 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="halospainleagueApp.socialAccount.platform" for="field_platform">Platform</label>
             <select class="form-control" name="platform" [(ngModel)]="socialAccount.platform" id="field_platform" >
-                <option value="PC" jhiTranslate="halospainleagueApp.Platform.PC">PC</option>
-                <option value="XB360" jhiTranslate="halospainleagueApp.Platform.XB360">XB360</option>
-                <option value="XBONE" jhiTranslate="halospainleagueApp.Platform.XBONE">XBONE</option>
-                <option value="PS3" jhiTranslate="halospainleagueApp.Platform.PS3">PS3</option>
-                <option value="PS4" jhiTranslate="halospainleagueApp.Platform.PS4">PS4</option>
+                <option value="PC">{{'halospainleagueApp.Platform.PC' | translate}}</option>
+                <option value="XB360">{{'halospainleagueApp.Platform.XB360' | translate}}</option>
+                <option value="XBONE">{{'halospainleagueApp.Platform.XBONE' | translate}}</option>
+                <option value="PS3">{{'halospainleagueApp.Platform.PS3' | translate}}</option>
+                <option value="PS4">{{'halospainleagueApp.Platform.PS4' | translate}}</option>
             </select>
         </div>
         <div class="form-group">
@@ -34,7 +34,7 @@
         </div>
 
         <div class="form-group">
-            <label jhiTranslate="halospainleagueApp.socialAccount.player" for="field_player">Player</label>
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.socialAccount.player" for="field_player">Player</label>
             <select class="form-control" id="field_player" name="player" [(ngModel)]="socialAccount.player" >
                 <option [ngValue]="null"></option>
                 <option [ngValue]="playerOption.id === socialAccount.player?.id ? socialAccount.player : playerOption" *ngFor="let playerOption of players; trackBy: trackPlayerById">{{playerOption.name}}</option>

@@ -14,6 +14,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="result_match"/>
 
+        <addForeignKeyConstraint baseColumnNames="team_list_id"
+                                 baseTableName="jhi_match"
+                                 constraintName="fk_match_team_list_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="team_list"/>
+
         <addForeignKeyConstraint baseColumnNames="tournament_id"
                                  baseTableName="jhi_match"
                                  constraintName="fk_match_tournament_id"

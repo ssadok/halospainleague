@@ -31,6 +31,7 @@
             <th><span jhiTranslate="halospainleagueApp.team.position">Position</span></th>
             <th><span jhiTranslate="halospainleagueApp.team.premium">Premium</span></th>
             <th><span jhiTranslate="halospainleagueApp.team.player">Player</span></th>
+            <th><span jhiTranslate="halospainleagueApp.team.teamList">Team List</span></th>
             <th></th>
             </tr>
             </thead>
@@ -63,6 +64,11 @@
                 <td>
                     <span *ngFor="let player of team.players; let last = last">
                             <a class="form-control-static" [routerLink]="['../player', player?.id ]">{{player.name}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td>
+                    <span *ngFor="let teamList of team.teamLists; let last = last">
+                            <a class="form-control-static" [routerLink]="['../team-list', teamList?.id ]">{{teamList.reference}}</a>{{last ? '' : ', '}}
                         </span>
                 </td>
                 <td class="text-right">

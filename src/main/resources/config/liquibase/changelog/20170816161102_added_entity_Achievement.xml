@@ -53,4 +53,5 @@
         <addPrimaryKey columnNames="achievements_id, players_id" tableName="achievement_player"/>
         
     </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

@@ -30,7 +30,6 @@ public class TournamentResource {
     private static final String ENTITY_NAME = "tournament";
 
     private final TournamentRepository tournamentRepository;
-
     public TournamentResource(TournamentRepository tournamentRepository) {
         this.tournamentRepository = tournamentRepository;
     }
@@ -87,7 +86,7 @@ public class TournamentResource {
     public List<Tournament> getAllTournaments() {
         log.debug("REST request to get all Tournaments");
         return tournamentRepository.findAllWithEagerRelationships();
-    }
+        }
 
     /**
      * GET  /tournaments/:id : get the "id" tournament.

@@ -10,6 +10,7 @@ import { Team } from './team.model';
 import { TeamPopupService } from './team-popup.service';
 import { TeamService } from './team.service';
 import { Player, PlayerService } from '../player';
+import { TeamList, TeamListService } from '../team-list';
 import { Tournament, TournamentService } from '../tournament';
 import { ResponseWrapper } from '../../shared';
 
@@ -24,6 +25,8 @@ export class TeamDialogComponent implements OnInit {
 
     players: Player[];
 
+    teamlists: TeamList[];
+
     tournaments: Tournament[];
 
     constructor(
@@ -32,6 +35,7 @@ export class TeamDialogComponent implements OnInit {
         private alertService: JhiAlertService,
         private teamService: TeamService,
         private playerService: PlayerService,
+        private teamListService: TeamListService,
         private tournamentService: TournamentService,
         private elementRef: ElementRef,
         private eventManager: JhiEventManager
@@ -42,6 +46,8 @@ export class TeamDialogComponent implements OnInit {
         this.isSaving = false;
         this.playerService.query()
             .subscribe((res: ResponseWrapper) => { this.players = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.teamListService.query()
+            .subscribe((res: ResponseWrapper) => { this.teamlists = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.tournamentService.query()
             .subscribe((res: ResponseWrapper) => { this.tournaments = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
@@ -54,17 +60,8 @@ export class TeamDialogComponent implements OnInit {
         return this.dataUtils.openFile(contentType, field);
     }
 
-    setFileData(event, team, field, isImage) {
-        if (event && event.target.files && event.target.files[0]) {
-            const file = event.target.files[0];
-            if (isImage && !/^image\//.test(file.type)) {
-                return;
-            }
-            this.dataUtils.toBase64(file, (base64Data) => {
-                team[field] = base64Data;
-                team[`${field}ContentType`] = file.type;
-            });
-        }
+    setFileData(event, entity, field, isImage) {
+        this.dataUtils.setFileData(event, entity, field, isImage);
     }
 
     clearInputImage(field: string, fieldContentType: string, idInput: string) {
@@ -112,6 +109,10 @@ export class TeamDialogComponent implements OnInit {
     }
 
     trackPlayerById(index: number, item: Player) {
+        return item.id;
+    }
+
+    trackTeamListById(index: number, item: TeamList) {
         return item.id;
     }
 

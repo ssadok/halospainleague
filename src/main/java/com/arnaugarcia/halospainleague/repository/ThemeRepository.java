@@ -11,6 +11,6 @@ import org.springframework.data.jpa.repository.*;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ThemeRepository extends JpaRepository<Theme,Long> {
-    
+public interface ThemeRepository extends JpaRepository<Theme, Long> {
+
 }

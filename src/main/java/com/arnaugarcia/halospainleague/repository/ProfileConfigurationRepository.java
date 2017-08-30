@@ -11,6 +11,6 @@ import org.springframework.data.jpa.repository.*;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ProfileConfigurationRepository extends JpaRepository<ProfileConfiguration,Long> {
-    
+public interface ProfileConfigurationRepository extends JpaRepository<ProfileConfiguration, Long> {
+
 }

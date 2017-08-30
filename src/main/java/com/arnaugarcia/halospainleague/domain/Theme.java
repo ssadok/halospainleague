@@ -48,6 +48,7 @@ public class Theme implements Serializable {
     @ManyToOne
     private MessageRoom messageRoom;
 
+    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -159,6 +160,7 @@ public class Theme implements Serializable {
     public void setMessageRoom(MessageRoom messageRoom) {
         this.messageRoom = messageRoom;
     }
+    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {

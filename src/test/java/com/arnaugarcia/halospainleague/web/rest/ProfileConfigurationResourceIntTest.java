@@ -105,7 +105,7 @@ public class ProfileConfigurationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ProfileConfigurationResource profileConfigurationResource = new ProfileConfigurationResource(profileConfigurationRepository);
+        final ProfileConfigurationResource profileConfigurationResource = new ProfileConfigurationResource(profileConfigurationRepository);
         this.restProfileConfigurationMockMvc = MockMvcBuilders.standaloneSetup(profileConfigurationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

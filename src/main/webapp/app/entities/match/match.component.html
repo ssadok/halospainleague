@@ -20,6 +20,7 @@
             <th><span jhiTranslate="halospainleagueApp.match.reference">Reference</span></th>
             <th><span jhiTranslate="halospainleagueApp.match.duration">Duration</span></th>
             <th><span jhiTranslate="halospainleagueApp.match.resultMatch">Result Match</span></th>
+            <th><span jhiTranslate="halospainleagueApp.match.teamList">Team List</span></th>
             <th><span jhiTranslate="halospainleagueApp.match.tournament">Tournament</span></th>
             <th><span jhiTranslate="halospainleagueApp.match.map">Map</span></th>
             <th></th>
@@ -33,6 +34,11 @@
                 <td>
                     <div *ngIf="match.resultMatch">
                         <a [routerLink]="['../result-match', match.resultMatch?.id ]" >{{match.resultMatch?.reference}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="match.teamList">
+                        <a [routerLink]="['../team-list', match.teamList?.id ]" >{{match.teamList?.reference}}</a>
                     </div>
                 </td>
                 <td>

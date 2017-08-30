@@ -73,7 +73,7 @@ public class MapResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        MapResource mapResource = new MapResource(mapRepository);
+        final MapResource mapResource = new MapResource(mapRepository);
         this.restMapMockMvc = MockMvcBuilders.standaloneSetup(mapResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

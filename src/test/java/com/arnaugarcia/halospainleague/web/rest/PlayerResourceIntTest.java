@@ -120,7 +120,7 @@ public class PlayerResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PlayerResource playerResource = new PlayerResource(playerRepository);
+        final PlayerResource playerResource = new PlayerResource(playerRepository);
         this.restPlayerMockMvc = MockMvcBuilders.standaloneSetup(playerResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

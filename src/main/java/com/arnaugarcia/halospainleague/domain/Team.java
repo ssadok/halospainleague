@@ -90,11 +90,19 @@ public class Team implements Serializable {
                inverseJoinColumns = @JoinColumn(name="players_id", referencedColumnName="id"))
     private Set<Player> players = new HashSet<>();
 
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "team_team_list",
+               joinColumns = @JoinColumn(name="teams_id", referencedColumnName="id"),
+               inverseJoinColumns = @JoinColumn(name="team_lists_id", referencedColumnName="id"))
+    private Set<TeamList> teamLists = new HashSet<>();
+
     @ManyToMany(mappedBy = "teams")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Tournament> torunaments = new HashSet<>();
 
+    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -323,6 +331,31 @@ public class Team implements Serializable {
         this.players = players;
     }
 
+    public Set<TeamList> getTeamLists() {
+        return teamLists;
+    }
+
+    public Team teamLists(Set<TeamList> teamLists) {
+        this.teamLists = teamLists;
+        return this;
+    }
+
+    public Team addTeamList(TeamList teamList) {
+        this.teamLists.add(teamList);
+        teamList.getTeams().add(this);
+        return this;
+    }
+
+    public Team removeTeamList(TeamList teamList) {
+        this.teamLists.remove(teamList);
+        teamList.getTeams().remove(this);
+        return this;
+    }
+
+    public void setTeamLists(Set<TeamList> teamLists) {
+        this.teamLists = teamLists;
+    }
+
     public Set<Tournament> getTorunaments() {
         return torunaments;
     }
@@ -347,6 +380,7 @@ public class Team implements Serializable {
     public void setTorunaments(Set<Tournament> tournaments) {
         this.torunaments = tournaments;
     }
+    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {

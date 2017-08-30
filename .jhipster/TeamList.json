@@ -1,0 +1,35 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "match",
+            "otherEntityName": "match",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "teamList"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "team",
+            "otherEntityName": "team",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "teamList"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "reference",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "score",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20170830133635",
+    "javadoc": "Class Match.\n@author arnaugarcia.",
+    "entityTableName": "team_list",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

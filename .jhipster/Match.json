@@ -11,6 +11,14 @@
             "otherEntityRelationshipName": "match(reference)"
         },
         {
+            "relationshipType": "one-to-one",
+            "relationshipName": "teamList",
+            "otherEntityName": "teamList",
+            "otherEntityField": "reference",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "match(reference)"
+        },
+        {
             "relationshipType": "many-to-one",
             "relationshipName": "tournament",
             "otherEntityName": "tournament",
@@ -38,6 +46,5 @@
     "entityTableName": "match",
     "dto": "no",
     "pagination": "no",
-    "service": "no",
-    "jpaMetamodelFiltering": true
+    "service": "no"
 }

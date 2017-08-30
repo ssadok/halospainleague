@@ -29,7 +29,7 @@ export class GamePopupService {
             if (id) {
                 this.gameService.find(id).subscribe((game) => {
                     game.year = this.datePipe
-                        .transform(game.year, 'yyyy-MM-ddThh:mm');
+                        .transform(game.year, 'yyyy-MM-ddTHH:mm:ss');
                     this.ngbModalRef = this.gameModalRef(component, game);
                     resolve(this.ngbModalRef);
                 });

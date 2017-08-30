@@ -29,7 +29,7 @@ export class ProfileConfigurationPopupService {
             if (id) {
                 this.profileConfigurationService.find(id).subscribe((profileConfiguration) => {
                     profileConfiguration.lastLogin = this.datePipe
-                        .transform(profileConfiguration.lastLogin, 'yyyy-MM-ddThh:mm');
+                        .transform(profileConfiguration.lastLogin, 'yyyy-MM-ddTHH:mm:ss');
                     this.ngbModalRef = this.profileConfigurationModalRef(component, profileConfiguration);
                     resolve(this.ngbModalRef);
                 });

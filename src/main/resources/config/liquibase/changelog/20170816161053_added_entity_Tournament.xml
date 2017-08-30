@@ -91,4 +91,5 @@
         <addPrimaryKey columnNames="tournaments_id, teams_id" tableName="tournament_team"/>
         
     </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

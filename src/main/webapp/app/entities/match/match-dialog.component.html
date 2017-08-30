@@ -24,21 +24,28 @@
         </div>
 
         <div class="form-group">
-            <label jhiTranslate="halospainleagueApp.match.resultMatch" for="field_resultMatch">Result Match</label>
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.match.resultMatch" for="field_resultMatch">Result Match</label>
             <select class="form-control" id="field_resultMatch" name="resultMatch" [(ngModel)]="match.resultMatch">
                 <option [ngValue]="null"></option>
                 <option [ngValue]="resultMatchOption.id === match.resultMatch?.id ? match.resultMatch : resultMatchOption" *ngFor="let resultMatchOption of resultmatches; trackBy: trackResultMatchById">{{resultMatchOption.reference}}</option>
             </select>
         </div>
         <div class="form-group">
-            <label jhiTranslate="halospainleagueApp.match.tournament" for="field_tournament">Tournament</label>
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.match.teamList" for="field_teamList">Team List</label>
+            <select class="form-control" id="field_teamList" name="teamList" [(ngModel)]="match.teamList">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="teamListOption.id === match.teamList?.id ? match.teamList : teamListOption" *ngFor="let teamListOption of teamlists; trackBy: trackTeamListById">{{teamListOption.reference}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.match.tournament" for="field_tournament">Tournament</label>
             <select class="form-control" id="field_tournament" name="tournament" [(ngModel)]="match.tournament" >
                 <option [ngValue]="null"></option>
                 <option [ngValue]="tournamentOption.id === match.tournament?.id ? match.tournament : tournamentOption" *ngFor="let tournamentOption of tournaments; trackBy: trackTournamentById">{{tournamentOption.name}}</option>
             </select>
         </div>
         <div class="form-group">
-            <label jhiTranslate="halospainleagueApp.match.map" for="field_map">Map</label>
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.match.map" for="field_map">Map</label>
             <select class="form-control" id="field_map" name="map" [(ngModel)]="match.map" >
                 <option [ngValue]="null"></option>
                 <option [ngValue]="mapOption.id === match.map?.id ? match.map : mapOption" *ngFor="let mapOption of maps; trackBy: trackMapById">{{mapOption.name}}</option>

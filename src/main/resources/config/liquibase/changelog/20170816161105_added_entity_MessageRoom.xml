@@ -64,4 +64,5 @@
         <addPrimaryKey columnNames="message_rooms_id, players_id" tableName="message_room_player"/>
         
     </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

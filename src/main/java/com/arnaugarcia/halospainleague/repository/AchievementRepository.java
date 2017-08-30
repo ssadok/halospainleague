@@ -12,12 +12,11 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface AchievementRepository extends JpaRepository<Achievement,Long> {
-    
+public interface AchievementRepository extends JpaRepository<Achievement, Long> {
     @Query("select distinct achievement from Achievement achievement left join fetch achievement.players")
     List<Achievement> findAllWithEagerRelationships();
 
     @Query("select achievement from Achievement achievement left join fetch achievement.players where achievement.id =:id")
     Achievement findOneWithEagerRelationships(@Param("id") Long id);
-    
+
 }

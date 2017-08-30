@@ -41,17 +41,8 @@ export class GameDialogComponent implements OnInit {
         return this.dataUtils.openFile(contentType, field);
     }
 
-    setFileData(event, game, field, isImage) {
-        if (event && event.target.files && event.target.files[0]) {
-            const file = event.target.files[0];
-            if (isImage && !/^image\//.test(file.type)) {
-                return;
-            }
-            this.dataUtils.toBase64(file, (base64Data) => {
-                game[field] = base64Data;
-                game[`${field}ContentType`] = file.type;
-            });
-        }
+    setFileData(event, entity, field, isImage) {
+        this.dataUtils.setFileData(event, entity, field, isImage);
     }
 
     clearInputImage(field: string, fieldContentType: string, idInput: string) {

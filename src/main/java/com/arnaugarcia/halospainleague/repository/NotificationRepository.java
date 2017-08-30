@@ -11,6 +11,6 @@ import org.springframework.data.jpa.repository.*;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface NotificationRepository extends JpaRepository<Notification,Long> {
-    
+public interface NotificationRepository extends JpaRepository<Notification, Long> {
+
 }

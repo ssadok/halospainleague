@@ -27,7 +27,7 @@
                         <span class="fa fa-times"></span>
                     </button>
                 </div>
-                <input type="file" id="fileImage" (change)="setFileData($event, messageRoom, 'image', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
+                <input type="file" id="file_image" (change)="setFileData($event, messageRoom, 'image', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
             </div>
             <input type="hidden" class="form-control" name="image" id="field_image"
                 [(ngModel)]="messageRoom.image"  />
@@ -44,7 +44,7 @@
                         <span class="fa fa-times"></span>
                     </button>
                 </div>
-                <input type="file" id="fileImage" (change)="setFileData($event, messageRoom, 'cover', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
+                <input type="file" id="file_cover" (change)="setFileData($event, messageRoom, 'cover', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
             </div>
             <input type="hidden" class="form-control" name="cover" id="field_cover"
                 [(ngModel)]="messageRoom.cover"  />

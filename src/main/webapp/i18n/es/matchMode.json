@@ -1,0 +1,24 @@
+{
+    "halospainleagueApp": {
+        "matchMode" : {
+            "home": {
+                "title": "Match Modes",
+                "createLabel": "Crear nuevo Match Mode",
+                "createOrEditLabel": "Crear o editar Match Mode"
+            },
+            "created": "Un nuevo Match Mode ha sido creado con el identificador {{ param }}",
+            "updated": "Un Match Mode ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Match Mode ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Match Mode {{ id }}?"
+            },
+            "detail": {
+                "title": "Match Mode"
+            },
+            "reference": "Reference",
+            "timeToWin": "Time To Win",
+            "scoreToWin": "Score To Win",
+            "gameMode": "Game Mode"
+        }
+    }
+}

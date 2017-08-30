@@ -29,11 +29,11 @@ export class TournamentPopupService {
             if (id) {
                 this.tournamentService.find(id).subscribe((tournament) => {
                     tournament.registrationStarts = this.datePipe
-                        .transform(tournament.registrationStarts, 'yyyy-MM-ddThh:mm');
+                        .transform(tournament.registrationStarts, 'yyyy-MM-ddTHH:mm:ss');
                     tournament.registrationEnds = this.datePipe
-                        .transform(tournament.registrationEnds, 'yyyy-MM-ddThh:mm');
+                        .transform(tournament.registrationEnds, 'yyyy-MM-ddTHH:mm:ss');
                     tournament.tournamentBegins = this.datePipe
-                        .transform(tournament.tournamentBegins, 'yyyy-MM-ddThh:mm');
+                        .transform(tournament.tournamentBegins, 'yyyy-MM-ddTHH:mm:ss');
                     this.ngbModalRef = this.tournamentModalRef(component, tournament);
                     resolve(this.ngbModalRef);
                 });

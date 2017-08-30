@@ -68,7 +68,7 @@ public class CountryResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        CountryResource countryResource = new CountryResource(countryRepository);
+        final CountryResource countryResource = new CountryResource(countryRepository);
         this.restCountryMockMvc = MockMvcBuilders.standaloneSetup(countryResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

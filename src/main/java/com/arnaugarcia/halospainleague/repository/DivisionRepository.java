@@ -11,6 +11,6 @@ import org.springframework.data.jpa.repository.*;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface DivisionRepository extends JpaRepository<Division,Long> {
-    
+public interface DivisionRepository extends JpaRepository<Division, Long> {
+
 }

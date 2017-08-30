@@ -62,7 +62,7 @@ public class ResultMatchResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ResultMatchResource resultMatchResource = new ResultMatchResource(resultMatchRepository);
+        final ResultMatchResource resultMatchResource = new ResultMatchResource(resultMatchRepository);
         this.restResultMatchMockMvc = MockMvcBuilders.standaloneSetup(resultMatchResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

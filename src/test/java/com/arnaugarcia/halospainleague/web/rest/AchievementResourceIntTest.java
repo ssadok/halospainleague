@@ -73,7 +73,7 @@ public class AchievementResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        AchievementResource achievementResource = new AchievementResource(achievementRepository);
+        final AchievementResource achievementResource = new AchievementResource(achievementRepository);
         this.restAchievementMockMvc = MockMvcBuilders.standaloneSetup(achievementResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

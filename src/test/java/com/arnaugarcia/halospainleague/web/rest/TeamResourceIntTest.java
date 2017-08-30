@@ -109,7 +109,7 @@ public class TeamResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        TeamResource teamResource = new TeamResource(teamRepository);
+        final TeamResource teamResource = new TeamResource(teamRepository);
         this.restTeamMockMvc = MockMvcBuilders.standaloneSetup(teamResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

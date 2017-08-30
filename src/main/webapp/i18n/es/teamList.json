@@ -1,0 +1,24 @@
+{
+    "halospainleagueApp": {
+        "teamList" : {
+            "home": {
+                "title": "Team Lists",
+                "createLabel": "Crear nuevo Team List",
+                "createOrEditLabel": "Crear o editar Team List"
+            },
+            "created": "Un nuevo Team List ha sido creado con el identificador {{ param }}",
+            "updated": "Un Team List ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Team List ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Team List {{ id }}?"
+            },
+            "detail": {
+                "title": "Team List"
+            },
+            "reference": "Reference",
+            "score": "Score",
+            "match": "Match",
+            "team": "Team"
+        }
+    }
+}

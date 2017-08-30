@@ -77,7 +77,7 @@ public class ThemeResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ThemeResource themeResource = new ThemeResource(themeRepository);
+        final ThemeResource themeResource = new ThemeResource(themeRepository);
         this.restThemeMockMvc = MockMvcBuilders.standaloneSetup(themeResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

@@ -39,12 +39,17 @@ public class Match implements Serializable {
     @JoinColumn(unique = true)
     private ResultMatch resultMatch;
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private TeamList teamList;
+
     @ManyToOne
     private Tournament tournament;
 
     @ManyToOne
     private Map map;
 
+    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -92,6 +97,19 @@ public class Match implements Serializable {
         this.resultMatch = resultMatch;
     }
 
+    public TeamList getTeamList() {
+        return teamList;
+    }
+
+    public Match teamList(TeamList teamList) {
+        this.teamList = teamList;
+        return this;
+    }
+
+    public void setTeamList(TeamList teamList) {
+        this.teamList = teamList;
+    }
+
     public Tournament getTournament() {
         return tournament;
     }
@@ -117,6 +135,7 @@ public class Match implements Serializable {
     public void setMap(Map map) {
         this.map = map;
     }
+    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {

@@ -39,6 +39,23 @@
                 [(ngModel)]="player.description"  ></textarea>
         </div>
         <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.player.created" for="field_created">Created</label>
+            <div class="d-flex">
+                <input id="field_created" type="datetime-local" class="form-control" name="created" [(ngModel)]="player.created"
+                required  />
+            </div>
+            <div [hidden]="!(editForm.controls.created?.dirty && editForm.controls.created?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.created?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.created?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="form-control-label" jhiTranslate="halospainleagueApp.player.profilePhoto" for="field_profilePhoto">Profile Photo</label>
             <div>
                 <img [src]="'data:' + player.profilePhotoContentType + ';base64,' + player.profilePhoto" style="max-height: 100px;" *ngIf="player.profilePhoto" alt="player image"/>
@@ -48,7 +65,7 @@
                         <span class="fa fa-times"></span>
                     </button>
                 </div>
-                <input type="file" id="fileImage" (change)="setFileData($event, player, 'profilePhoto', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
+                <input type="file" id="file_profilePhoto" (change)="setFileData($event, player, 'profilePhoto', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
             </div>
             <input type="hidden" class="form-control" name="profilePhoto" id="field_profilePhoto"
                 [(ngModel)]="player.profilePhoto"  />
@@ -65,12 +82,27 @@
                         <span class="fa fa-times"></span>
                     </button>
                 </div>
-                <input type="file" id="fileImage" (change)="setFileData($event, player, 'profileCover', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
+                <input type="file" id="file_profileCover" (change)="setFileData($event, player, 'profileCover', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
             </div>
             <input type="hidden" class="form-control" name="profileCover" id="field_profileCover"
                 [(ngModel)]="player.profileCover"  />
             <input type="hidden" class="form-control" name="profileCoverContentType" id="field_profileCoverContentType"
                 [(ngModel)]="player.profileCoverContentType" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.player.state" for="field_state">State</label>
+            <select class="form-control" name="state" [(ngModel)]="player.state" id="field_state"  required>
+                <option value="NOT_PLAYING">{{'halospainleagueApp.PlayerState.NOT_PLAYING' | translate}}</option>
+                <option value="IN_TEAM">{{'halospainleagueApp.PlayerState.IN_TEAM' | translate}}</option>
+                <option value="FREE_AGENT">{{'halospainleagueApp.PlayerState.FREE_AGENT' | translate}}</option>
+                <option value="NOT_SET">{{'halospainleagueApp.PlayerState.NOT_SET' | translate}}</option>
+            </select>
+            <div [hidden]="!(editForm.controls.state?.dirty && editForm.controls.state?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.state?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="halospainleagueApp.player.instagram" for="field_instagram">Instagram</label>
@@ -93,6 +125,15 @@
                 [(ngModel)]="player.facebook"  />
         </div>
         <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.player.gender" for="field_gender">Gender</label>
+            <select class="form-control" name="gender" [(ngModel)]="player.gender" id="field_gender" >
+                <option value="MALE">{{'halospainleagueApp.Gender.MALE' | translate}}</option>
+                <option value="FEMALE">{{'halospainleagueApp.Gender.FEMALE' | translate}}</option>
+                <option value="OTHER">{{'halospainleagueApp.Gender.OTHER' | translate}}</option>
+                <option value="NOT_SPECIFIED">{{'halospainleagueApp.Gender.NOT_SPECIFIED' | translate}}</option>
+            </select>
+        </div>
+        <div class="form-group">
             <label class="form-control-label" jhiTranslate="halospainleagueApp.player.score" for="field_score">Score</label>
             <input type="number" class="form-control" name="score" id="field_score"
                 [(ngModel)]="player.score"  />
@@ -107,8 +148,29 @@
             <input type="text" class="form-control" name="timeZone" id="field_timeZone"
                 [(ngModel)]="player.timeZone"  />
         </div>
+
         <div class="form-group">
-            <label jhiTranslate="halospainleagueApp.player.country" for="field_country">Country</label>
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.player.user" for="field_user">User</label>
+            <select class="form-control" id="field_user" name="user" [(ngModel)]="player.user" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="userOption.id === player.user?.id ? player.user : userOption" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.player.profileConfiguration" for="field_profileConfiguration">Profile Configuration</label>
+            <select class="form-control" id="field_profileConfiguration" name="profileConfiguration" [(ngModel)]="player.profileConfiguration" required>
+                <option *ngIf="!editForm.value.profileConfiguration" [ngValue]="null" selected></option>
+                <option [ngValue]="profileConfigurationOption.id === player.profileConfiguration?.id ? player.profileConfiguration : profileConfigurationOption" *ngFor="let profileConfigurationOption of profileconfigurations; trackBy: trackProfileConfigurationById">{{profileConfigurationOption.id}}</option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.profileConfiguration?.dirty && editForm.controls.profileConfiguration?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.profileConfiguration?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.player.country" for="field_country">Country</label>
             <select class="form-control" id="field_country" name="country" [(ngModel)]="player.country" >
                 <option [ngValue]="null"></option>
                 <option [ngValue]="countryOption.id === player.country?.id ? player.country : countryOption" *ngFor="let countryOption of countries; trackBy: trackCountryById">{{countryOption.name}}</option>

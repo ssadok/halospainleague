@@ -69,7 +69,7 @@ public class SocialAccountResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        SocialAccountResource socialAccountResource = new SocialAccountResource(socialAccountRepository);
+        final SocialAccountResource socialAccountResource = new SocialAccountResource(socialAccountRepository);
         this.restSocialAccountMockMvc = MockMvcBuilders.standaloneSetup(socialAccountResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

@@ -32,7 +32,6 @@ public class MessageRoomResource {
     private static final String ENTITY_NAME = "messageRoom";
 
     private final MessageRoomRepository messageRoomRepository;
-
     public MessageRoomResource(MessageRoomRepository messageRoomRepository) {
         this.messageRoomRepository = messageRoomRepository;
     }
@@ -97,7 +96,7 @@ public class MessageRoomResource {
         }
         log.debug("REST request to get all MessageRooms");
         return messageRoomRepository.findAllWithEagerRelationships();
-    }
+        }
 
     /**
      * GET  /message-rooms/:id : get the "id" messageRoom.

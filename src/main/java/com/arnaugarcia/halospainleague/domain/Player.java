@@ -145,6 +145,7 @@ public class Player implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<MessageRoom> messageRooms = new HashSet<>();
 
+    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -550,6 +551,7 @@ public class Player implements Serializable {
     public void setMessageRooms(Set<MessageRoom> messageRooms) {
         this.messageRooms = messageRooms;
     }
+    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {

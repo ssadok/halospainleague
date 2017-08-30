@@ -32,6 +32,7 @@ public class ResultMatch implements Serializable {
     @JsonIgnore
     private Match match;
 
+    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -65,6 +66,7 @@ public class ResultMatch implements Serializable {
     public void setMatch(Match match) {
         this.match = match;
     }
+    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {

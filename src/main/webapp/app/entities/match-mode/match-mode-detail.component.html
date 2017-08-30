@@ -1,0 +1,37 @@
+
+<div *ngIf="matchMode">
+    <h2><span jhiTranslate="halospainleagueApp.matchMode.detail.title">Match Mode</span> {{matchMode.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="halospainleagueApp.matchMode.reference">Reference</span></dt>
+        <dd>
+            <span>{{matchMode.reference}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.matchMode.timeToWin">Time To Win</span></dt>
+        <dd>
+            <span>{{matchMode.timeToWin}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.matchMode.scoreToWin">Score To Win</span></dt>
+        <dd>
+            <span>{{matchMode.scoreToWin}}</span>
+        </dd>
+        <dt><span jhiTranslate="halospainleagueApp.matchMode.gameMode">Game Mode</span></dt>
+        <dd>
+            <span jhiTranslate="{{'halospainleagueApp.GameMode.' + matchMode.gameMode}}">{{matchMode.gameMode}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'match-mode/'+ matchMode.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

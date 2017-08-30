@@ -102,7 +102,7 @@ public class TournamentResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        TournamentResource tournamentResource = new TournamentResource(tournamentRepository);
+        final TournamentResource tournamentResource = new TournamentResource(tournamentRepository);
         this.restTournamentMockMvc = MockMvcBuilders.standaloneSetup(tournamentResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

@@ -10,6 +10,7 @@ import { Match } from './match.model';
 import { MatchPopupService } from './match-popup.service';
 import { MatchService } from './match.service';
 import { ResultMatch, ResultMatchService } from '../result-match';
+import { TeamList, TeamListService } from '../team-list';
 import { Tournament, TournamentService } from '../tournament';
 import { Map, MapService } from '../map';
 import { ResponseWrapper } from '../../shared';
@@ -25,6 +26,8 @@ export class MatchDialogComponent implements OnInit {
 
     resultmatches: ResultMatch[];
 
+    teamlists: TeamList[];
+
     tournaments: Tournament[];
 
     maps: Map[];
@@ -34,6 +37,7 @@ export class MatchDialogComponent implements OnInit {
         private alertService: JhiAlertService,
         private matchService: MatchService,
         private resultMatchService: ResultMatchService,
+        private teamListService: TeamListService,
         private tournamentService: TournamentService,
         private mapService: MapService,
         private eventManager: JhiEventManager
@@ -52,6 +56,19 @@ export class MatchDialogComponent implements OnInit {
                         .find(this.match.resultMatch.id)
                         .subscribe((subRes: ResultMatch) => {
                             this.resultmatches = [subRes].concat(res.json);
+                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
+                }
+            }, (res: ResponseWrapper) => this.onError(res.json));
+        this.teamListService
+            .query({filter: 'match(reference)-is-null'})
+            .subscribe((res: ResponseWrapper) => {
+                if (!this.match.teamList || !this.match.teamList.id) {
+                    this.teamlists = res.json;
+                } else {
+                    this.teamListService
+                        .find(this.match.teamList.id)
+                        .subscribe((subRes: TeamList) => {
+                            this.teamlists = [subRes].concat(res.json);
                         }, (subRes: ResponseWrapper) => this.onError(subRes.json));
                 }
             }, (res: ResponseWrapper) => this.onError(res.json));
@@ -102,6 +119,10 @@ export class MatchDialogComponent implements OnInit {
     }
 
     trackResultMatchById(index: number, item: ResultMatch) {
+        return item.id;
+    }
+
+    trackTeamListById(index: number, item: TeamList) {
         return item.id;
     }
 

@@ -1,0 +1,10 @@
+{
+    "halospainleagueApp": {
+        "GameMode" : {
+            "null": "",
+            "SLAYER": "SLAYER",
+            "FLAGS": "FLAGS",
+            "OBJECTIVE": "OBJECTIVE"
+        }
+    }
+}

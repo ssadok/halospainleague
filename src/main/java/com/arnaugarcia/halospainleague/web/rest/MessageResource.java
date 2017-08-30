@@ -29,7 +29,6 @@ public class MessageResource {
     private static final String ENTITY_NAME = "message";
 
     private final MessageRepository messageRepository;
-
     public MessageResource(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
     }
@@ -86,7 +85,7 @@ public class MessageResource {
     public List<Message> getAllMessages() {
         log.debug("REST request to get all Messages");
         return messageRepository.findAll();
-    }
+        }
 
     /**
      * GET  /messages/:id : get the "id" message.

@@ -29,7 +29,6 @@ public class SocialAccountResource {
     private static final String ENTITY_NAME = "socialAccount";
 
     private final SocialAccountRepository socialAccountRepository;
-
     public SocialAccountResource(SocialAccountRepository socialAccountRepository) {
         this.socialAccountRepository = socialAccountRepository;
     }
@@ -86,7 +85,7 @@ public class SocialAccountResource {
     public List<SocialAccount> getAllSocialAccounts() {
         log.debug("REST request to get all SocialAccounts");
         return socialAccountRepository.findAll();
-    }
+        }
 
     /**
      * GET  /social-accounts/:id : get the "id" socialAccount.

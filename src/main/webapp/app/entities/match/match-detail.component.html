@@ -18,6 +18,12 @@
                 <a [routerLink]="['/result-match', match.resultMatch?.id]">{{match.resultMatch?.reference}}</a>
             </div>
         </dd>
+        <dt><span jhiTranslate="halospainleagueApp.match.teamList">Team List</span></dt>
+        <dd>
+            <div *ngIf="match.teamList">
+                <a [routerLink]="['/team-list', match.teamList?.id]">{{match.teamList?.reference}}</a>
+            </div>
+        </dd>
         <dt><span jhiTranslate="halospainleagueApp.match.tournament">Tournament</span></dt>
         <dd>
             <div *ngIf="match.tournament">

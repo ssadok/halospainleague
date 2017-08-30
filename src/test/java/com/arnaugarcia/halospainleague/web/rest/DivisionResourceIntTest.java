@@ -59,7 +59,7 @@ public class DivisionResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        DivisionResource divisionResource = new DivisionResource(divisionRepository);
+        final DivisionResource divisionResource = new DivisionResource(divisionRepository);
         this.restDivisionMockMvc = MockMvcBuilders.standaloneSetup(divisionResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

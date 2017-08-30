@@ -29,6 +29,7 @@
             "position": "Position",
             "premium": "Premium",
             "player": "Player",
+            "teamList": "Team List",
             "torunament": "Torunament"
         }
     }

@@ -11,6 +11,6 @@ import org.springframework.data.jpa.repository.*;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface MapRepository extends JpaRepository<Map,Long> {
-    
+public interface MapRepository extends JpaRepository<Map, Long> {
+
 }

@@ -29,7 +29,6 @@ public class TeamResource {
     private static final String ENTITY_NAME = "team";
 
     private final TeamRepository teamRepository;
-
     public TeamResource(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
@@ -86,7 +85,7 @@ public class TeamResource {
     public List<Team> getAllTeams() {
         log.debug("REST request to get all Teams");
         return teamRepository.findAllWithEagerRelationships();
-    }
+        }
 
     /**
      * GET  /teams/:id : get the "id" team.

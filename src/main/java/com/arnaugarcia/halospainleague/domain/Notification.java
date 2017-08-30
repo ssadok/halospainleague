@@ -50,6 +50,7 @@ public class Notification implements Serializable {
     @ManyToOne
     private Player player;
 
+    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -148,6 +149,7 @@ public class Notification implements Serializable {
     public void setPlayer(Player player) {
         this.player = player;
     }
+    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {

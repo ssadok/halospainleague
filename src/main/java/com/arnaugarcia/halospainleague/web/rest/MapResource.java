@@ -29,7 +29,6 @@ public class MapResource {
     private static final String ENTITY_NAME = "map";
 
     private final MapRepository mapRepository;
-
     public MapResource(MapRepository mapRepository) {
         this.mapRepository = mapRepository;
     }
@@ -86,7 +85,7 @@ public class MapResource {
     public List<Map> getAllMaps() {
         log.debug("REST request to get all Maps");
         return mapRepository.findAll();
-    }
+        }
 
     /**
      * GET  /maps/:id : get the "id" map.

@@ -27,7 +27,7 @@
                         <span class="fa fa-times"></span>
                     </button>
                 </div>
-                <input type="file" id="fileImage" (change)="setFileData($event, tournament, 'coverImage', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
+                <input type="file" id="file_coverImage" (change)="setFileData($event, tournament, 'coverImage', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
             </div>
             <input type="hidden" class="form-control" name="coverImage" id="field_coverImage"
                 [(ngModel)]="tournament.coverImage"  />
@@ -37,11 +37,11 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="halospainleagueApp.tournament.platform" for="field_platform">Platform</label>
             <select class="form-control" name="platform" [(ngModel)]="tournament.platform" id="field_platform" >
-                <option value="PC" jhiTranslate="halospainleagueApp.Platform.PC">PC</option>
-                <option value="XB360" jhiTranslate="halospainleagueApp.Platform.XB360">XB360</option>
-                <option value="XBONE" jhiTranslate="halospainleagueApp.Platform.XBONE">XBONE</option>
-                <option value="PS3" jhiTranslate="halospainleagueApp.Platform.PS3">PS3</option>
-                <option value="PS4" jhiTranslate="halospainleagueApp.Platform.PS4">PS4</option>
+                <option value="PC">{{'halospainleagueApp.Platform.PC' | translate}}</option>
+                <option value="XB360">{{'halospainleagueApp.Platform.XB360' | translate}}</option>
+                <option value="XBONE">{{'halospainleagueApp.Platform.XBONE' | translate}}</option>
+                <option value="PS3">{{'halospainleagueApp.Platform.PS3' | translate}}</option>
+                <option value="PS4">{{'halospainleagueApp.Platform.PS4' | translate}}</option>
             </select>
         </div>
         <div class="form-group">
@@ -98,12 +98,12 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="halospainleagueApp.tournament.type" for="field_type">Type</label>
             <select class="form-control" name="type" [(ngModel)]="tournament.type" id="field_type" >
-                <option value="ONE_VS_ONE" jhiTranslate="halospainleagueApp.TournamentType.ONE_VS_ONE">ONE_VS_ONE</option>
-                <option value="TWO_VS_TWO" jhiTranslate="halospainleagueApp.TournamentType.TWO_VS_TWO">TWO_VS_TWO</option>
-                <option value="THREE_VS_THREE" jhiTranslate="halospainleagueApp.TournamentType.THREE_VS_THREE">THREE_VS_THREE</option>
-                <option value="FOUR_VS_FOUR" jhiTranslate="halospainleagueApp.TournamentType.FOUR_VS_FOUR">FOUR_VS_FOUR</option>
-                <option value="FIVE_VS_FIVE" jhiTranslate="halospainleagueApp.TournamentType.FIVE_VS_FIVE">FIVE_VS_FIVE</option>
-                <option value="SIX_VS_SIX" jhiTranslate="halospainleagueApp.TournamentType.SIX_VS_SIX">SIX_VS_SIX</option>
+                <option value="ONE_VS_ONE">{{'halospainleagueApp.TournamentType.ONE_VS_ONE' | translate}}</option>
+                <option value="TWO_VS_TWO">{{'halospainleagueApp.TournamentType.TWO_VS_TWO' | translate}}</option>
+                <option value="THREE_VS_THREE">{{'halospainleagueApp.TournamentType.THREE_VS_THREE' | translate}}</option>
+                <option value="FOUR_VS_FOUR">{{'halospainleagueApp.TournamentType.FOUR_VS_FOUR' | translate}}</option>
+                <option value="FIVE_VS_FIVE">{{'halospainleagueApp.TournamentType.FIVE_VS_FIVE' | translate}}</option>
+                <option value="SIX_VS_SIX">{{'halospainleagueApp.TournamentType.SIX_VS_SIX' | translate}}</option>
             </select>
         </div>
 
@@ -114,7 +114,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label jhiTranslate="halospainleagueApp.tournament.game" for="field_game">Game</label>
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.tournament.game" for="field_game">Game</label>
             <select class="form-control" id="field_game" name="game" [(ngModel)]="tournament.game" >
                 <option [ngValue]="null"></option>
                 <option [ngValue]="gameOption.id === tournament.game?.id ? tournament.game : gameOption" *ngFor="let gameOption of games; trackBy: trackGameById">{{gameOption.name}}</option>

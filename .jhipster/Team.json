@@ -12,6 +12,14 @@
         },
         {
             "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "team",
+            "relationshipName": "teamList",
+            "otherEntityName": "teamList",
+            "otherEntityField": "reference",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
             "relationshipName": "torunament",
             "otherEntityName": "tournament",
             "ownerSide": false,
@@ -80,6 +88,5 @@
     "entityTableName": "team",
     "dto": "no",
     "pagination": "no",
-    "service": "no",
-    "jpaMetamodelFiltering": true
+    "service": "no"
 }

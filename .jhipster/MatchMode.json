@@ -1,0 +1,29 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "reference",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "timeToWin",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "scoreToWin",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "gameMode",
+            "fieldType": "GameMode",
+            "fieldValues": "SLAYER,FLAGS,OBJECTIVE"
+        }
+    ],
+    "changelogDate": "20170830133634",
+    "javadoc": "Class ModeMatch.\n@author arnaugarcia.",
+    "entityTableName": "match_mode",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

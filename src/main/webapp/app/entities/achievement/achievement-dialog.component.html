@@ -36,8 +36,8 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="halospainleagueApp.achievement.type" for="field_type">Type</label>
             <select class="form-control" name="type" [(ngModel)]="achievement.type" id="field_type"  required>
-                <option value="BADGE" jhiTranslate="halospainleagueApp.AchievementType.BADGE">BADGE</option>
-                <option value="TROPHY" jhiTranslate="halospainleagueApp.AchievementType.TROPHY">TROPHY</option>
+                <option value="BADGE">{{'halospainleagueApp.AchievementType.BADGE' | translate}}</option>
+                <option value="TROPHY">{{'halospainleagueApp.AchievementType.TROPHY' | translate}}</option>
             </select>
             <div [hidden]="!(editForm.controls.type?.dirty && editForm.controls.type?.invalid)">
                 <small class="form-text text-danger"

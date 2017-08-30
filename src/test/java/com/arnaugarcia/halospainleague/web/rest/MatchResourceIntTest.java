@@ -65,7 +65,7 @@ public class MatchResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        MatchResource matchResource = new MatchResource(matchRepository);
+        final MatchResource matchResource = new MatchResource(matchRepository);
         this.restMatchMockMvc = MockMvcBuilders.standaloneSetup(matchResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

@@ -29,7 +29,6 @@ public class CountryResource {
     private static final String ENTITY_NAME = "country";
 
     private final CountryRepository countryRepository;
-
     public CountryResource(CountryRepository countryRepository) {
         this.countryRepository = countryRepository;
     }
@@ -86,7 +85,7 @@ public class CountryResource {
     public List<Country> getAllCountries() {
         log.debug("REST request to get all Countries");
         return countryRepository.findAll();
-    }
+        }
 
     /**
      * GET  /countries/:id : get the "id" country.

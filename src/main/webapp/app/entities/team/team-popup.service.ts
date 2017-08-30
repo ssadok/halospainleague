@@ -29,7 +29,7 @@ export class TeamPopupService {
             if (id) {
                 this.teamService.find(id).subscribe((team) => {
                     team.created = this.datePipe
-                        .transform(team.created, 'yyyy-MM-ddThh:mm');
+                        .transform(team.created, 'yyyy-MM-ddTHH:mm:ss');
                     this.ngbModalRef = this.teamModalRef(component, team);
                     resolve(this.ngbModalRef);
                 });

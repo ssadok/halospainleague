@@ -29,7 +29,6 @@ public class MatchResource {
     private static final String ENTITY_NAME = "match";
 
     private final MatchRepository matchRepository;
-
     public MatchResource(MatchRepository matchRepository) {
         this.matchRepository = matchRepository;
     }
@@ -86,7 +85,7 @@ public class MatchResource {
     public List<Match> getAllMatches() {
         log.debug("REST request to get all Matches");
         return matchRepository.findAll();
-    }
+        }
 
     /**
      * GET  /matches/:id : get the "id" match.

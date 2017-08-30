@@ -279,7 +279,7 @@ relationship OneToMany{
     //Un equipo puede estar en varios torneos
     //Team{team(name)} to Tournament{tournament(name)},
     //En un torneo se juegan varias partidas
-    Tournament{match(id)} to Match{tournament(name)},
+    Tournament{match(reference)} to Match{tournament(name)},
     Map{match(reference)} to Match{map(name)},
 
   	/**
@@ -315,8 +315,9 @@ relationship ManyToMany{
 	Team{player(name)} to Player{team(name)},
   	//Varios Equipos pueden estar en varios Torneos
     Tournament{team(name)} to Team{torunament(name)},
-    //Varios equipos pueden estar en una match list
-    Match{teamList(reference)} to TeamList{match(reference)},
+    //Varias equipos pueden estar en una match list
+    Team{teamList(reference)} to TeamList{team(name)},
+
 
     //Friend relationship
     //Player{player(name)} to Player{player(name)},
@@ -335,6 +336,7 @@ relationship OneToOne{
     */
     //Una partida tiene un resultado
     Match{resultMatch(reference)} to ResultMatch{match(reference)},
+    Match{teamList(reference)} to TeamList{match(reference)}
 
     /**
     * Profile, User, Account and ProfileConfiguration

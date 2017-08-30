@@ -29,7 +29,7 @@ export class NotificationPopupService {
             if (id) {
                 this.notificationService.find(id).subscribe((notification) => {
                     notification.creation = this.datePipe
-                        .transform(notification.creation, 'yyyy-MM-ddThh:mm');
+                        .transform(notification.creation, 'yyyy-MM-ddTHH:mm:ss');
                     this.ngbModalRef = this.notificationModalRef(component, notification);
                     resolve(this.ngbModalRef);
                 });

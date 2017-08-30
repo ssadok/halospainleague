@@ -29,7 +29,6 @@ public class DivisionResource {
     private static final String ENTITY_NAME = "division";
 
     private final DivisionRepository divisionRepository;
-
     public DivisionResource(DivisionRepository divisionRepository) {
         this.divisionRepository = divisionRepository;
     }
@@ -86,7 +85,7 @@ public class DivisionResource {
     public List<Division> getAllDivisions() {
         log.debug("REST request to get all Divisions");
         return divisionRepository.findAll();
-    }
+        }
 
     /**
      * GET  /divisions/:id : get the "id" division.

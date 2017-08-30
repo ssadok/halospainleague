@@ -29,11 +29,11 @@ export class MessagePopupService {
             if (id) {
                 this.messageService.find(id).subscribe((message) => {
                     message.created = this.datePipe
-                        .transform(message.created, 'yyyy-MM-ddThh:mm');
+                        .transform(message.created, 'yyyy-MM-ddTHH:mm:ss');
                     message.sent = this.datePipe
-                        .transform(message.sent, 'yyyy-MM-ddThh:mm');
+                        .transform(message.sent, 'yyyy-MM-ddTHH:mm:ss');
                     message.recived = this.datePipe
-                        .transform(message.recived, 'yyyy-MM-ddThh:mm');
+                        .transform(message.recived, 'yyyy-MM-ddTHH:mm:ss');
                     this.ngbModalRef = this.messageModalRef(component, message);
                     resolve(this.ngbModalRef);
                 });

@@ -6,6 +6,7 @@ export class Match implements BaseEntity {
         public reference?: string,
         public duration?: number,
         public resultMatch?: BaseEntity,
+        public teamList?: BaseEntity,
         public tournament?: BaseEntity,
         public map?: BaseEntity,
     ) {

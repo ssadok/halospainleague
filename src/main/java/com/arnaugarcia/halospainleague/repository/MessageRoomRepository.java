@@ -12,12 +12,11 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface MessageRoomRepository extends JpaRepository<MessageRoom,Long> {
-    
+public interface MessageRoomRepository extends JpaRepository<MessageRoom, Long> {
     @Query("select distinct message_room from MessageRoom message_room left join fetch message_room.players")
     List<MessageRoom> findAllWithEagerRelationships();
 
     @Query("select message_room from MessageRoom message_room left join fetch message_room.players where message_room.id =:id")
     MessageRoom findOneWithEagerRelationships(@Param("id") Long id);
-    
+
 }

@@ -30,7 +30,6 @@ public class AchievementResource {
     private static final String ENTITY_NAME = "achievement";
 
     private final AchievementRepository achievementRepository;
-
     public AchievementResource(AchievementRepository achievementRepository) {
         this.achievementRepository = achievementRepository;
     }
@@ -87,7 +86,7 @@ public class AchievementResource {
     public List<Achievement> getAllAchievements() {
         log.debug("REST request to get all Achievements");
         return achievementRepository.findAllWithEagerRelationships();
-    }
+        }
 
     /**
      * GET  /achievements/:id : get the "id" achievement.

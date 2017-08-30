@@ -29,7 +29,7 @@ export class PlayerPopupService {
             if (id) {
                 this.playerService.find(id).subscribe((player) => {
                     player.created = this.datePipe
-                        .transform(player.created, 'yyyy-MM-ddThh:mm');
+                        .transform(player.created, 'yyyy-MM-ddTHH:mm:ss');
                     this.ngbModalRef = this.playerModalRef(component, player);
                     resolve(this.ngbModalRef);
                 });

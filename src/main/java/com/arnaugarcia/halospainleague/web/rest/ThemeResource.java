@@ -29,7 +29,6 @@ public class ThemeResource {
     private static final String ENTITY_NAME = "theme";
 
     private final ThemeRepository themeRepository;
-
     public ThemeResource(ThemeRepository themeRepository) {
         this.themeRepository = themeRepository;
     }
@@ -86,7 +85,7 @@ public class ThemeResource {
     public List<Theme> getAllThemes() {
         log.debug("REST request to get all Themes");
         return themeRepository.findAll();
-    }
+        }
 
     /**
      * GET  /themes/:id : get the "id" theme.

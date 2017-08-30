@@ -29,7 +29,7 @@ export class MessageRoomPopupService {
             if (id) {
                 this.messageRoomService.find(id).subscribe((messageRoom) => {
                     messageRoom.crated = this.datePipe
-                        .transform(messageRoom.crated, 'yyyy-MM-ddThh:mm');
+                        .transform(messageRoom.crated, 'yyyy-MM-ddTHH:mm:ss');
                     this.ngbModalRef = this.messageRoomModalRef(component, messageRoom);
                     resolve(this.ngbModalRef);
                 });

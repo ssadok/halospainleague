@@ -31,7 +31,6 @@ public class ResultMatchResource {
     private static final String ENTITY_NAME = "resultMatch";
 
     private final ResultMatchRepository resultMatchRepository;
-
     public ResultMatchResource(ResultMatchRepository resultMatchRepository) {
         this.resultMatchRepository = resultMatchRepository;
     }
@@ -96,7 +95,7 @@ public class ResultMatchResource {
         }
         log.debug("REST request to get all ResultMatches");
         return resultMatchRepository.findAll();
-    }
+        }
 
     /**
      * GET  /result-matches/:id : get the "id" resultMatch.

@@ -32,9 +32,9 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="halospainleagueApp.notification.type" for="field_type">Type</label>
             <select class="form-control" name="type" [(ngModel)]="notification.type" id="field_type" >
-                <option value="NOTIFICATION" jhiTranslate="halospainleagueApp.NotificationType.NOTIFICATION">NOTIFICATION</option>
-                <option value="INVITATION" jhiTranslate="halospainleagueApp.NotificationType.INVITATION">INVITATION</option>
-                <option value="ALERT" jhiTranslate="halospainleagueApp.NotificationType.ALERT">ALERT</option>
+                <option value="NOTIFICATION">{{'halospainleagueApp.NotificationType.NOTIFICATION' | translate}}</option>
+                <option value="INVITATION">{{'halospainleagueApp.NotificationType.INVITATION' | translate}}</option>
+                <option value="ALERT">{{'halospainleagueApp.NotificationType.ALERT' | translate}}</option>
             </select>
         </div>
         <div class="form-group">
@@ -49,7 +49,7 @@
         </div>
 
         <div class="form-group">
-            <label jhiTranslate="halospainleagueApp.notification.player" for="field_player">Player</label>
+            <label class="form-control-label" jhiTranslate="halospainleagueApp.notification.player" for="field_player">Player</label>
             <select class="form-control" id="field_player" name="player" [(ngModel)]="notification.player" >
                 <option [ngValue]="null"></option>
                 <option [ngValue]="playerOption.id === notification.player?.id ? notification.player : playerOption" *ngFor="let playerOption of players; trackBy: trackPlayerById">{{playerOption.name}}</option>

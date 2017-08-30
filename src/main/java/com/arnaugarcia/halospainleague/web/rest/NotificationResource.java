@@ -29,7 +29,6 @@ public class NotificationResource {
     private static final String ENTITY_NAME = "notification";
 
     private final NotificationRepository notificationRepository;
-
     public NotificationResource(NotificationRepository notificationRepository) {
         this.notificationRepository = notificationRepository;
     }
@@ -86,7 +85,7 @@ public class NotificationResource {
     public List<Notification> getAllNotifications() {
         log.debug("REST request to get all Notifications");
         return notificationRepository.findAll();
-    }
+        }
 
     /**
      * GET  /notifications/:id : get the "id" notification.

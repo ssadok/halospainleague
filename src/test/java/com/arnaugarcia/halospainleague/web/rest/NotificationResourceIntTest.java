@@ -84,7 +84,7 @@ public class NotificationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        NotificationResource notificationResource = new NotificationResource(notificationRepository);
+        final NotificationResource notificationResource = new NotificationResource(notificationRepository);
         this.restNotificationMockMvc = MockMvcBuilders.standaloneSetup(notificationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

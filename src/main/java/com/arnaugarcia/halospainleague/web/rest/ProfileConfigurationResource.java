@@ -32,7 +32,6 @@ public class ProfileConfigurationResource {
     private static final String ENTITY_NAME = "profileConfiguration";
 
     private final ProfileConfigurationRepository profileConfigurationRepository;
-
     public ProfileConfigurationResource(ProfileConfigurationRepository profileConfigurationRepository) {
         this.profileConfigurationRepository = profileConfigurationRepository;
     }
@@ -97,7 +96,7 @@ public class ProfileConfigurationResource {
         }
         log.debug("REST request to get all ProfileConfigurations");
         return profileConfigurationRepository.findAll();
-    }
+        }
 
     /**
      * GET  /profile-configurations/:id : get the "id" profileConfiguration.

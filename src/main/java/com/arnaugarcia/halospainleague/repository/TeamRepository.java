@@ -12,12 +12,11 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface TeamRepository extends JpaRepository<Team,Long> {
-    
-    @Query("select distinct team from Team team left join fetch team.players")
+public interface TeamRepository extends JpaRepository<Team, Long> {
+    @Query("select distinct team from Team team left join fetch team.players left join fetch team.teamLists")
     List<Team> findAllWithEagerRelationships();
 
-    @Query("select team from Team team left join fetch team.players where team.id =:id")
+    @Query("select team from Team team left join fetch team.players left join fetch team.teamLists where team.id =:id")
     Team findOneWithEagerRelationships(@Param("id") Long id);
-    
+
 }

@@ -77,7 +77,7 @@ public class MessageResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        MessageResource messageResource = new MessageResource(messageRepository);
+        final MessageResource messageResource = new MessageResource(messageRepository);
         this.restMessageMockMvc = MockMvcBuilders.standaloneSetup(messageResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

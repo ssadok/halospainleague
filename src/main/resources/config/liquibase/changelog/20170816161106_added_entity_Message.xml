@@ -47,4 +47,5 @@
         <dropDefaultValue tableName="message" columnName="recived" columnDataType="datetime"/>
         
     </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>
