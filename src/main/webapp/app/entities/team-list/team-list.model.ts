@@ -5,8 +5,8 @@ export class TeamList implements BaseEntity {
         public id?: number,
         public reference?: string,
         public score?: number,
-        public matchId?: number,
         public teams?: BaseEntity[],
+        public matchId?: number,
     ) {
     }
 }

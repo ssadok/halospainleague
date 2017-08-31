@@ -53,8 +53,8 @@ public class CacheConfiguration {
             cm.createCache(com.arnaugarcia.halospainleague.domain.Division.class.getName() + ".teams", jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.Team.class.getName(), jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.Team.class.getName() + ".players", jcacheConfiguration);
-            cm.createCache(com.arnaugarcia.halospainleague.domain.Team.class.getName() + ".teamLists", jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.Team.class.getName() + ".torunaments", jcacheConfiguration);
+            cm.createCache(com.arnaugarcia.halospainleague.domain.Team.class.getName() + ".teamLists", jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.Match.class.getName(), jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.Match.class.getName() + ".matchModes", jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.Map.class.getName(), jcacheConfiguration);

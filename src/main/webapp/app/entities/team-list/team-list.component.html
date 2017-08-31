@@ -19,6 +19,7 @@
             <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="halospainleagueApp.teamList.reference">Reference</span></th>
             <th><span jhiTranslate="halospainleagueApp.teamList.score">Score</span></th>
+            <th><span jhiTranslate="halospainleagueApp.teamList.team">Team</span></th>
             <th></th>
             </tr>
             </thead>
@@ -27,6 +28,11 @@
                 <td><a [routerLink]="['../team-list', teamList.id ]">{{teamList.id}}</a></td>
                 <td>{{teamList.reference}}</td>
                 <td>{{teamList.score}}</td>
+                <td>
+                    <span *ngFor="let team of teamList.teams; let last = last">
+                            <a class="form-control-static" [routerLink]="['../team', team?.id ]">{{team.name}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

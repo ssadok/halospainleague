@@ -8,7 +8,7 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Team and its DTO TeamDTO.
  */
-@Mapper(componentModel = "spring", uses = {PlayerMapper.class, TeamListMapper.class, DivisionMapper.class, })
+@Mapper(componentModel = "spring", uses = {PlayerMapper.class, DivisionMapper.class, })
 public interface TeamMapper extends EntityMapper <TeamDTO, Team> {
 
     @Mapping(source = "division.id", target = "divisionId")
@@ -17,6 +17,7 @@ public interface TeamMapper extends EntityMapper <TeamDTO, Team> {
 
     @Mapping(source = "divisionId", target = "division")
     @Mapping(target = "torunaments", ignore = true)
+    @Mapping(target = "teamLists", ignore = true)
     Team toEntity(TeamDTO teamDTO); 
     default Team fromId(Long id) {
         if (id == null) {

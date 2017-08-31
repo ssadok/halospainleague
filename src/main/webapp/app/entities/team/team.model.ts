@@ -28,9 +28,9 @@ export class Team implements BaseEntity {
         public position?: number,
         public premium?: boolean,
         public players?: BaseEntity[],
-        public teamLists?: BaseEntity[],
         public divisionId?: number,
         public torunaments?: BaseEntity[],
+        public teamLists?: BaseEntity[],
     ) {
         this.streak = false;
         this.premium = false;

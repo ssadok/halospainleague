@@ -17,8 +17,8 @@
             },
             "reference": "Reference",
             "score": "Score",
-            "match": "Match",
-            "team": "Team"
+            "team": "Team",
+            "match": "Match"
         }
     }
 }

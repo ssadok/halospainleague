@@ -104,7 +104,7 @@ public class TeamListResource {
                 .collect(Collectors.toCollection(LinkedList::new));
         }
         log.debug("REST request to get all TeamLists");
-        List<TeamList> teamLists = teamListRepository.findAll();
+        List<TeamList> teamLists = teamListRepository.findAllWithEagerRelationships();
         return teamListMapper.toDto(teamLists);
         }
 
@@ -118,7 +118,7 @@ public class TeamListResource {
     @Timed
     public ResponseEntity<TeamListDTO> getTeamList(@PathVariable Long id) {
         log.debug("REST request to get TeamList : {}", id);
-        TeamList teamList = teamListRepository.findOne(id);
+        TeamList teamList = teamListRepository.findOneWithEagerRelationships(id);
         TeamListDTO teamListDTO = teamListMapper.toDto(teamList);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(teamListDTO));
     }

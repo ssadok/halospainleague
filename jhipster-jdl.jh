@@ -329,7 +329,7 @@ relationship ManyToMany{
   	//Varios Equipos pueden estar en varios Torneos
     Tournament{team(name)} to Team{torunament(name)},
     //Varias equipos pueden estar en una match list
-    Team{teamList(reference)} to TeamList{team(name)},
+    TeamList{team(name)} to Team{teamList(reference)},
 
 
     //Friend relationship

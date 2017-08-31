@@ -17,6 +17,8 @@ public class TeamListDTO implements Serializable {
 
     private Integer score;
 
+    private Set<TeamDTO> teams = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -39,6 +41,14 @@ public class TeamListDTO implements Serializable {
 
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    public Set<TeamDTO> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<TeamDTO> teams) {
+        this.teams = teams;
     }
 
     @Override

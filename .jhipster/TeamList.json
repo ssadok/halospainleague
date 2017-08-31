@@ -2,16 +2,17 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "teamList",
+            "relationshipName": "team",
+            "otherEntityName": "team",
+            "otherEntityField": "name",
+            "ownerSide": true
+        },
+        {
             "relationshipType": "one-to-one",
             "relationshipName": "match",
             "otherEntityName": "match",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "teamList"
-        },
-        {
-            "relationshipType": "many-to-many",
-            "relationshipName": "team",
-            "otherEntityName": "team",
             "ownerSide": false,
             "otherEntityRelationshipName": "teamList"
         }

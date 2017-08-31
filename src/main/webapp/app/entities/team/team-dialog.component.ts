@@ -10,9 +10,9 @@ import { Team } from './team.model';
 import { TeamPopupService } from './team-popup.service';
 import { TeamService } from './team.service';
 import { Player, PlayerService } from '../player';
-import { TeamList, TeamListService } from '../team-list';
 import { Division, DivisionService } from '../division';
 import { Tournament, TournamentService } from '../tournament';
+import { TeamList, TeamListService } from '../team-list';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -26,11 +26,11 @@ export class TeamDialogComponent implements OnInit {
 
     players: Player[];
 
-    teamlists: TeamList[];
-
     divisions: Division[];
 
     tournaments: Tournament[];
+
+    teamlists: TeamList[];
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -38,9 +38,9 @@ export class TeamDialogComponent implements OnInit {
         private alertService: JhiAlertService,
         private teamService: TeamService,
         private playerService: PlayerService,
-        private teamListService: TeamListService,
         private divisionService: DivisionService,
         private tournamentService: TournamentService,
+        private teamListService: TeamListService,
         private elementRef: ElementRef,
         private eventManager: JhiEventManager
     ) {
@@ -50,12 +50,12 @@ export class TeamDialogComponent implements OnInit {
         this.isSaving = false;
         this.playerService.query()
             .subscribe((res: ResponseWrapper) => { this.players = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
-        this.teamListService.query()
-            .subscribe((res: ResponseWrapper) => { this.teamlists = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.divisionService.query()
             .subscribe((res: ResponseWrapper) => { this.divisions = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.tournamentService.query()
             .subscribe((res: ResponseWrapper) => { this.tournaments = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.teamListService.query()
+            .subscribe((res: ResponseWrapper) => { this.teamlists = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     byteSize(field) {
@@ -118,15 +118,15 @@ export class TeamDialogComponent implements OnInit {
         return item.id;
     }
 
-    trackTeamListById(index: number, item: TeamList) {
-        return item.id;
-    }
-
     trackDivisionById(index: number, item: Division) {
         return item.id;
     }
 
     trackTournamentById(index: number, item: Tournament) {
+        return item.id;
+    }
+
+    trackTeamListById(index: number, item: TeamList) {
         return item.id;
     }
 

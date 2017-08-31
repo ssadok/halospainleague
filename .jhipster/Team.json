@@ -11,14 +11,6 @@
             "ownerSide": true
         },
         {
-            "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "team",
-            "relationshipName": "teamList",
-            "otherEntityName": "teamList",
-            "otherEntityField": "reference",
-            "ownerSide": true
-        },
-        {
             "relationshipType": "many-to-one",
             "relationshipName": "division",
             "otherEntityName": "division",
@@ -28,6 +20,13 @@
             "relationshipType": "many-to-many",
             "relationshipName": "torunament",
             "otherEntityName": "tournament",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "team"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "teamList",
+            "otherEntityName": "teamList",
             "ownerSide": false,
             "otherEntityRelationshipName": "team"
         }

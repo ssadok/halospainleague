@@ -48,8 +48,6 @@ public class TeamDTO implements Serializable {
 
     private Set<PlayerDTO> players = new HashSet<>();
 
-    private Set<TeamListDTO> teamLists = new HashSet<>();
-
     private Long divisionId;
 
     private String divisionName;
@@ -188,14 +186,6 @@ public class TeamDTO implements Serializable {
 
     public void setPlayers(Set<PlayerDTO> players) {
         this.players = players;
-    }
-
-    public Set<TeamListDTO> getTeamLists() {
-        return teamLists;
-    }
-
-    public void setTeamLists(Set<TeamListDTO> teamLists) {
-        this.teamLists = teamLists;
     }
 
     public Long getDivisionId() {

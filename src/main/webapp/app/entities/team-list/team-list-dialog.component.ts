@@ -9,8 +9,8 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { TeamList } from './team-list.model';
 import { TeamListPopupService } from './team-list-popup.service';
 import { TeamListService } from './team-list.service';
-import { Match, MatchService } from '../match';
 import { Team, TeamService } from '../team';
+import { Match, MatchService } from '../match';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -22,26 +22,26 @@ export class TeamListDialogComponent implements OnInit {
     teamList: TeamList;
     isSaving: boolean;
 
-    matches: Match[];
-
     teams: Team[];
+
+    matches: Match[];
 
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private teamListService: TeamListService,
-        private matchService: MatchService,
         private teamService: TeamService,
+        private matchService: MatchService,
         private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.matchService.query()
-            .subscribe((res: ResponseWrapper) => { this.matches = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.teamService.query()
             .subscribe((res: ResponseWrapper) => { this.teams = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.matchService.query()
+            .subscribe((res: ResponseWrapper) => { this.matches = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -84,11 +84,11 @@ export class TeamListDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    trackMatchById(index: number, item: Match) {
+    trackTeamById(index: number, item: Team) {
         return item.id;
     }
 
-    trackTeamById(index: number, item: Team) {
+    trackMatchById(index: number, item: Match) {
         return item.id;
     }
 

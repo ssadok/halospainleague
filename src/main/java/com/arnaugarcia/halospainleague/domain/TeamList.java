@@ -33,14 +33,16 @@ public class TeamList implements Serializable {
     @Column(name = "score")
     private Integer score;
 
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "team_list_team",
+               joinColumns = @JoinColumn(name="team_lists_id", referencedColumnName="id"),
+               inverseJoinColumns = @JoinColumn(name="teams_id", referencedColumnName="id"))
+    private Set<Team> teams = new HashSet<>();
+
     @OneToOne(mappedBy = "teamList")
     @JsonIgnore
     private Match match;
-
-    @ManyToMany(mappedBy = "teamLists")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Team> teams = new HashSet<>();
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
@@ -77,19 +79,6 @@ public class TeamList implements Serializable {
         this.score = score;
     }
 
-    public Match getMatch() {
-        return match;
-    }
-
-    public TeamList match(Match match) {
-        this.match = match;
-        return this;
-    }
-
-    public void setMatch(Match match) {
-        this.match = match;
-    }
-
     public Set<Team> getTeams() {
         return teams;
     }
@@ -113,6 +102,19 @@ public class TeamList implements Serializable {
 
     public void setTeams(Set<Team> teams) {
         this.teams = teams;
+    }
+
+    public Match getMatch() {
+        return match;
+    }
+
+    public TeamList match(Match match) {
+        this.match = match;
+        return this;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
     }
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 

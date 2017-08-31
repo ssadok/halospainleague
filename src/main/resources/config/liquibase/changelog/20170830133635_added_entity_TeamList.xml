@@ -33,6 +33,17 @@
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         
+        <createTable tableName="team_list_team">
+            <column name="teams_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="team_lists_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="team_lists_id, teams_id" tableName="team_list_team"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

@@ -72,12 +72,6 @@
                 <a [routerLink]="['/player', player?.id ]">{{player.name}}</a>{{last ? '' : ', '}}
             </span>
         </dd>
-        <dt><span jhiTranslate="halospainleagueApp.team.teamList">Team List</span></dt>
-        <dd>
-            <span *ngFor="let teamList of team.teamLists; let last = last">
-                <a [routerLink]="['/team-list', teamList?.id ]">{{teamList.reference}}</a>{{last ? '' : ', '}}
-            </span>
-        </dd>
         <dt><span jhiTranslate="halospainleagueApp.team.division">Division</span></dt>
         <dd>
             <div *ngIf="team.divisionId">

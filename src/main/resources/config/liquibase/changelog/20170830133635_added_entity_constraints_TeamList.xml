@@ -9,15 +9,15 @@
     <changeSet id="20170830133635-2" author="jhipster">
         
         <addForeignKeyConstraint baseColumnNames="team_lists_id"
-                                 baseTableName="team_list_match"
-                                 constraintName="fk_team_list_match_team_lists_id"
+                                 baseTableName="team_list_team"
+                                 constraintName="fk_team_list_team_team_lists_id"
                                  referencedColumnNames="id"
                                  referencedTableName="team_list"/>
-        <addForeignKeyConstraint baseColumnNames="matches_id"
-                                 baseTableName="team_list_match"
-                                 constraintName="fk_team_list_match_matches_id"
+        <addForeignKeyConstraint baseColumnNames="teams_id"
+                                 baseTableName="team_list_team"
+                                 constraintName="fk_team_list_team_teams_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="jhi_match"/>
+                                 referencedTableName="team"/>
         
     </changeSet>
 </databaseChangeLog>

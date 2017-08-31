@@ -8,11 +8,10 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity TeamList and its DTO TeamListDTO.
  */
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring", uses = {TeamMapper.class, })
 public interface TeamListMapper extends EntityMapper <TeamListDTO, TeamList> {
     
     @Mapping(target = "match", ignore = true)
-    @Mapping(target = "teams", ignore = true)
     TeamList toEntity(TeamListDTO teamListDTO); 
     default TeamList fromId(Long id) {
         if (id == null) {
