@@ -1,6 +1,7 @@
 package com.arnaugarcia.halospainleague.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -13,8 +14,10 @@ import java.util.Objects;
 import com.arnaugarcia.halospainleague.domain.enumeration.DivisionType;
 
 /**
- * A Division.
+ * Class Division.
+ * @author arnaugarcia.
  */
+@ApiModel(description = "Class Division. @author arnaugarcia.")
 @Entity
 @Table(name = "division")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

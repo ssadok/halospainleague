@@ -30,14 +30,14 @@
         </dd>
         <dt><span jhiTranslate="halospainleagueApp.theme.profileConfiguration">Profile Configuration</span></dt>
         <dd>
-            <div *ngIf="theme.profileConfiguration">
-                <a [routerLink]="['/profile-configuration', theme.profileConfiguration?.id]">{{theme.profileConfiguration?.id}}</a>
+            <div *ngIf="theme.profileConfigurationId">
+                <a [routerLink]="['/profile-configuration', theme.profileConfigurationId]">{{theme.profileConfigurationId}}</a>
             </div>
         </dd>
         <dt><span jhiTranslate="halospainleagueApp.theme.messageRoom">Message Room</span></dt>
         <dd>
-            <div *ngIf="theme.messageRoom">
-                <a [routerLink]="['/message-room', theme.messageRoom?.id]">{{theme.messageRoom?.title}}</a>
+            <div *ngIf="theme.messageRoomId">
+                <a [routerLink]="['/message-room', theme.messageRoomId]">{{theme.messageRoomTitle}}</a>
             </div>
         </dd>
     </dl>

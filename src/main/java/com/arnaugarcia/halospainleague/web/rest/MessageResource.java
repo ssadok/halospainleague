@@ -5,6 +5,8 @@ import com.arnaugarcia.halospainleague.domain.Message;
 
 import com.arnaugarcia.halospainleague.repository.MessageRepository;
 import com.arnaugarcia.halospainleague.web.rest.util.HeaderUtil;
+import com.arnaugarcia.halospainleague.service.dto.MessageDTO;
+import com.arnaugarcia.halospainleague.service.mapper.MessageMapper;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,25 +31,30 @@ public class MessageResource {
     private static final String ENTITY_NAME = "message";
 
     private final MessageRepository messageRepository;
-    public MessageResource(MessageRepository messageRepository) {
+
+    private final MessageMapper messageMapper;
+    public MessageResource(MessageRepository messageRepository, MessageMapper messageMapper) {
         this.messageRepository = messageRepository;
+        this.messageMapper = messageMapper;
     }
 
     /**
      * POST  /messages : Create a new message.
      *
-     * @param message the message to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new message, or with status 400 (Bad Request) if the message has already an ID
+     * @param messageDTO the messageDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new messageDTO, or with status 400 (Bad Request) if the message has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/messages")
     @Timed
-    public ResponseEntity<Message> createMessage(@RequestBody Message message) throws URISyntaxException {
-        log.debug("REST request to save Message : {}", message);
-        if (message.getId() != null) {
+    public ResponseEntity<MessageDTO> createMessage(@RequestBody MessageDTO messageDTO) throws URISyntaxException {
+        log.debug("REST request to save Message : {}", messageDTO);
+        if (messageDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new message cannot already have an ID")).body(null);
         }
-        Message result = messageRepository.save(message);
+        Message message = messageMapper.toEntity(messageDTO);
+        message = messageRepository.save(message);
+        MessageDTO result = messageMapper.toDto(message);
         return ResponseEntity.created(new URI("/api/messages/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -56,22 +63,24 @@ public class MessageResource {
     /**
      * PUT  /messages : Updates an existing message.
      *
-     * @param message the message to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated message,
-     * or with status 400 (Bad Request) if the message is not valid,
-     * or with status 500 (Internal Server Error) if the message couldn't be updated
+     * @param messageDTO the messageDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated messageDTO,
+     * or with status 400 (Bad Request) if the messageDTO is not valid,
+     * or with status 500 (Internal Server Error) if the messageDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/messages")
     @Timed
-    public ResponseEntity<Message> updateMessage(@RequestBody Message message) throws URISyntaxException {
-        log.debug("REST request to update Message : {}", message);
-        if (message.getId() == null) {
-            return createMessage(message);
+    public ResponseEntity<MessageDTO> updateMessage(@RequestBody MessageDTO messageDTO) throws URISyntaxException {
+        log.debug("REST request to update Message : {}", messageDTO);
+        if (messageDTO.getId() == null) {
+            return createMessage(messageDTO);
         }
-        Message result = messageRepository.save(message);
+        Message message = messageMapper.toEntity(messageDTO);
+        message = messageRepository.save(message);
+        MessageDTO result = messageMapper.toDto(message);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, message.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, messageDTO.getId().toString()))
             .body(result);
     }
 
@@ -82,29 +91,31 @@ public class MessageResource {
      */
     @GetMapping("/messages")
     @Timed
-    public List<Message> getAllMessages() {
+    public List<MessageDTO> getAllMessages() {
         log.debug("REST request to get all Messages");
-        return messageRepository.findAll();
+        List<Message> messages = messageRepository.findAll();
+        return messageMapper.toDto(messages);
         }
 
     /**
      * GET  /messages/:id : get the "id" message.
      *
-     * @param id the id of the message to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the message, or with status 404 (Not Found)
+     * @param id the id of the messageDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the messageDTO, or with status 404 (Not Found)
      */
     @GetMapping("/messages/{id}")
     @Timed
-    public ResponseEntity<Message> getMessage(@PathVariable Long id) {
+    public ResponseEntity<MessageDTO> getMessage(@PathVariable Long id) {
         log.debug("REST request to get Message : {}", id);
         Message message = messageRepository.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(message));
+        MessageDTO messageDTO = messageMapper.toDto(message);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(messageDTO));
     }
 
     /**
      * DELETE  /messages/:id : delete the "id" message.
      *
-     * @param id the id of the message to delete
+     * @param id the id of the messageDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/messages/{id}")

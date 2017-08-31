@@ -5,10 +5,10 @@ export class Match implements BaseEntity {
         public id?: number,
         public reference?: string,
         public duration?: number,
-        public resultMatch?: BaseEntity,
-        public teamList?: BaseEntity,
-        public tournament?: BaseEntity,
-        public map?: BaseEntity,
+        public resultMatchId?: number,
+        public teamListId?: number,
+        public tournamentId?: number,
+        public mapId?: number,
         public matchModes?: BaseEntity[],
     ) {
     }

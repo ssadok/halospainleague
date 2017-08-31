@@ -22,8 +22,8 @@
         </dd>
         <dt><span jhiTranslate="halospainleagueApp.message.messageRoom">Message Room</span></dt>
         <dd>
-            <div *ngIf="message.messageRoom">
-                <a [routerLink]="['/message-room', message.messageRoom?.id]">{{message.messageRoom?.title}}</a>
+            <div *ngIf="message.messageRoomId">
+                <a [routerLink]="['/message-room', message.messageRoomId]">{{message.messageRoomTitle}}</a>
             </div>
         </dd>
     </dl>

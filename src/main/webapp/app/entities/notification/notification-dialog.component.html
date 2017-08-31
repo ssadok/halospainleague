@@ -50,9 +50,9 @@
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="halospainleagueApp.notification.player" for="field_player">Player</label>
-            <select class="form-control" id="field_player" name="player" [(ngModel)]="notification.player" >
+            <select class="form-control" id="field_player" name="player" [(ngModel)]="notification.playerId" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="playerOption.id === notification.player?.id ? notification.player : playerOption" *ngFor="let playerOption of players; trackBy: trackPlayerById">{{playerOption.name}}</option>
+                <option [ngValue]="playerOption.id" *ngFor="let playerOption of players; trackBy: trackPlayerById">{{playerOption.name}}</option>
             </select>
         </div>
     </div>

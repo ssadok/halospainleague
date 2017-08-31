@@ -38,11 +38,11 @@ export class MessageDialogComponent implements OnInit {
         this.messageRoomService
             .query({filter: 'message(id)-is-null'})
             .subscribe((res: ResponseWrapper) => {
-                if (!this.message.messageRoom || !this.message.messageRoom.id) {
+                if (!this.message.messageRoomId) {
                     this.messagerooms = res.json;
                 } else {
                     this.messageRoomService
-                        .find(this.message.messageRoom.id)
+                        .find(this.message.messageRoomId)
                         .subscribe((subRes: MessageRoom) => {
                             this.messagerooms = [subRes].concat(res.json);
                         }, (subRes: ResponseWrapper) => this.onError(subRes.json));

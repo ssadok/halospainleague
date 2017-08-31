@@ -4,6 +4,8 @@ import com.arnaugarcia.halospainleague.HalospainleagueApp;
 
 import com.arnaugarcia.halospainleague.domain.Team;
 import com.arnaugarcia.halospainleague.repository.TeamRepository;
+import com.arnaugarcia.halospainleague.service.dto.TeamDTO;
+import com.arnaugarcia.halospainleague.service.mapper.TeamMapper;
 import com.arnaugarcia.halospainleague.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -91,6 +93,9 @@ public class TeamResourceIntTest {
     private TeamRepository teamRepository;
 
     @Autowired
+    private TeamMapper teamMapper;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -109,7 +114,7 @@ public class TeamResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final TeamResource teamResource = new TeamResource(teamRepository);
+        final TeamResource teamResource = new TeamResource(teamRepository, teamMapper);
         this.restTeamMockMvc = MockMvcBuilders.standaloneSetup(teamResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -153,9 +158,10 @@ public class TeamResourceIntTest {
         int databaseSizeBeforeCreate = teamRepository.findAll().size();
 
         // Create the Team
+        TeamDTO teamDTO = teamMapper.toDto(team);
         restTeamMockMvc.perform(post("/api/teams")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(team)))
+            .content(TestUtil.convertObjectToJsonBytes(teamDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Team in the database
@@ -186,11 +192,12 @@ public class TeamResourceIntTest {
 
         // Create the Team with an existing ID
         team.setId(1L);
+        TeamDTO teamDTO = teamMapper.toDto(team);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restTeamMockMvc.perform(post("/api/teams")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(team)))
+            .content(TestUtil.convertObjectToJsonBytes(teamDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -287,10 +294,11 @@ public class TeamResourceIntTest {
             .streak(UPDATED_STREAK)
             .position(UPDATED_POSITION)
             .premium(UPDATED_PREMIUM);
+        TeamDTO teamDTO = teamMapper.toDto(updatedTeam);
 
         restTeamMockMvc.perform(put("/api/teams")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedTeam)))
+            .content(TestUtil.convertObjectToJsonBytes(teamDTO)))
             .andExpect(status().isOk());
 
         // Validate the Team in the database
@@ -320,11 +328,12 @@ public class TeamResourceIntTest {
         int databaseSizeBeforeUpdate = teamRepository.findAll().size();
 
         // Create the Team
+        TeamDTO teamDTO = teamMapper.toDto(team);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restTeamMockMvc.perform(put("/api/teams")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(team)))
+            .content(TestUtil.convertObjectToJsonBytes(teamDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Team in the database
@@ -362,5 +371,28 @@ public class TeamResourceIntTest {
         assertThat(team1).isNotEqualTo(team2);
         team1.setId(null);
         assertThat(team1).isNotEqualTo(team2);
+    }
+
+    @Test
+    @Transactional
+    public void dtoEqualsVerifier() throws Exception {
+        TestUtil.equalsVerifier(TeamDTO.class);
+        TeamDTO teamDTO1 = new TeamDTO();
+        teamDTO1.setId(1L);
+        TeamDTO teamDTO2 = new TeamDTO();
+        assertThat(teamDTO1).isNotEqualTo(teamDTO2);
+        teamDTO2.setId(teamDTO1.getId());
+        assertThat(teamDTO1).isEqualTo(teamDTO2);
+        teamDTO2.setId(2L);
+        assertThat(teamDTO1).isNotEqualTo(teamDTO2);
+        teamDTO1.setId(null);
+        assertThat(teamDTO1).isNotEqualTo(teamDTO2);
+    }
+
+    @Test
+    @Transactional
+    public void testEntityFromId() {
+        assertThat(teamMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(teamMapper.fromId(null)).isNull();
     }
 }

@@ -35,9 +35,9 @@
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="halospainleagueApp.socialAccount.player" for="field_player">Player</label>
-            <select class="form-control" id="field_player" name="player" [(ngModel)]="socialAccount.player" >
+            <select class="form-control" id="field_player" name="player" [(ngModel)]="socialAccount.playerId" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="playerOption.id === socialAccount.player?.id ? socialAccount.player : playerOption" *ngFor="let playerOption of players; trackBy: trackPlayerById">{{playerOption.name}}</option>
+                <option [ngValue]="playerOption.id" *ngFor="let playerOption of players; trackBy: trackPlayerById">{{playerOption.name}}</option>
             </select>
         </div>
     </div>

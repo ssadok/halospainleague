@@ -144,8 +144,7 @@
     "changelogDate": "20170816161059",
     "javadoc": "Class Player.\n@author arnaugarcia.",
     "entityTableName": "player",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
-    "service": "no",
-    "jpaMetamodelFiltering": true
+    "service": "no"
 }

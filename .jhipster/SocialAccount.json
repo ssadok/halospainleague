@@ -26,8 +26,7 @@
     "changelogDate": "20170816161101",
     "javadoc": "Class SocialAccount.\n@author arnaugarcia.",
     "entityTableName": "social_account",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
-    "service": "no",
-    "jpaMetamodelFiltering": true
+    "service": "no"
 }

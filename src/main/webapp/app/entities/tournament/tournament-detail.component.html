@@ -61,8 +61,8 @@
         </dd>
         <dt><span jhiTranslate="halospainleagueApp.tournament.game">Game</span></dt>
         <dd>
-            <div *ngIf="tournament.game">
-                <a [routerLink]="['/game', tournament.game?.id]">{{tournament.game?.name}}</a>
+            <div *ngIf="tournament.gameId">
+                <a [routerLink]="['/game', tournament.gameId]">{{tournament.gameName}}</a>
             </div>
         </dd>
     </dl>

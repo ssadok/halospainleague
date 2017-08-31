@@ -58,8 +58,8 @@
                         </span>
                 </td>
                 <td>
-                    <div *ngIf="tournament.game">
-                        <a [routerLink]="['../game', tournament.game?.id ]" >{{tournament.game?.name}}</a>
+                    <div *ngIf="tournament.gameId">
+                        <a [routerLink]="['../game', tournament.gameId  ]" >{{tournament.gameName}}</a>
                     </div>
                 </td>
                 <td class="text-right">

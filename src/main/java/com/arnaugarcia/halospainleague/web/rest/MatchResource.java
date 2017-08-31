@@ -5,6 +5,8 @@ import com.arnaugarcia.halospainleague.domain.Match;
 
 import com.arnaugarcia.halospainleague.repository.MatchRepository;
 import com.arnaugarcia.halospainleague.web.rest.util.HeaderUtil;
+import com.arnaugarcia.halospainleague.service.dto.MatchDTO;
+import com.arnaugarcia.halospainleague.service.mapper.MatchMapper;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,25 +31,30 @@ public class MatchResource {
     private static final String ENTITY_NAME = "match";
 
     private final MatchRepository matchRepository;
-    public MatchResource(MatchRepository matchRepository) {
+
+    private final MatchMapper matchMapper;
+    public MatchResource(MatchRepository matchRepository, MatchMapper matchMapper) {
         this.matchRepository = matchRepository;
+        this.matchMapper = matchMapper;
     }
 
     /**
      * POST  /matches : Create a new match.
      *
-     * @param match the match to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new match, or with status 400 (Bad Request) if the match has already an ID
+     * @param matchDTO the matchDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new matchDTO, or with status 400 (Bad Request) if the match has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/matches")
     @Timed
-    public ResponseEntity<Match> createMatch(@RequestBody Match match) throws URISyntaxException {
-        log.debug("REST request to save Match : {}", match);
-        if (match.getId() != null) {
+    public ResponseEntity<MatchDTO> createMatch(@RequestBody MatchDTO matchDTO) throws URISyntaxException {
+        log.debug("REST request to save Match : {}", matchDTO);
+        if (matchDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new match cannot already have an ID")).body(null);
         }
-        Match result = matchRepository.save(match);
+        Match match = matchMapper.toEntity(matchDTO);
+        match = matchRepository.save(match);
+        MatchDTO result = matchMapper.toDto(match);
         return ResponseEntity.created(new URI("/api/matches/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -56,22 +63,24 @@ public class MatchResource {
     /**
      * PUT  /matches : Updates an existing match.
      *
-     * @param match the match to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated match,
-     * or with status 400 (Bad Request) if the match is not valid,
-     * or with status 500 (Internal Server Error) if the match couldn't be updated
+     * @param matchDTO the matchDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated matchDTO,
+     * or with status 400 (Bad Request) if the matchDTO is not valid,
+     * or with status 500 (Internal Server Error) if the matchDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/matches")
     @Timed
-    public ResponseEntity<Match> updateMatch(@RequestBody Match match) throws URISyntaxException {
-        log.debug("REST request to update Match : {}", match);
-        if (match.getId() == null) {
-            return createMatch(match);
+    public ResponseEntity<MatchDTO> updateMatch(@RequestBody MatchDTO matchDTO) throws URISyntaxException {
+        log.debug("REST request to update Match : {}", matchDTO);
+        if (matchDTO.getId() == null) {
+            return createMatch(matchDTO);
         }
-        Match result = matchRepository.save(match);
+        Match match = matchMapper.toEntity(matchDTO);
+        match = matchRepository.save(match);
+        MatchDTO result = matchMapper.toDto(match);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, match.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, matchDTO.getId().toString()))
             .body(result);
     }
 
@@ -82,29 +91,31 @@ public class MatchResource {
      */
     @GetMapping("/matches")
     @Timed
-    public List<Match> getAllMatches() {
+    public List<MatchDTO> getAllMatches() {
         log.debug("REST request to get all Matches");
-        return matchRepository.findAll();
+        List<Match> matches = matchRepository.findAll();
+        return matchMapper.toDto(matches);
         }
 
     /**
      * GET  /matches/:id : get the "id" match.
      *
-     * @param id the id of the match to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the match, or with status 404 (Not Found)
+     * @param id the id of the matchDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the matchDTO, or with status 404 (Not Found)
      */
     @GetMapping("/matches/{id}")
     @Timed
-    public ResponseEntity<Match> getMatch(@PathVariable Long id) {
+    public ResponseEntity<MatchDTO> getMatch(@PathVariable Long id) {
         log.debug("REST request to get Match : {}", id);
         Match match = matchRepository.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(match));
+        MatchDTO matchDTO = matchMapper.toDto(match);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(matchDTO));
     }
 
     /**
      * DELETE  /matches/:id : delete the "id" match.
      *
-     * @param id the id of the match to delete
+     * @param id the id of the matchDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/matches/{id}")

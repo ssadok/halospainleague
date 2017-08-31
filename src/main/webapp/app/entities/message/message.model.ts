@@ -7,7 +7,7 @@ export class Message implements BaseEntity {
         public created?: any,
         public sent?: any,
         public recived?: any,
-        public messageRoom?: BaseEntity,
+        public messageRoomId?: number,
     ) {
     }
 }

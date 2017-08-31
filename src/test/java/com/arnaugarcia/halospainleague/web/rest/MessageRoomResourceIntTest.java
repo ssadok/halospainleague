@@ -6,6 +6,8 @@ import com.arnaugarcia.halospainleague.domain.MessageRoom;
 import com.arnaugarcia.halospainleague.domain.Theme;
 import com.arnaugarcia.halospainleague.domain.Message;
 import com.arnaugarcia.halospainleague.repository.MessageRoomRepository;
+import com.arnaugarcia.halospainleague.service.dto.MessageRoomDTO;
+import com.arnaugarcia.halospainleague.service.mapper.MessageRoomMapper;
 import com.arnaugarcia.halospainleague.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -68,6 +70,9 @@ public class MessageRoomResourceIntTest {
     private MessageRoomRepository messageRoomRepository;
 
     @Autowired
+    private MessageRoomMapper messageRoomMapper;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -86,7 +91,7 @@ public class MessageRoomResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final MessageRoomResource messageRoomResource = new MessageRoomResource(messageRoomRepository);
+        final MessageRoomResource messageRoomResource = new MessageRoomResource(messageRoomRepository, messageRoomMapper);
         this.restMessageRoomMockMvc = MockMvcBuilders.standaloneSetup(messageRoomResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -132,9 +137,10 @@ public class MessageRoomResourceIntTest {
         int databaseSizeBeforeCreate = messageRoomRepository.findAll().size();
 
         // Create the MessageRoom
+        MessageRoomDTO messageRoomDTO = messageRoomMapper.toDto(messageRoom);
         restMessageRoomMockMvc.perform(post("/api/message-rooms")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(messageRoom)))
+            .content(TestUtil.convertObjectToJsonBytes(messageRoomDTO)))
             .andExpect(status().isCreated());
 
         // Validate the MessageRoom in the database
@@ -157,11 +163,12 @@ public class MessageRoomResourceIntTest {
 
         // Create the MessageRoom with an existing ID
         messageRoom.setId(1L);
+        MessageRoomDTO messageRoomDTO = messageRoomMapper.toDto(messageRoom);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restMessageRoomMockMvc.perform(post("/api/message-rooms")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(messageRoom)))
+            .content(TestUtil.convertObjectToJsonBytes(messageRoomDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -234,10 +241,11 @@ public class MessageRoomResourceIntTest {
             .coverContentType(UPDATED_COVER_CONTENT_TYPE)
             .crated(UPDATED_CRATED)
             .isPublic(UPDATED_IS_PUBLIC);
+        MessageRoomDTO messageRoomDTO = messageRoomMapper.toDto(updatedMessageRoom);
 
         restMessageRoomMockMvc.perform(put("/api/message-rooms")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedMessageRoom)))
+            .content(TestUtil.convertObjectToJsonBytes(messageRoomDTO)))
             .andExpect(status().isOk());
 
         // Validate the MessageRoom in the database
@@ -259,11 +267,12 @@ public class MessageRoomResourceIntTest {
         int databaseSizeBeforeUpdate = messageRoomRepository.findAll().size();
 
         // Create the MessageRoom
+        MessageRoomDTO messageRoomDTO = messageRoomMapper.toDto(messageRoom);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restMessageRoomMockMvc.perform(put("/api/message-rooms")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(messageRoom)))
+            .content(TestUtil.convertObjectToJsonBytes(messageRoomDTO)))
             .andExpect(status().isCreated());
 
         // Validate the MessageRoom in the database
@@ -301,5 +310,28 @@ public class MessageRoomResourceIntTest {
         assertThat(messageRoom1).isNotEqualTo(messageRoom2);
         messageRoom1.setId(null);
         assertThat(messageRoom1).isNotEqualTo(messageRoom2);
+    }
+
+    @Test
+    @Transactional
+    public void dtoEqualsVerifier() throws Exception {
+        TestUtil.equalsVerifier(MessageRoomDTO.class);
+        MessageRoomDTO messageRoomDTO1 = new MessageRoomDTO();
+        messageRoomDTO1.setId(1L);
+        MessageRoomDTO messageRoomDTO2 = new MessageRoomDTO();
+        assertThat(messageRoomDTO1).isNotEqualTo(messageRoomDTO2);
+        messageRoomDTO2.setId(messageRoomDTO1.getId());
+        assertThat(messageRoomDTO1).isEqualTo(messageRoomDTO2);
+        messageRoomDTO2.setId(2L);
+        assertThat(messageRoomDTO1).isNotEqualTo(messageRoomDTO2);
+        messageRoomDTO1.setId(null);
+        assertThat(messageRoomDTO1).isNotEqualTo(messageRoomDTO2);
+    }
+
+    @Test
+    @Transactional
+    public void testEntityFromId() {
+        assertThat(messageRoomMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(messageRoomMapper.fromId(null)).isNull();
     }
 }

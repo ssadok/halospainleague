@@ -34,7 +34,7 @@ export class Tournament implements BaseEntity {
         public type?: TournamentType,
         public matches?: BaseEntity[],
         public teams?: BaseEntity[],
-        public game?: BaseEntity,
+        public gameId?: number,
     ) {
     }
 }

@@ -41,9 +41,9 @@
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="halospainleagueApp.message.messageRoom" for="field_messageRoom">Message Room</label>
-            <select class="form-control" id="field_messageRoom" name="messageRoom" [(ngModel)]="message.messageRoom">
+            <select class="form-control" id="field_messageRoom" name="messageRoom" [(ngModel)]="message.messageRoomId">
                 <option [ngValue]="null"></option>
-                <option [ngValue]="messageRoomOption.id === message.messageRoom?.id ? message.messageRoom : messageRoomOption" *ngFor="let messageRoomOption of messagerooms; trackBy: trackMessageRoomById">{{messageRoomOption.title}}</option>
+                <option [ngValue]="messageRoomOption.id" *ngFor="let messageRoomOption of messagerooms; trackBy: trackMessageRoomById">{{messageRoomOption.title}}</option>
             </select>
         </div>
     </div>

@@ -5,6 +5,8 @@ import com.arnaugarcia.halospainleague.domain.Team;
 
 import com.arnaugarcia.halospainleague.repository.TeamRepository;
 import com.arnaugarcia.halospainleague.web.rest.util.HeaderUtil;
+import com.arnaugarcia.halospainleague.service.dto.TeamDTO;
+import com.arnaugarcia.halospainleague.service.mapper.TeamMapper;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,25 +31,30 @@ public class TeamResource {
     private static final String ENTITY_NAME = "team";
 
     private final TeamRepository teamRepository;
-    public TeamResource(TeamRepository teamRepository) {
+
+    private final TeamMapper teamMapper;
+    public TeamResource(TeamRepository teamRepository, TeamMapper teamMapper) {
         this.teamRepository = teamRepository;
+        this.teamMapper = teamMapper;
     }
 
     /**
      * POST  /teams : Create a new team.
      *
-     * @param team the team to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new team, or with status 400 (Bad Request) if the team has already an ID
+     * @param teamDTO the teamDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new teamDTO, or with status 400 (Bad Request) if the team has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/teams")
     @Timed
-    public ResponseEntity<Team> createTeam(@RequestBody Team team) throws URISyntaxException {
-        log.debug("REST request to save Team : {}", team);
-        if (team.getId() != null) {
+    public ResponseEntity<TeamDTO> createTeam(@RequestBody TeamDTO teamDTO) throws URISyntaxException {
+        log.debug("REST request to save Team : {}", teamDTO);
+        if (teamDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new team cannot already have an ID")).body(null);
         }
-        Team result = teamRepository.save(team);
+        Team team = teamMapper.toEntity(teamDTO);
+        team = teamRepository.save(team);
+        TeamDTO result = teamMapper.toDto(team);
         return ResponseEntity.created(new URI("/api/teams/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -56,22 +63,24 @@ public class TeamResource {
     /**
      * PUT  /teams : Updates an existing team.
      *
-     * @param team the team to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated team,
-     * or with status 400 (Bad Request) if the team is not valid,
-     * or with status 500 (Internal Server Error) if the team couldn't be updated
+     * @param teamDTO the teamDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated teamDTO,
+     * or with status 400 (Bad Request) if the teamDTO is not valid,
+     * or with status 500 (Internal Server Error) if the teamDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/teams")
     @Timed
-    public ResponseEntity<Team> updateTeam(@RequestBody Team team) throws URISyntaxException {
-        log.debug("REST request to update Team : {}", team);
-        if (team.getId() == null) {
-            return createTeam(team);
+    public ResponseEntity<TeamDTO> updateTeam(@RequestBody TeamDTO teamDTO) throws URISyntaxException {
+        log.debug("REST request to update Team : {}", teamDTO);
+        if (teamDTO.getId() == null) {
+            return createTeam(teamDTO);
         }
-        Team result = teamRepository.save(team);
+        Team team = teamMapper.toEntity(teamDTO);
+        team = teamRepository.save(team);
+        TeamDTO result = teamMapper.toDto(team);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, team.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, teamDTO.getId().toString()))
             .body(result);
     }
 
@@ -82,29 +91,31 @@ public class TeamResource {
      */
     @GetMapping("/teams")
     @Timed
-    public List<Team> getAllTeams() {
+    public List<TeamDTO> getAllTeams() {
         log.debug("REST request to get all Teams");
-        return teamRepository.findAllWithEagerRelationships();
+        List<Team> teams = teamRepository.findAllWithEagerRelationships();
+        return teamMapper.toDto(teams);
         }
 
     /**
      * GET  /teams/:id : get the "id" team.
      *
-     * @param id the id of the team to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the team, or with status 404 (Not Found)
+     * @param id the id of the teamDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the teamDTO, or with status 404 (Not Found)
      */
     @GetMapping("/teams/{id}")
     @Timed
-    public ResponseEntity<Team> getTeam(@PathVariable Long id) {
+    public ResponseEntity<TeamDTO> getTeam(@PathVariable Long id) {
         log.debug("REST request to get Team : {}", id);
         Team team = teamRepository.findOneWithEagerRelationships(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(team));
+        TeamDTO teamDTO = teamMapper.toDto(team);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(teamDTO));
     }
 
     /**
      * DELETE  /teams/:id : delete the "id" team.
      *
-     * @param id the id of the team to delete
+     * @param id the id of the teamDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/teams/{id}")

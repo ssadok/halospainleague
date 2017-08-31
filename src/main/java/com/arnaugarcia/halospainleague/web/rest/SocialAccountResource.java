@@ -5,6 +5,8 @@ import com.arnaugarcia.halospainleague.domain.SocialAccount;
 
 import com.arnaugarcia.halospainleague.repository.SocialAccountRepository;
 import com.arnaugarcia.halospainleague.web.rest.util.HeaderUtil;
+import com.arnaugarcia.halospainleague.service.dto.SocialAccountDTO;
+import com.arnaugarcia.halospainleague.service.mapper.SocialAccountMapper;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,25 +31,30 @@ public class SocialAccountResource {
     private static final String ENTITY_NAME = "socialAccount";
 
     private final SocialAccountRepository socialAccountRepository;
-    public SocialAccountResource(SocialAccountRepository socialAccountRepository) {
+
+    private final SocialAccountMapper socialAccountMapper;
+    public SocialAccountResource(SocialAccountRepository socialAccountRepository, SocialAccountMapper socialAccountMapper) {
         this.socialAccountRepository = socialAccountRepository;
+        this.socialAccountMapper = socialAccountMapper;
     }
 
     /**
      * POST  /social-accounts : Create a new socialAccount.
      *
-     * @param socialAccount the socialAccount to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new socialAccount, or with status 400 (Bad Request) if the socialAccount has already an ID
+     * @param socialAccountDTO the socialAccountDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new socialAccountDTO, or with status 400 (Bad Request) if the socialAccount has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/social-accounts")
     @Timed
-    public ResponseEntity<SocialAccount> createSocialAccount(@RequestBody SocialAccount socialAccount) throws URISyntaxException {
-        log.debug("REST request to save SocialAccount : {}", socialAccount);
-        if (socialAccount.getId() != null) {
+    public ResponseEntity<SocialAccountDTO> createSocialAccount(@RequestBody SocialAccountDTO socialAccountDTO) throws URISyntaxException {
+        log.debug("REST request to save SocialAccount : {}", socialAccountDTO);
+        if (socialAccountDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new socialAccount cannot already have an ID")).body(null);
         }
-        SocialAccount result = socialAccountRepository.save(socialAccount);
+        SocialAccount socialAccount = socialAccountMapper.toEntity(socialAccountDTO);
+        socialAccount = socialAccountRepository.save(socialAccount);
+        SocialAccountDTO result = socialAccountMapper.toDto(socialAccount);
         return ResponseEntity.created(new URI("/api/social-accounts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -56,22 +63,24 @@ public class SocialAccountResource {
     /**
      * PUT  /social-accounts : Updates an existing socialAccount.
      *
-     * @param socialAccount the socialAccount to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated socialAccount,
-     * or with status 400 (Bad Request) if the socialAccount is not valid,
-     * or with status 500 (Internal Server Error) if the socialAccount couldn't be updated
+     * @param socialAccountDTO the socialAccountDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated socialAccountDTO,
+     * or with status 400 (Bad Request) if the socialAccountDTO is not valid,
+     * or with status 500 (Internal Server Error) if the socialAccountDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/social-accounts")
     @Timed
-    public ResponseEntity<SocialAccount> updateSocialAccount(@RequestBody SocialAccount socialAccount) throws URISyntaxException {
-        log.debug("REST request to update SocialAccount : {}", socialAccount);
-        if (socialAccount.getId() == null) {
-            return createSocialAccount(socialAccount);
+    public ResponseEntity<SocialAccountDTO> updateSocialAccount(@RequestBody SocialAccountDTO socialAccountDTO) throws URISyntaxException {
+        log.debug("REST request to update SocialAccount : {}", socialAccountDTO);
+        if (socialAccountDTO.getId() == null) {
+            return createSocialAccount(socialAccountDTO);
         }
-        SocialAccount result = socialAccountRepository.save(socialAccount);
+        SocialAccount socialAccount = socialAccountMapper.toEntity(socialAccountDTO);
+        socialAccount = socialAccountRepository.save(socialAccount);
+        SocialAccountDTO result = socialAccountMapper.toDto(socialAccount);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, socialAccount.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, socialAccountDTO.getId().toString()))
             .body(result);
     }
 
@@ -82,29 +91,31 @@ public class SocialAccountResource {
      */
     @GetMapping("/social-accounts")
     @Timed
-    public List<SocialAccount> getAllSocialAccounts() {
+    public List<SocialAccountDTO> getAllSocialAccounts() {
         log.debug("REST request to get all SocialAccounts");
-        return socialAccountRepository.findAll();
+        List<SocialAccount> socialAccounts = socialAccountRepository.findAll();
+        return socialAccountMapper.toDto(socialAccounts);
         }
 
     /**
      * GET  /social-accounts/:id : get the "id" socialAccount.
      *
-     * @param id the id of the socialAccount to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the socialAccount, or with status 404 (Not Found)
+     * @param id the id of the socialAccountDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the socialAccountDTO, or with status 404 (Not Found)
      */
     @GetMapping("/social-accounts/{id}")
     @Timed
-    public ResponseEntity<SocialAccount> getSocialAccount(@PathVariable Long id) {
+    public ResponseEntity<SocialAccountDTO> getSocialAccount(@PathVariable Long id) {
         log.debug("REST request to get SocialAccount : {}", id);
         SocialAccount socialAccount = socialAccountRepository.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(socialAccount));
+        SocialAccountDTO socialAccountDTO = socialAccountMapper.toDto(socialAccount);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(socialAccountDTO));
     }
 
     /**
      * DELETE  /social-accounts/:id : delete the "id" socialAccount.
      *
-     * @param id the id of the socialAccount to delete
+     * @param id the id of the socialAccountDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/social-accounts/{id}")

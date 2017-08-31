@@ -53,8 +53,7 @@
     "changelogDate": "20170816161105",
     "javadoc": "Class MessageRoom.\n@author arnaugarcia.",
     "entityTableName": "message_room",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
-    "service": "no",
-    "jpaMetamodelFiltering": true
+    "service": "no"
 }

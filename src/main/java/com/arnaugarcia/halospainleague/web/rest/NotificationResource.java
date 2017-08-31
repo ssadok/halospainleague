@@ -5,6 +5,8 @@ import com.arnaugarcia.halospainleague.domain.Notification;
 
 import com.arnaugarcia.halospainleague.repository.NotificationRepository;
 import com.arnaugarcia.halospainleague.web.rest.util.HeaderUtil;
+import com.arnaugarcia.halospainleague.service.dto.NotificationDTO;
+import com.arnaugarcia.halospainleague.service.mapper.NotificationMapper;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,25 +31,30 @@ public class NotificationResource {
     private static final String ENTITY_NAME = "notification";
 
     private final NotificationRepository notificationRepository;
-    public NotificationResource(NotificationRepository notificationRepository) {
+
+    private final NotificationMapper notificationMapper;
+    public NotificationResource(NotificationRepository notificationRepository, NotificationMapper notificationMapper) {
         this.notificationRepository = notificationRepository;
+        this.notificationMapper = notificationMapper;
     }
 
     /**
      * POST  /notifications : Create a new notification.
      *
-     * @param notification the notification to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new notification, or with status 400 (Bad Request) if the notification has already an ID
+     * @param notificationDTO the notificationDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new notificationDTO, or with status 400 (Bad Request) if the notification has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/notifications")
     @Timed
-    public ResponseEntity<Notification> createNotification(@RequestBody Notification notification) throws URISyntaxException {
-        log.debug("REST request to save Notification : {}", notification);
-        if (notification.getId() != null) {
+    public ResponseEntity<NotificationDTO> createNotification(@RequestBody NotificationDTO notificationDTO) throws URISyntaxException {
+        log.debug("REST request to save Notification : {}", notificationDTO);
+        if (notificationDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new notification cannot already have an ID")).body(null);
         }
-        Notification result = notificationRepository.save(notification);
+        Notification notification = notificationMapper.toEntity(notificationDTO);
+        notification = notificationRepository.save(notification);
+        NotificationDTO result = notificationMapper.toDto(notification);
         return ResponseEntity.created(new URI("/api/notifications/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -56,22 +63,24 @@ public class NotificationResource {
     /**
      * PUT  /notifications : Updates an existing notification.
      *
-     * @param notification the notification to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated notification,
-     * or with status 400 (Bad Request) if the notification is not valid,
-     * or with status 500 (Internal Server Error) if the notification couldn't be updated
+     * @param notificationDTO the notificationDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated notificationDTO,
+     * or with status 400 (Bad Request) if the notificationDTO is not valid,
+     * or with status 500 (Internal Server Error) if the notificationDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/notifications")
     @Timed
-    public ResponseEntity<Notification> updateNotification(@RequestBody Notification notification) throws URISyntaxException {
-        log.debug("REST request to update Notification : {}", notification);
-        if (notification.getId() == null) {
-            return createNotification(notification);
+    public ResponseEntity<NotificationDTO> updateNotification(@RequestBody NotificationDTO notificationDTO) throws URISyntaxException {
+        log.debug("REST request to update Notification : {}", notificationDTO);
+        if (notificationDTO.getId() == null) {
+            return createNotification(notificationDTO);
         }
-        Notification result = notificationRepository.save(notification);
+        Notification notification = notificationMapper.toEntity(notificationDTO);
+        notification = notificationRepository.save(notification);
+        NotificationDTO result = notificationMapper.toDto(notification);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, notification.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, notificationDTO.getId().toString()))
             .body(result);
     }
 
@@ -82,29 +91,31 @@ public class NotificationResource {
      */
     @GetMapping("/notifications")
     @Timed
-    public List<Notification> getAllNotifications() {
+    public List<NotificationDTO> getAllNotifications() {
         log.debug("REST request to get all Notifications");
-        return notificationRepository.findAll();
+        List<Notification> notifications = notificationRepository.findAll();
+        return notificationMapper.toDto(notifications);
         }
 
     /**
      * GET  /notifications/:id : get the "id" notification.
      *
-     * @param id the id of the notification to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the notification, or with status 404 (Not Found)
+     * @param id the id of the notificationDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the notificationDTO, or with status 404 (Not Found)
      */
     @GetMapping("/notifications/{id}")
     @Timed
-    public ResponseEntity<Notification> getNotification(@PathVariable Long id) {
+    public ResponseEntity<NotificationDTO> getNotification(@PathVariable Long id) {
         log.debug("REST request to get Notification : {}", id);
         Notification notification = notificationRepository.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(notification));
+        NotificationDTO notificationDTO = notificationMapper.toDto(notification);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(notificationDTO));
     }
 
     /**
      * DELETE  /notifications/:id : delete the "id" notification.
      *
-     * @param id the id of the notification to delete
+     * @param id the id of the notificationDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/notifications/{id}")

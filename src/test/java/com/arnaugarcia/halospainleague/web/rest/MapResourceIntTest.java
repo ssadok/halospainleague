@@ -4,6 +4,8 @@ import com.arnaugarcia.halospainleague.HalospainleagueApp;
 
 import com.arnaugarcia.halospainleague.domain.Map;
 import com.arnaugarcia.halospainleague.repository.MapRepository;
+import com.arnaugarcia.halospainleague.service.dto.MapDTO;
+import com.arnaugarcia.halospainleague.service.mapper.MapMapper;
 import com.arnaugarcia.halospainleague.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -55,6 +57,9 @@ public class MapResourceIntTest {
     private MapRepository mapRepository;
 
     @Autowired
+    private MapMapper mapMapper;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -73,7 +78,7 @@ public class MapResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final MapResource mapResource = new MapResource(mapRepository);
+        final MapResource mapResource = new MapResource(mapRepository, mapMapper);
         this.restMapMockMvc = MockMvcBuilders.standaloneSetup(mapResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -107,9 +112,10 @@ public class MapResourceIntTest {
         int databaseSizeBeforeCreate = mapRepository.findAll().size();
 
         // Create the Map
+        MapDTO mapDTO = mapMapper.toDto(map);
         restMapMockMvc.perform(post("/api/maps")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(map)))
+            .content(TestUtil.convertObjectToJsonBytes(mapDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Map in the database
@@ -130,11 +136,12 @@ public class MapResourceIntTest {
 
         // Create the Map with an existing ID
         map.setId(1L);
+        MapDTO mapDTO = mapMapper.toDto(map);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restMapMockMvc.perform(post("/api/maps")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(map)))
+            .content(TestUtil.convertObjectToJsonBytes(mapDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -201,10 +208,11 @@ public class MapResourceIntTest {
             .imageContentType(UPDATED_IMAGE_CONTENT_TYPE)
             .cover(UPDATED_COVER)
             .coverContentType(UPDATED_COVER_CONTENT_TYPE);
+        MapDTO mapDTO = mapMapper.toDto(updatedMap);
 
         restMapMockMvc.perform(put("/api/maps")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedMap)))
+            .content(TestUtil.convertObjectToJsonBytes(mapDTO)))
             .andExpect(status().isOk());
 
         // Validate the Map in the database
@@ -224,11 +232,12 @@ public class MapResourceIntTest {
         int databaseSizeBeforeUpdate = mapRepository.findAll().size();
 
         // Create the Map
+        MapDTO mapDTO = mapMapper.toDto(map);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restMapMockMvc.perform(put("/api/maps")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(map)))
+            .content(TestUtil.convertObjectToJsonBytes(mapDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Map in the database
@@ -266,5 +275,28 @@ public class MapResourceIntTest {
         assertThat(map1).isNotEqualTo(map2);
         map1.setId(null);
         assertThat(map1).isNotEqualTo(map2);
+    }
+
+    @Test
+    @Transactional
+    public void dtoEqualsVerifier() throws Exception {
+        TestUtil.equalsVerifier(MapDTO.class);
+        MapDTO mapDTO1 = new MapDTO();
+        mapDTO1.setId(1L);
+        MapDTO mapDTO2 = new MapDTO();
+        assertThat(mapDTO1).isNotEqualTo(mapDTO2);
+        mapDTO2.setId(mapDTO1.getId());
+        assertThat(mapDTO1).isEqualTo(mapDTO2);
+        mapDTO2.setId(2L);
+        assertThat(mapDTO1).isNotEqualTo(mapDTO2);
+        mapDTO1.setId(null);
+        assertThat(mapDTO1).isNotEqualTo(mapDTO2);
+    }
+
+    @Test
+    @Transactional
+    public void testEntityFromId() {
+        assertThat(mapMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(mapMapper.fromId(null)).isNull();
     }
 }

@@ -31,8 +31,8 @@
                 <td jhiTranslate="{{'halospainleagueApp.Platform.' + socialAccount.platform}}">{{socialAccount.platform}}</td>
                 <td>{{socialAccount.token}}</td>
                 <td>
-                    <div *ngIf="socialAccount.player">
-                        <a [routerLink]="['../player', socialAccount.player?.id ]" >{{socialAccount.player?.name}}</a>
+                    <div *ngIf="socialAccount.playerId">
+                        <a [routerLink]="['../player', socialAccount.playerId  ]" >{{socialAccount.playerName}}</a>
                     </div>
                 </td>
                 <td class="text-right">

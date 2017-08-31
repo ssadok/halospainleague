@@ -4,6 +4,8 @@ import com.arnaugarcia.halospainleague.HalospainleagueApp;
 
 import com.arnaugarcia.halospainleague.domain.MatchMode;
 import com.arnaugarcia.halospainleague.repository.MatchModeRepository;
+import com.arnaugarcia.halospainleague.service.dto.MatchModeDTO;
+import com.arnaugarcia.halospainleague.service.mapper.MatchModeMapper;
 import com.arnaugarcia.halospainleague.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -54,6 +56,9 @@ public class MatchModeResourceIntTest {
     private MatchModeRepository matchModeRepository;
 
     @Autowired
+    private MatchModeMapper matchModeMapper;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -72,7 +77,7 @@ public class MatchModeResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final MatchModeResource matchModeResource = new MatchModeResource(matchModeRepository);
+        final MatchModeResource matchModeResource = new MatchModeResource(matchModeRepository, matchModeMapper);
         this.restMatchModeMockMvc = MockMvcBuilders.standaloneSetup(matchModeResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -105,9 +110,10 @@ public class MatchModeResourceIntTest {
         int databaseSizeBeforeCreate = matchModeRepository.findAll().size();
 
         // Create the MatchMode
+        MatchModeDTO matchModeDTO = matchModeMapper.toDto(matchMode);
         restMatchModeMockMvc.perform(post("/api/match-modes")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(matchMode)))
+            .content(TestUtil.convertObjectToJsonBytes(matchModeDTO)))
             .andExpect(status().isCreated());
 
         // Validate the MatchMode in the database
@@ -127,11 +133,12 @@ public class MatchModeResourceIntTest {
 
         // Create the MatchMode with an existing ID
         matchMode.setId(1L);
+        MatchModeDTO matchModeDTO = matchModeMapper.toDto(matchMode);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restMatchModeMockMvc.perform(post("/api/match-modes")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(matchMode)))
+            .content(TestUtil.convertObjectToJsonBytes(matchModeDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -195,10 +202,11 @@ public class MatchModeResourceIntTest {
             .timeToWin(UPDATED_TIME_TO_WIN)
             .scoreToWin(UPDATED_SCORE_TO_WIN)
             .gameMode(UPDATED_GAME_MODE);
+        MatchModeDTO matchModeDTO = matchModeMapper.toDto(updatedMatchMode);
 
         restMatchModeMockMvc.perform(put("/api/match-modes")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedMatchMode)))
+            .content(TestUtil.convertObjectToJsonBytes(matchModeDTO)))
             .andExpect(status().isOk());
 
         // Validate the MatchMode in the database
@@ -217,11 +225,12 @@ public class MatchModeResourceIntTest {
         int databaseSizeBeforeUpdate = matchModeRepository.findAll().size();
 
         // Create the MatchMode
+        MatchModeDTO matchModeDTO = matchModeMapper.toDto(matchMode);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restMatchModeMockMvc.perform(put("/api/match-modes")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(matchMode)))
+            .content(TestUtil.convertObjectToJsonBytes(matchModeDTO)))
             .andExpect(status().isCreated());
 
         // Validate the MatchMode in the database
@@ -259,5 +268,28 @@ public class MatchModeResourceIntTest {
         assertThat(matchMode1).isNotEqualTo(matchMode2);
         matchMode1.setId(null);
         assertThat(matchMode1).isNotEqualTo(matchMode2);
+    }
+
+    @Test
+    @Transactional
+    public void dtoEqualsVerifier() throws Exception {
+        TestUtil.equalsVerifier(MatchModeDTO.class);
+        MatchModeDTO matchModeDTO1 = new MatchModeDTO();
+        matchModeDTO1.setId(1L);
+        MatchModeDTO matchModeDTO2 = new MatchModeDTO();
+        assertThat(matchModeDTO1).isNotEqualTo(matchModeDTO2);
+        matchModeDTO2.setId(matchModeDTO1.getId());
+        assertThat(matchModeDTO1).isEqualTo(matchModeDTO2);
+        matchModeDTO2.setId(2L);
+        assertThat(matchModeDTO1).isNotEqualTo(matchModeDTO2);
+        matchModeDTO1.setId(null);
+        assertThat(matchModeDTO1).isNotEqualTo(matchModeDTO2);
+    }
+
+    @Test
+    @Transactional
+    public void testEntityFromId() {
+        assertThat(matchModeMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(matchModeMapper.fromId(null)).isNull();
     }
 }

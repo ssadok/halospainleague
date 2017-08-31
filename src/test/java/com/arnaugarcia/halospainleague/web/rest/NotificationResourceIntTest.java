@@ -4,6 +4,8 @@ import com.arnaugarcia.halospainleague.HalospainleagueApp;
 
 import com.arnaugarcia.halospainleague.domain.Notification;
 import com.arnaugarcia.halospainleague.repository.NotificationRepository;
+import com.arnaugarcia.halospainleague.service.dto.NotificationDTO;
+import com.arnaugarcia.halospainleague.service.mapper.NotificationMapper;
 import com.arnaugarcia.halospainleague.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -66,6 +68,9 @@ public class NotificationResourceIntTest {
     private NotificationRepository notificationRepository;
 
     @Autowired
+    private NotificationMapper notificationMapper;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -84,7 +89,7 @@ public class NotificationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final NotificationResource notificationResource = new NotificationResource(notificationRepository);
+        final NotificationResource notificationResource = new NotificationResource(notificationRepository, notificationMapper);
         this.restNotificationMockMvc = MockMvcBuilders.standaloneSetup(notificationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -119,9 +124,10 @@ public class NotificationResourceIntTest {
         int databaseSizeBeforeCreate = notificationRepository.findAll().size();
 
         // Create the Notification
+        NotificationDTO notificationDTO = notificationMapper.toDto(notification);
         restNotificationMockMvc.perform(post("/api/notifications")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(notification)))
+            .content(TestUtil.convertObjectToJsonBytes(notificationDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Notification in the database
@@ -143,11 +149,12 @@ public class NotificationResourceIntTest {
 
         // Create the Notification with an existing ID
         notification.setId(1L);
+        NotificationDTO notificationDTO = notificationMapper.toDto(notification);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restNotificationMockMvc.perform(post("/api/notifications")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(notification)))
+            .content(TestUtil.convertObjectToJsonBytes(notificationDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -217,10 +224,11 @@ public class NotificationResourceIntTest {
             .type(UPDATED_TYPE)
             .token(UPDATED_TOKEN)
             .read(UPDATED_READ);
+        NotificationDTO notificationDTO = notificationMapper.toDto(updatedNotification);
 
         restNotificationMockMvc.perform(put("/api/notifications")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedNotification)))
+            .content(TestUtil.convertObjectToJsonBytes(notificationDTO)))
             .andExpect(status().isOk());
 
         // Validate the Notification in the database
@@ -241,11 +249,12 @@ public class NotificationResourceIntTest {
         int databaseSizeBeforeUpdate = notificationRepository.findAll().size();
 
         // Create the Notification
+        NotificationDTO notificationDTO = notificationMapper.toDto(notification);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restNotificationMockMvc.perform(put("/api/notifications")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(notification)))
+            .content(TestUtil.convertObjectToJsonBytes(notificationDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Notification in the database
@@ -283,5 +292,28 @@ public class NotificationResourceIntTest {
         assertThat(notification1).isNotEqualTo(notification2);
         notification1.setId(null);
         assertThat(notification1).isNotEqualTo(notification2);
+    }
+
+    @Test
+    @Transactional
+    public void dtoEqualsVerifier() throws Exception {
+        TestUtil.equalsVerifier(NotificationDTO.class);
+        NotificationDTO notificationDTO1 = new NotificationDTO();
+        notificationDTO1.setId(1L);
+        NotificationDTO notificationDTO2 = new NotificationDTO();
+        assertThat(notificationDTO1).isNotEqualTo(notificationDTO2);
+        notificationDTO2.setId(notificationDTO1.getId());
+        assertThat(notificationDTO1).isEqualTo(notificationDTO2);
+        notificationDTO2.setId(2L);
+        assertThat(notificationDTO1).isNotEqualTo(notificationDTO2);
+        notificationDTO1.setId(null);
+        assertThat(notificationDTO1).isNotEqualTo(notificationDTO2);
+    }
+
+    @Test
+    @Transactional
+    public void testEntityFromId() {
+        assertThat(notificationMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(notificationMapper.fromId(null)).isNull();
     }
 }

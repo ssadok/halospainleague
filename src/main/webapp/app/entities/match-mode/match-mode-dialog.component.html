@@ -38,9 +38,9 @@
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="halospainleagueApp.matchMode.match" for="field_match">Match</label>
-            <select class="form-control" id="field_match" name="match" [(ngModel)]="matchMode.match" >
+            <select class="form-control" id="field_match" name="match" [(ngModel)]="matchMode.matchId" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="matchOption.id === matchMode.match?.id ? matchMode.match : matchOption" *ngFor="let matchOption of matches; trackBy: trackMatchById">{{matchOption.reference}}</option>
+                <option [ngValue]="matchOption.id" *ngFor="let matchOption of matches; trackBy: trackMatchById">{{matchOption.reference}}</option>
             </select>
         </div>
     </div>

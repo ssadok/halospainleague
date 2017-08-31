@@ -80,8 +80,8 @@
         </dd>
         <dt><span jhiTranslate="halospainleagueApp.team.division">Division</span></dt>
         <dd>
-            <div *ngIf="team.division">
-                <a [routerLink]="['/division', team.division?.id]">{{team.division?.name}}</a>
+            <div *ngIf="team.divisionId">
+                <a [routerLink]="['/division', team.divisionId]">{{team.divisionName}}</a>
             </div>
         </dd>
     </dl>

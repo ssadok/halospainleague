@@ -15,7 +15,7 @@ export class Notification implements BaseEntity {
         public type?: NotificationType,
         public token?: string,
         public read?: boolean,
-        public player?: BaseEntity,
+        public playerId?: number,
     ) {
         this.read = false;
     }

@@ -1,4 +1,4 @@
-import { BaseEntity, User } from './../../shared';
+import { BaseEntity } from './../../shared';
 
 const enum PlayerState {
     'NOT_PLAYING',
@@ -35,10 +35,10 @@ export class Player implements BaseEntity {
         public score?: number,
         public address?: string,
         public timeZone?: string,
-        public user?: User,
-        public profileConfiguration?: BaseEntity,
+        public userId?: number,
+        public profileConfigurationId?: number,
         public socialAccounts?: BaseEntity[],
-        public country?: BaseEntity,
+        public countryId?: number,
         public notifications?: BaseEntity[],
         public achievements?: BaseEntity[],
         public teams?: BaseEntity[],

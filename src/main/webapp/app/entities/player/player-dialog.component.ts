@@ -61,11 +61,11 @@ export class PlayerDialogComponent implements OnInit {
         this.profileConfigurationService
             .query({filter: 'player(name)-is-null'})
             .subscribe((res: ResponseWrapper) => {
-                if (!this.player.profileConfiguration || !this.player.profileConfiguration.id) {
+                if (!this.player.profileConfigurationId) {
                     this.profileconfigurations = res.json;
                 } else {
                     this.profileConfigurationService
-                        .find(this.player.profileConfiguration.id)
+                        .find(this.player.profileConfigurationId)
                         .subscribe((subRes: ProfileConfiguration) => {
                             this.profileconfigurations = [subRes].concat(res.json);
                         }, (subRes: ResponseWrapper) => this.onError(subRes.json));

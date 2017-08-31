@@ -43,8 +43,7 @@
     "changelogDate": "20170816161107",
     "javadoc": "Class Theme.\n@author arnaugarcia.",
     "entityTableName": "theme",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
-    "service": "no",
-    "jpaMetamodelFiltering": true
+    "service": "no"
 }

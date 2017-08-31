@@ -5,6 +5,8 @@ import com.arnaugarcia.halospainleague.domain.MessageRoom;
 
 import com.arnaugarcia.halospainleague.repository.MessageRoomRepository;
 import com.arnaugarcia.halospainleague.web.rest.util.HeaderUtil;
+import com.arnaugarcia.halospainleague.service.dto.MessageRoomDTO;
+import com.arnaugarcia.halospainleague.service.mapper.MessageRoomMapper;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,25 +34,30 @@ public class MessageRoomResource {
     private static final String ENTITY_NAME = "messageRoom";
 
     private final MessageRoomRepository messageRoomRepository;
-    public MessageRoomResource(MessageRoomRepository messageRoomRepository) {
+
+    private final MessageRoomMapper messageRoomMapper;
+    public MessageRoomResource(MessageRoomRepository messageRoomRepository, MessageRoomMapper messageRoomMapper) {
         this.messageRoomRepository = messageRoomRepository;
+        this.messageRoomMapper = messageRoomMapper;
     }
 
     /**
      * POST  /message-rooms : Create a new messageRoom.
      *
-     * @param messageRoom the messageRoom to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new messageRoom, or with status 400 (Bad Request) if the messageRoom has already an ID
+     * @param messageRoomDTO the messageRoomDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new messageRoomDTO, or with status 400 (Bad Request) if the messageRoom has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/message-rooms")
     @Timed
-    public ResponseEntity<MessageRoom> createMessageRoom(@Valid @RequestBody MessageRoom messageRoom) throws URISyntaxException {
-        log.debug("REST request to save MessageRoom : {}", messageRoom);
-        if (messageRoom.getId() != null) {
+    public ResponseEntity<MessageRoomDTO> createMessageRoom(@Valid @RequestBody MessageRoomDTO messageRoomDTO) throws URISyntaxException {
+        log.debug("REST request to save MessageRoom : {}", messageRoomDTO);
+        if (messageRoomDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new messageRoom cannot already have an ID")).body(null);
         }
-        MessageRoom result = messageRoomRepository.save(messageRoom);
+        MessageRoom messageRoom = messageRoomMapper.toEntity(messageRoomDTO);
+        messageRoom = messageRoomRepository.save(messageRoom);
+        MessageRoomDTO result = messageRoomMapper.toDto(messageRoom);
         return ResponseEntity.created(new URI("/api/message-rooms/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -59,22 +66,24 @@ public class MessageRoomResource {
     /**
      * PUT  /message-rooms : Updates an existing messageRoom.
      *
-     * @param messageRoom the messageRoom to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated messageRoom,
-     * or with status 400 (Bad Request) if the messageRoom is not valid,
-     * or with status 500 (Internal Server Error) if the messageRoom couldn't be updated
+     * @param messageRoomDTO the messageRoomDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated messageRoomDTO,
+     * or with status 400 (Bad Request) if the messageRoomDTO is not valid,
+     * or with status 500 (Internal Server Error) if the messageRoomDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/message-rooms")
     @Timed
-    public ResponseEntity<MessageRoom> updateMessageRoom(@Valid @RequestBody MessageRoom messageRoom) throws URISyntaxException {
-        log.debug("REST request to update MessageRoom : {}", messageRoom);
-        if (messageRoom.getId() == null) {
-            return createMessageRoom(messageRoom);
+    public ResponseEntity<MessageRoomDTO> updateMessageRoom(@Valid @RequestBody MessageRoomDTO messageRoomDTO) throws URISyntaxException {
+        log.debug("REST request to update MessageRoom : {}", messageRoomDTO);
+        if (messageRoomDTO.getId() == null) {
+            return createMessageRoom(messageRoomDTO);
         }
-        MessageRoom result = messageRoomRepository.save(messageRoom);
+        MessageRoom messageRoom = messageRoomMapper.toEntity(messageRoomDTO);
+        messageRoom = messageRoomRepository.save(messageRoom);
+        MessageRoomDTO result = messageRoomMapper.toDto(messageRoom);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, messageRoom.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, messageRoomDTO.getId().toString()))
             .body(result);
     }
 
@@ -86,36 +95,39 @@ public class MessageRoomResource {
      */
     @GetMapping("/message-rooms")
     @Timed
-    public List<MessageRoom> getAllMessageRooms(@RequestParam(required = false) String filter) {
+    public List<MessageRoomDTO> getAllMessageRooms(@RequestParam(required = false) String filter) {
         if ("message-is-null".equals(filter)) {
             log.debug("REST request to get all MessageRooms where message is null");
             return StreamSupport
                 .stream(messageRoomRepository.findAll().spliterator(), false)
                 .filter(messageRoom -> messageRoom.getMessage() == null)
-                .collect(Collectors.toList());
+                .map(messageRoomMapper::toDto)
+                .collect(Collectors.toCollection(LinkedList::new));
         }
         log.debug("REST request to get all MessageRooms");
-        return messageRoomRepository.findAllWithEagerRelationships();
+        List<MessageRoom> messageRooms = messageRoomRepository.findAllWithEagerRelationships();
+        return messageRoomMapper.toDto(messageRooms);
         }
 
     /**
      * GET  /message-rooms/:id : get the "id" messageRoom.
      *
-     * @param id the id of the messageRoom to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the messageRoom, or with status 404 (Not Found)
+     * @param id the id of the messageRoomDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the messageRoomDTO, or with status 404 (Not Found)
      */
     @GetMapping("/message-rooms/{id}")
     @Timed
-    public ResponseEntity<MessageRoom> getMessageRoom(@PathVariable Long id) {
+    public ResponseEntity<MessageRoomDTO> getMessageRoom(@PathVariable Long id) {
         log.debug("REST request to get MessageRoom : {}", id);
         MessageRoom messageRoom = messageRoomRepository.findOneWithEagerRelationships(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(messageRoom));
+        MessageRoomDTO messageRoomDTO = messageRoomMapper.toDto(messageRoom);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(messageRoomDTO));
     }
 
     /**
      * DELETE  /message-rooms/:id : delete the "id" messageRoom.
      *
-     * @param id the id of the messageRoom to delete
+     * @param id the id of the messageRoomDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/message-rooms/{id}")

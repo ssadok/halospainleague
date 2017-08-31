@@ -40,8 +40,7 @@
     "changelogDate": "20170816161102",
     "javadoc": "Class Achievement.\n@author arnaugarcia.",
     "entityTableName": "achievement",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
-    "service": "no",
-    "jpaMetamodelFiltering": true
+    "service": "no"
 }

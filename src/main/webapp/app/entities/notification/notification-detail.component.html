@@ -30,8 +30,8 @@
         </dd>
         <dt><span jhiTranslate="halospainleagueApp.notification.player">Player</span></dt>
         <dd>
-            <div *ngIf="notification.player">
-                <a [routerLink]="['/player', notification.player?.id]">{{notification.player?.name}}</a>
+            <div *ngIf="notification.playerId">
+                <a [routerLink]="['/player', notification.playerId]">{{notification.playerName}}</a>
             </div>
         </dd>
     </dl>

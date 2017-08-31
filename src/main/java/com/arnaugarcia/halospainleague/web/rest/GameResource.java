@@ -5,6 +5,8 @@ import com.arnaugarcia.halospainleague.domain.Game;
 
 import com.arnaugarcia.halospainleague.repository.GameRepository;
 import com.arnaugarcia.halospainleague.web.rest.util.HeaderUtil;
+import com.arnaugarcia.halospainleague.service.dto.GameDTO;
+import com.arnaugarcia.halospainleague.service.mapper.GameMapper;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,25 +32,30 @@ public class GameResource {
     private static final String ENTITY_NAME = "game";
 
     private final GameRepository gameRepository;
-    public GameResource(GameRepository gameRepository) {
+
+    private final GameMapper gameMapper;
+    public GameResource(GameRepository gameRepository, GameMapper gameMapper) {
         this.gameRepository = gameRepository;
+        this.gameMapper = gameMapper;
     }
 
     /**
      * POST  /games : Create a new game.
      *
-     * @param game the game to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new game, or with status 400 (Bad Request) if the game has already an ID
+     * @param gameDTO the gameDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new gameDTO, or with status 400 (Bad Request) if the game has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/games")
     @Timed
-    public ResponseEntity<Game> createGame(@Valid @RequestBody Game game) throws URISyntaxException {
-        log.debug("REST request to save Game : {}", game);
-        if (game.getId() != null) {
+    public ResponseEntity<GameDTO> createGame(@Valid @RequestBody GameDTO gameDTO) throws URISyntaxException {
+        log.debug("REST request to save Game : {}", gameDTO);
+        if (gameDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new game cannot already have an ID")).body(null);
         }
-        Game result = gameRepository.save(game);
+        Game game = gameMapper.toEntity(gameDTO);
+        game = gameRepository.save(game);
+        GameDTO result = gameMapper.toDto(game);
         return ResponseEntity.created(new URI("/api/games/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -57,22 +64,24 @@ public class GameResource {
     /**
      * PUT  /games : Updates an existing game.
      *
-     * @param game the game to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated game,
-     * or with status 400 (Bad Request) if the game is not valid,
-     * or with status 500 (Internal Server Error) if the game couldn't be updated
+     * @param gameDTO the gameDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated gameDTO,
+     * or with status 400 (Bad Request) if the gameDTO is not valid,
+     * or with status 500 (Internal Server Error) if the gameDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/games")
     @Timed
-    public ResponseEntity<Game> updateGame(@Valid @RequestBody Game game) throws URISyntaxException {
-        log.debug("REST request to update Game : {}", game);
-        if (game.getId() == null) {
-            return createGame(game);
+    public ResponseEntity<GameDTO> updateGame(@Valid @RequestBody GameDTO gameDTO) throws URISyntaxException {
+        log.debug("REST request to update Game : {}", gameDTO);
+        if (gameDTO.getId() == null) {
+            return createGame(gameDTO);
         }
-        Game result = gameRepository.save(game);
+        Game game = gameMapper.toEntity(gameDTO);
+        game = gameRepository.save(game);
+        GameDTO result = gameMapper.toDto(game);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, game.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, gameDTO.getId().toString()))
             .body(result);
     }
 
@@ -83,29 +92,31 @@ public class GameResource {
      */
     @GetMapping("/games")
     @Timed
-    public List<Game> getAllGames() {
+    public List<GameDTO> getAllGames() {
         log.debug("REST request to get all Games");
-        return gameRepository.findAll();
+        List<Game> games = gameRepository.findAll();
+        return gameMapper.toDto(games);
         }
 
     /**
      * GET  /games/:id : get the "id" game.
      *
-     * @param id the id of the game to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the game, or with status 404 (Not Found)
+     * @param id the id of the gameDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the gameDTO, or with status 404 (Not Found)
      */
     @GetMapping("/games/{id}")
     @Timed
-    public ResponseEntity<Game> getGame(@PathVariable Long id) {
+    public ResponseEntity<GameDTO> getGame(@PathVariable Long id) {
         log.debug("REST request to get Game : {}", id);
         Game game = gameRepository.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(game));
+        GameDTO gameDTO = gameMapper.toDto(game);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(gameDTO));
     }
 
     /**
      * DELETE  /games/:id : delete the "id" game.
      *
-     * @param id the id of the game to delete
+     * @param id the id of the gameDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/games/{id}")

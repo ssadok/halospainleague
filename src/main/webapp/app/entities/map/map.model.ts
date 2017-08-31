@@ -9,7 +9,7 @@ export class Map implements BaseEntity {
         public coverContentType?: string,
         public cover?: any,
         public matches?: BaseEntity[],
-        public game?: BaseEntity,
+        public gameId?: number,
     ) {
     }
 }

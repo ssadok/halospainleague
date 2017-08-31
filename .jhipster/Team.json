@@ -92,7 +92,7 @@
     "changelogDate": "20170816161055",
     "javadoc": "Class Team.\n@author arnaugarcia.",
     "entityTableName": "team",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
     "service": "no"
 }

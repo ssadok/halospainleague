@@ -5,6 +5,8 @@ import com.arnaugarcia.halospainleague.domain.Player;
 
 import com.arnaugarcia.halospainleague.repository.PlayerRepository;
 import com.arnaugarcia.halospainleague.web.rest.util.HeaderUtil;
+import com.arnaugarcia.halospainleague.service.dto.PlayerDTO;
+import com.arnaugarcia.halospainleague.service.mapper.PlayerMapper;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,25 +32,30 @@ public class PlayerResource {
     private static final String ENTITY_NAME = "player";
 
     private final PlayerRepository playerRepository;
-    public PlayerResource(PlayerRepository playerRepository) {
+
+    private final PlayerMapper playerMapper;
+    public PlayerResource(PlayerRepository playerRepository, PlayerMapper playerMapper) {
         this.playerRepository = playerRepository;
+        this.playerMapper = playerMapper;
     }
 
     /**
      * POST  /players : Create a new player.
      *
-     * @param player the player to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new player, or with status 400 (Bad Request) if the player has already an ID
+     * @param playerDTO the playerDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new playerDTO, or with status 400 (Bad Request) if the player has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/players")
     @Timed
-    public ResponseEntity<Player> createPlayer(@Valid @RequestBody Player player) throws URISyntaxException {
-        log.debug("REST request to save Player : {}", player);
-        if (player.getId() != null) {
+    public ResponseEntity<PlayerDTO> createPlayer(@Valid @RequestBody PlayerDTO playerDTO) throws URISyntaxException {
+        log.debug("REST request to save Player : {}", playerDTO);
+        if (playerDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new player cannot already have an ID")).body(null);
         }
-        Player result = playerRepository.save(player);
+        Player player = playerMapper.toEntity(playerDTO);
+        player = playerRepository.save(player);
+        PlayerDTO result = playerMapper.toDto(player);
         return ResponseEntity.created(new URI("/api/players/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -57,22 +64,24 @@ public class PlayerResource {
     /**
      * PUT  /players : Updates an existing player.
      *
-     * @param player the player to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated player,
-     * or with status 400 (Bad Request) if the player is not valid,
-     * or with status 500 (Internal Server Error) if the player couldn't be updated
+     * @param playerDTO the playerDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated playerDTO,
+     * or with status 400 (Bad Request) if the playerDTO is not valid,
+     * or with status 500 (Internal Server Error) if the playerDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/players")
     @Timed
-    public ResponseEntity<Player> updatePlayer(@Valid @RequestBody Player player) throws URISyntaxException {
-        log.debug("REST request to update Player : {}", player);
-        if (player.getId() == null) {
-            return createPlayer(player);
+    public ResponseEntity<PlayerDTO> updatePlayer(@Valid @RequestBody PlayerDTO playerDTO) throws URISyntaxException {
+        log.debug("REST request to update Player : {}", playerDTO);
+        if (playerDTO.getId() == null) {
+            return createPlayer(playerDTO);
         }
-        Player result = playerRepository.save(player);
+        Player player = playerMapper.toEntity(playerDTO);
+        player = playerRepository.save(player);
+        PlayerDTO result = playerMapper.toDto(player);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, player.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, playerDTO.getId().toString()))
             .body(result);
     }
 
@@ -83,29 +92,31 @@ public class PlayerResource {
      */
     @GetMapping("/players")
     @Timed
-    public List<Player> getAllPlayers() {
+    public List<PlayerDTO> getAllPlayers() {
         log.debug("REST request to get all Players");
-        return playerRepository.findAll();
+        List<Player> players = playerRepository.findAll();
+        return playerMapper.toDto(players);
         }
 
     /**
      * GET  /players/:id : get the "id" player.
      *
-     * @param id the id of the player to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the player, or with status 404 (Not Found)
+     * @param id the id of the playerDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the playerDTO, or with status 404 (Not Found)
      */
     @GetMapping("/players/{id}")
     @Timed
-    public ResponseEntity<Player> getPlayer(@PathVariable Long id) {
+    public ResponseEntity<PlayerDTO> getPlayer(@PathVariable Long id) {
         log.debug("REST request to get Player : {}", id);
         Player player = playerRepository.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(player));
+        PlayerDTO playerDTO = playerMapper.toDto(player);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(playerDTO));
     }
 
     /**
      * DELETE  /players/:id : delete the "id" player.
      *
-     * @param id the id of the player to delete
+     * @param id the id of the playerDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/players/{id}")

@@ -13,7 +13,7 @@ export class MatchMode implements BaseEntity {
         public timeToWin?: number,
         public scoreToWin?: number,
         public gameMode?: GameMode,
-        public match?: BaseEntity,
+        public matchId?: number,
     ) {
     }
 }

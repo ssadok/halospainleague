@@ -54,9 +54,9 @@
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="halospainleagueApp.map.game" for="field_game">Game</label>
-            <select class="form-control" id="field_game" name="game" [(ngModel)]="map.game" >
+            <select class="form-control" id="field_game" name="game" [(ngModel)]="map.gameId" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="gameOption.id === map.game?.id ? map.game : gameOption" *ngFor="let gameOption of games; trackBy: trackGameById">{{gameOption.name}}</option>
+                <option [ngValue]="gameOption.id" *ngFor="let gameOption of games; trackBy: trackGameById">{{gameOption.name}}</option>
             </select>
         </div>
     </div>

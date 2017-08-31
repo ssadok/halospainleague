@@ -18,8 +18,7 @@
     "changelogDate": "20170816161058",
     "javadoc": "Class ResultMatch.\n@author arnaugarcia.",
     "entityTableName": "result_match",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
-    "service": "no",
-    "jpaMetamodelFiltering": true
+    "service": "no"
 }

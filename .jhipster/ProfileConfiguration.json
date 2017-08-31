@@ -74,8 +74,7 @@
     "changelogDate": "20170816161103",
     "javadoc": "Class ProfileConfiguration.\n@author arnaugarcia.",
     "entityTableName": "profile_configuration",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
-    "service": "no",
-    "jpaMetamodelFiltering": true
+    "service": "no"
 }

@@ -4,6 +4,8 @@ import com.arnaugarcia.halospainleague.HalospainleagueApp;
 
 import com.arnaugarcia.halospainleague.domain.SocialAccount;
 import com.arnaugarcia.halospainleague.repository.SocialAccountRepository;
+import com.arnaugarcia.halospainleague.service.dto.SocialAccountDTO;
+import com.arnaugarcia.halospainleague.service.mapper.SocialAccountMapper;
 import com.arnaugarcia.halospainleague.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -51,6 +53,9 @@ public class SocialAccountResourceIntTest {
     private SocialAccountRepository socialAccountRepository;
 
     @Autowired
+    private SocialAccountMapper socialAccountMapper;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -69,7 +74,7 @@ public class SocialAccountResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final SocialAccountResource socialAccountResource = new SocialAccountResource(socialAccountRepository);
+        final SocialAccountResource socialAccountResource = new SocialAccountResource(socialAccountRepository, socialAccountMapper);
         this.restSocialAccountMockMvc = MockMvcBuilders.standaloneSetup(socialAccountResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -101,9 +106,10 @@ public class SocialAccountResourceIntTest {
         int databaseSizeBeforeCreate = socialAccountRepository.findAll().size();
 
         // Create the SocialAccount
+        SocialAccountDTO socialAccountDTO = socialAccountMapper.toDto(socialAccount);
         restSocialAccountMockMvc.perform(post("/api/social-accounts")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(socialAccount)))
+            .content(TestUtil.convertObjectToJsonBytes(socialAccountDTO)))
             .andExpect(status().isCreated());
 
         // Validate the SocialAccount in the database
@@ -122,11 +128,12 @@ public class SocialAccountResourceIntTest {
 
         // Create the SocialAccount with an existing ID
         socialAccount.setId(1L);
+        SocialAccountDTO socialAccountDTO = socialAccountMapper.toDto(socialAccount);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restSocialAccountMockMvc.perform(post("/api/social-accounts")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(socialAccount)))
+            .content(TestUtil.convertObjectToJsonBytes(socialAccountDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -187,10 +194,11 @@ public class SocialAccountResourceIntTest {
             .nick(UPDATED_NICK)
             .platform(UPDATED_PLATFORM)
             .token(UPDATED_TOKEN);
+        SocialAccountDTO socialAccountDTO = socialAccountMapper.toDto(updatedSocialAccount);
 
         restSocialAccountMockMvc.perform(put("/api/social-accounts")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedSocialAccount)))
+            .content(TestUtil.convertObjectToJsonBytes(socialAccountDTO)))
             .andExpect(status().isOk());
 
         // Validate the SocialAccount in the database
@@ -208,11 +216,12 @@ public class SocialAccountResourceIntTest {
         int databaseSizeBeforeUpdate = socialAccountRepository.findAll().size();
 
         // Create the SocialAccount
+        SocialAccountDTO socialAccountDTO = socialAccountMapper.toDto(socialAccount);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restSocialAccountMockMvc.perform(put("/api/social-accounts")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(socialAccount)))
+            .content(TestUtil.convertObjectToJsonBytes(socialAccountDTO)))
             .andExpect(status().isCreated());
 
         // Validate the SocialAccount in the database
@@ -250,5 +259,28 @@ public class SocialAccountResourceIntTest {
         assertThat(socialAccount1).isNotEqualTo(socialAccount2);
         socialAccount1.setId(null);
         assertThat(socialAccount1).isNotEqualTo(socialAccount2);
+    }
+
+    @Test
+    @Transactional
+    public void dtoEqualsVerifier() throws Exception {
+        TestUtil.equalsVerifier(SocialAccountDTO.class);
+        SocialAccountDTO socialAccountDTO1 = new SocialAccountDTO();
+        socialAccountDTO1.setId(1L);
+        SocialAccountDTO socialAccountDTO2 = new SocialAccountDTO();
+        assertThat(socialAccountDTO1).isNotEqualTo(socialAccountDTO2);
+        socialAccountDTO2.setId(socialAccountDTO1.getId());
+        assertThat(socialAccountDTO1).isEqualTo(socialAccountDTO2);
+        socialAccountDTO2.setId(2L);
+        assertThat(socialAccountDTO1).isNotEqualTo(socialAccountDTO2);
+        socialAccountDTO1.setId(null);
+        assertThat(socialAccountDTO1).isNotEqualTo(socialAccountDTO2);
+    }
+
+    @Test
+    @Transactional
+    public void testEntityFromId() {
+        assertThat(socialAccountMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(socialAccountMapper.fromId(null)).isNull();
     }
 }

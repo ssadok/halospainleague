@@ -6,6 +6,8 @@ import com.arnaugarcia.halospainleague.domain.ProfileConfiguration;
 import com.arnaugarcia.halospainleague.domain.Theme;
 import com.arnaugarcia.halospainleague.domain.Player;
 import com.arnaugarcia.halospainleague.repository.ProfileConfigurationRepository;
+import com.arnaugarcia.halospainleague.service.dto.ProfileConfigurationDTO;
+import com.arnaugarcia.halospainleague.service.mapper.ProfileConfigurationMapper;
 import com.arnaugarcia.halospainleague.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -87,6 +89,9 @@ public class ProfileConfigurationResourceIntTest {
     private ProfileConfigurationRepository profileConfigurationRepository;
 
     @Autowired
+    private ProfileConfigurationMapper profileConfigurationMapper;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -105,7 +110,7 @@ public class ProfileConfigurationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ProfileConfigurationResource profileConfigurationResource = new ProfileConfigurationResource(profileConfigurationRepository);
+        final ProfileConfigurationResource profileConfigurationResource = new ProfileConfigurationResource(profileConfigurationRepository, profileConfigurationMapper);
         this.restProfileConfigurationMockMvc = MockMvcBuilders.standaloneSetup(profileConfigurationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -157,9 +162,10 @@ public class ProfileConfigurationResourceIntTest {
         int databaseSizeBeforeCreate = profileConfigurationRepository.findAll().size();
 
         // Create the ProfileConfiguration
+        ProfileConfigurationDTO profileConfigurationDTO = profileConfigurationMapper.toDto(profileConfiguration);
         restProfileConfigurationMockMvc.perform(post("/api/profile-configurations")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(profileConfiguration)))
+            .content(TestUtil.convertObjectToJsonBytes(profileConfigurationDTO)))
             .andExpect(status().isCreated());
 
         // Validate the ProfileConfiguration in the database
@@ -188,11 +194,12 @@ public class ProfileConfigurationResourceIntTest {
 
         // Create the ProfileConfiguration with an existing ID
         profileConfiguration.setId(1L);
+        ProfileConfigurationDTO profileConfigurationDTO = profileConfigurationMapper.toDto(profileConfiguration);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restProfileConfigurationMockMvc.perform(post("/api/profile-configurations")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(profileConfiguration)))
+            .content(TestUtil.convertObjectToJsonBytes(profileConfigurationDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -283,10 +290,11 @@ public class ProfileConfigurationResourceIntTest {
             .lastLogin(UPDATED_LAST_LOGIN)
             .firstRun(UPDATED_FIRST_RUN)
             .showTutorial(UPDATED_SHOW_TUTORIAL);
+        ProfileConfigurationDTO profileConfigurationDTO = profileConfigurationMapper.toDto(updatedProfileConfiguration);
 
         restProfileConfigurationMockMvc.perform(put("/api/profile-configurations")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedProfileConfiguration)))
+            .content(TestUtil.convertObjectToJsonBytes(profileConfigurationDTO)))
             .andExpect(status().isOk());
 
         // Validate the ProfileConfiguration in the database
@@ -314,11 +322,12 @@ public class ProfileConfigurationResourceIntTest {
         int databaseSizeBeforeUpdate = profileConfigurationRepository.findAll().size();
 
         // Create the ProfileConfiguration
+        ProfileConfigurationDTO profileConfigurationDTO = profileConfigurationMapper.toDto(profileConfiguration);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restProfileConfigurationMockMvc.perform(put("/api/profile-configurations")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(profileConfiguration)))
+            .content(TestUtil.convertObjectToJsonBytes(profileConfigurationDTO)))
             .andExpect(status().isCreated());
 
         // Validate the ProfileConfiguration in the database
@@ -356,5 +365,28 @@ public class ProfileConfigurationResourceIntTest {
         assertThat(profileConfiguration1).isNotEqualTo(profileConfiguration2);
         profileConfiguration1.setId(null);
         assertThat(profileConfiguration1).isNotEqualTo(profileConfiguration2);
+    }
+
+    @Test
+    @Transactional
+    public void dtoEqualsVerifier() throws Exception {
+        TestUtil.equalsVerifier(ProfileConfigurationDTO.class);
+        ProfileConfigurationDTO profileConfigurationDTO1 = new ProfileConfigurationDTO();
+        profileConfigurationDTO1.setId(1L);
+        ProfileConfigurationDTO profileConfigurationDTO2 = new ProfileConfigurationDTO();
+        assertThat(profileConfigurationDTO1).isNotEqualTo(profileConfigurationDTO2);
+        profileConfigurationDTO2.setId(profileConfigurationDTO1.getId());
+        assertThat(profileConfigurationDTO1).isEqualTo(profileConfigurationDTO2);
+        profileConfigurationDTO2.setId(2L);
+        assertThat(profileConfigurationDTO1).isNotEqualTo(profileConfigurationDTO2);
+        profileConfigurationDTO1.setId(null);
+        assertThat(profileConfigurationDTO1).isNotEqualTo(profileConfigurationDTO2);
+    }
+
+    @Test
+    @Transactional
+    public void testEntityFromId() {
+        assertThat(profileConfigurationMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(profileConfigurationMapper.fromId(null)).isNull();
     }
 }

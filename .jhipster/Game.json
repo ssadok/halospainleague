@@ -48,8 +48,7 @@
     "changelogDate": "20170816161052",
     "javadoc": "Class Game.\n@author arnaugarcia.",
     "entityTableName": "game",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
-    "service": "no",
-    "jpaMetamodelFiltering": true
+    "service": "no"
 }

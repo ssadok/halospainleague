@@ -18,8 +18,8 @@
         </dd>
         <dt><span jhiTranslate="halospainleagueApp.socialAccount.player">Player</span></dt>
         <dd>
-            <div *ngIf="socialAccount.player">
-                <a [routerLink]="['/player', socialAccount.player?.id]">{{socialAccount.player?.name}}</a>
+            <div *ngIf="socialAccount.playerId">
+                <a [routerLink]="['/player', socialAccount.playerId]">{{socialAccount.playerName}}</a>
             </div>
         </dd>
     </dl>

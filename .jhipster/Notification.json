@@ -39,8 +39,7 @@
     "changelogDate": "20170816161104",
     "javadoc": "Class Notification.\n@author arnaugarcia.",
     "entityTableName": "notification",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
-    "service": "no",
-    "jpaMetamodelFiltering": true
+    "service": "no"
 }

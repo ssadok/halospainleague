@@ -5,6 +5,8 @@ import com.arnaugarcia.halospainleague.domain.Map;
 
 import com.arnaugarcia.halospainleague.repository.MapRepository;
 import com.arnaugarcia.halospainleague.web.rest.util.HeaderUtil;
+import com.arnaugarcia.halospainleague.service.dto.MapDTO;
+import com.arnaugarcia.halospainleague.service.mapper.MapMapper;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,25 +31,30 @@ public class MapResource {
     private static final String ENTITY_NAME = "map";
 
     private final MapRepository mapRepository;
-    public MapResource(MapRepository mapRepository) {
+
+    private final MapMapper mapMapper;
+    public MapResource(MapRepository mapRepository, MapMapper mapMapper) {
         this.mapRepository = mapRepository;
+        this.mapMapper = mapMapper;
     }
 
     /**
      * POST  /maps : Create a new map.
      *
-     * @param map the map to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new map, or with status 400 (Bad Request) if the map has already an ID
+     * @param mapDTO the mapDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new mapDTO, or with status 400 (Bad Request) if the map has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/maps")
     @Timed
-    public ResponseEntity<Map> createMap(@RequestBody Map map) throws URISyntaxException {
-        log.debug("REST request to save Map : {}", map);
-        if (map.getId() != null) {
+    public ResponseEntity<MapDTO> createMap(@RequestBody MapDTO mapDTO) throws URISyntaxException {
+        log.debug("REST request to save Map : {}", mapDTO);
+        if (mapDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new map cannot already have an ID")).body(null);
         }
-        Map result = mapRepository.save(map);
+        Map map = mapMapper.toEntity(mapDTO);
+        map = mapRepository.save(map);
+        MapDTO result = mapMapper.toDto(map);
         return ResponseEntity.created(new URI("/api/maps/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -56,22 +63,24 @@ public class MapResource {
     /**
      * PUT  /maps : Updates an existing map.
      *
-     * @param map the map to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated map,
-     * or with status 400 (Bad Request) if the map is not valid,
-     * or with status 500 (Internal Server Error) if the map couldn't be updated
+     * @param mapDTO the mapDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated mapDTO,
+     * or with status 400 (Bad Request) if the mapDTO is not valid,
+     * or with status 500 (Internal Server Error) if the mapDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/maps")
     @Timed
-    public ResponseEntity<Map> updateMap(@RequestBody Map map) throws URISyntaxException {
-        log.debug("REST request to update Map : {}", map);
-        if (map.getId() == null) {
-            return createMap(map);
+    public ResponseEntity<MapDTO> updateMap(@RequestBody MapDTO mapDTO) throws URISyntaxException {
+        log.debug("REST request to update Map : {}", mapDTO);
+        if (mapDTO.getId() == null) {
+            return createMap(mapDTO);
         }
-        Map result = mapRepository.save(map);
+        Map map = mapMapper.toEntity(mapDTO);
+        map = mapRepository.save(map);
+        MapDTO result = mapMapper.toDto(map);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, map.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, mapDTO.getId().toString()))
             .body(result);
     }
 
@@ -82,29 +91,31 @@ public class MapResource {
      */
     @GetMapping("/maps")
     @Timed
-    public List<Map> getAllMaps() {
+    public List<MapDTO> getAllMaps() {
         log.debug("REST request to get all Maps");
-        return mapRepository.findAll();
+        List<Map> maps = mapRepository.findAll();
+        return mapMapper.toDto(maps);
         }
 
     /**
      * GET  /maps/:id : get the "id" map.
      *
-     * @param id the id of the map to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the map, or with status 404 (Not Found)
+     * @param id the id of the mapDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the mapDTO, or with status 404 (Not Found)
      */
     @GetMapping("/maps/{id}")
     @Timed
-    public ResponseEntity<Map> getMap(@PathVariable Long id) {
+    public ResponseEntity<MapDTO> getMap(@PathVariable Long id) {
         log.debug("REST request to get Map : {}", id);
         Map map = mapRepository.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(map));
+        MapDTO mapDTO = mapMapper.toDto(map);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(mapDTO));
     }
 
     /**
      * DELETE  /maps/:id : delete the "id" map.
      *
-     * @param id the id of the map to delete
+     * @param id the id of the mapDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/maps/{id}")

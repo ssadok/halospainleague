@@ -30,7 +30,7 @@
     "changelogDate": "20170830133634",
     "javadoc": "Class ModeMatch.\n@author arnaugarcia.",
     "entityTableName": "match_mode",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
     "service": "no"
 }

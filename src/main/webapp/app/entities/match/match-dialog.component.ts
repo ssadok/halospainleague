@@ -49,11 +49,11 @@ export class MatchDialogComponent implements OnInit {
         this.resultMatchService
             .query({filter: 'match(reference)-is-null'})
             .subscribe((res: ResponseWrapper) => {
-                if (!this.match.resultMatch || !this.match.resultMatch.id) {
+                if (!this.match.resultMatchId) {
                     this.resultmatches = res.json;
                 } else {
                     this.resultMatchService
-                        .find(this.match.resultMatch.id)
+                        .find(this.match.resultMatchId)
                         .subscribe((subRes: ResultMatch) => {
                             this.resultmatches = [subRes].concat(res.json);
                         }, (subRes: ResponseWrapper) => this.onError(subRes.json));
@@ -62,11 +62,11 @@ export class MatchDialogComponent implements OnInit {
         this.teamListService
             .query({filter: 'match(reference)-is-null'})
             .subscribe((res: ResponseWrapper) => {
-                if (!this.match.teamList || !this.match.teamList.id) {
+                if (!this.match.teamListId) {
                     this.teamlists = res.json;
                 } else {
                     this.teamListService
-                        .find(this.match.teamList.id)
+                        .find(this.match.teamListId)
                         .subscribe((subRes: TeamList) => {
                             this.teamlists = [subRes].concat(res.json);
                         }, (subRes: ResponseWrapper) => this.onError(subRes.json));

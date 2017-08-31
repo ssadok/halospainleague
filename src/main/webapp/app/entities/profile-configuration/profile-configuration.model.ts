@@ -17,7 +17,7 @@ export class ProfileConfiguration implements BaseEntity {
         public firstRun?: boolean,
         public showTutorial?: boolean,
         public themes?: BaseEntity[],
-        public player?: BaseEntity,
+        public playerId?: number,
     ) {
         this.sendNews = false;
         this.privateMessages = false;

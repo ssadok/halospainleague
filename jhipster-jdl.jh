@@ -27,8 +27,11 @@ entity Tournament{
     description TextBlob,
     type TournamentType
 }
-//TODO DIVISION
-//Multiple Teams CAN belong to a division
+
+/**
+ * Class Division.
+ * @author arnaugarcia.
+ */
 entity Division{
 	name String
     maxPlayers Integer,
@@ -367,4 +370,4 @@ relationship OneToOne{
  * JHipster JDL configurations
  */
 
- //dto * with mapstruct
+dto * with mapstruct

@@ -4,6 +4,8 @@ import com.arnaugarcia.halospainleague.HalospainleagueApp;
 
 import com.arnaugarcia.halospainleague.domain.TeamList;
 import com.arnaugarcia.halospainleague.repository.TeamListRepository;
+import com.arnaugarcia.halospainleague.service.dto.TeamListDTO;
+import com.arnaugarcia.halospainleague.service.mapper.TeamListMapper;
 import com.arnaugarcia.halospainleague.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -47,6 +49,9 @@ public class TeamListResourceIntTest {
     private TeamListRepository teamListRepository;
 
     @Autowired
+    private TeamListMapper teamListMapper;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -65,7 +70,7 @@ public class TeamListResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final TeamListResource teamListResource = new TeamListResource(teamListRepository);
+        final TeamListResource teamListResource = new TeamListResource(teamListRepository, teamListMapper);
         this.restTeamListMockMvc = MockMvcBuilders.standaloneSetup(teamListResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -96,9 +101,10 @@ public class TeamListResourceIntTest {
         int databaseSizeBeforeCreate = teamListRepository.findAll().size();
 
         // Create the TeamList
+        TeamListDTO teamListDTO = teamListMapper.toDto(teamList);
         restTeamListMockMvc.perform(post("/api/team-lists")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(teamList)))
+            .content(TestUtil.convertObjectToJsonBytes(teamListDTO)))
             .andExpect(status().isCreated());
 
         // Validate the TeamList in the database
@@ -116,11 +122,12 @@ public class TeamListResourceIntTest {
 
         // Create the TeamList with an existing ID
         teamList.setId(1L);
+        TeamListDTO teamListDTO = teamListMapper.toDto(teamList);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restTeamListMockMvc.perform(post("/api/team-lists")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(teamList)))
+            .content(TestUtil.convertObjectToJsonBytes(teamListDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -178,10 +185,11 @@ public class TeamListResourceIntTest {
         updatedTeamList
             .reference(UPDATED_REFERENCE)
             .score(UPDATED_SCORE);
+        TeamListDTO teamListDTO = teamListMapper.toDto(updatedTeamList);
 
         restTeamListMockMvc.perform(put("/api/team-lists")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedTeamList)))
+            .content(TestUtil.convertObjectToJsonBytes(teamListDTO)))
             .andExpect(status().isOk());
 
         // Validate the TeamList in the database
@@ -198,11 +206,12 @@ public class TeamListResourceIntTest {
         int databaseSizeBeforeUpdate = teamListRepository.findAll().size();
 
         // Create the TeamList
+        TeamListDTO teamListDTO = teamListMapper.toDto(teamList);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restTeamListMockMvc.perform(put("/api/team-lists")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(teamList)))
+            .content(TestUtil.convertObjectToJsonBytes(teamListDTO)))
             .andExpect(status().isCreated());
 
         // Validate the TeamList in the database
@@ -240,5 +249,28 @@ public class TeamListResourceIntTest {
         assertThat(teamList1).isNotEqualTo(teamList2);
         teamList1.setId(null);
         assertThat(teamList1).isNotEqualTo(teamList2);
+    }
+
+    @Test
+    @Transactional
+    public void dtoEqualsVerifier() throws Exception {
+        TestUtil.equalsVerifier(TeamListDTO.class);
+        TeamListDTO teamListDTO1 = new TeamListDTO();
+        teamListDTO1.setId(1L);
+        TeamListDTO teamListDTO2 = new TeamListDTO();
+        assertThat(teamListDTO1).isNotEqualTo(teamListDTO2);
+        teamListDTO2.setId(teamListDTO1.getId());
+        assertThat(teamListDTO1).isEqualTo(teamListDTO2);
+        teamListDTO2.setId(2L);
+        assertThat(teamListDTO1).isNotEqualTo(teamListDTO2);
+        teamListDTO1.setId(null);
+        assertThat(teamListDTO1).isNotEqualTo(teamListDTO2);
+    }
+
+    @Test
+    @Transactional
+    public void testEntityFromId() {
+        assertThat(teamListMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(teamListMapper.fromId(null)).isNull();
     }
 }

@@ -4,6 +4,8 @@ import com.arnaugarcia.halospainleague.HalospainleagueApp;
 
 import com.arnaugarcia.halospainleague.domain.Division;
 import com.arnaugarcia.halospainleague.repository.DivisionRepository;
+import com.arnaugarcia.halospainleague.service.dto.DivisionDTO;
+import com.arnaugarcia.halospainleague.service.mapper.DivisionMapper;
 import com.arnaugarcia.halospainleague.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -51,6 +53,9 @@ public class DivisionResourceIntTest {
     private DivisionRepository divisionRepository;
 
     @Autowired
+    private DivisionMapper divisionMapper;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -69,7 +74,7 @@ public class DivisionResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final DivisionResource divisionResource = new DivisionResource(divisionRepository);
+        final DivisionResource divisionResource = new DivisionResource(divisionRepository, divisionMapper);
         this.restDivisionMockMvc = MockMvcBuilders.standaloneSetup(divisionResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -101,9 +106,10 @@ public class DivisionResourceIntTest {
         int databaseSizeBeforeCreate = divisionRepository.findAll().size();
 
         // Create the Division
+        DivisionDTO divisionDTO = divisionMapper.toDto(division);
         restDivisionMockMvc.perform(post("/api/divisions")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(division)))
+            .content(TestUtil.convertObjectToJsonBytes(divisionDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Division in the database
@@ -122,11 +128,12 @@ public class DivisionResourceIntTest {
 
         // Create the Division with an existing ID
         division.setId(1L);
+        DivisionDTO divisionDTO = divisionMapper.toDto(division);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restDivisionMockMvc.perform(post("/api/divisions")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(division)))
+            .content(TestUtil.convertObjectToJsonBytes(divisionDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -187,10 +194,11 @@ public class DivisionResourceIntTest {
             .name(UPDATED_NAME)
             .maxPlayers(UPDATED_MAX_PLAYERS)
             .divisionType(UPDATED_DIVISION_TYPE);
+        DivisionDTO divisionDTO = divisionMapper.toDto(updatedDivision);
 
         restDivisionMockMvc.perform(put("/api/divisions")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedDivision)))
+            .content(TestUtil.convertObjectToJsonBytes(divisionDTO)))
             .andExpect(status().isOk());
 
         // Validate the Division in the database
@@ -208,11 +216,12 @@ public class DivisionResourceIntTest {
         int databaseSizeBeforeUpdate = divisionRepository.findAll().size();
 
         // Create the Division
+        DivisionDTO divisionDTO = divisionMapper.toDto(division);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restDivisionMockMvc.perform(put("/api/divisions")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(division)))
+            .content(TestUtil.convertObjectToJsonBytes(divisionDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Division in the database
@@ -250,5 +259,28 @@ public class DivisionResourceIntTest {
         assertThat(division1).isNotEqualTo(division2);
         division1.setId(null);
         assertThat(division1).isNotEqualTo(division2);
+    }
+
+    @Test
+    @Transactional
+    public void dtoEqualsVerifier() throws Exception {
+        TestUtil.equalsVerifier(DivisionDTO.class);
+        DivisionDTO divisionDTO1 = new DivisionDTO();
+        divisionDTO1.setId(1L);
+        DivisionDTO divisionDTO2 = new DivisionDTO();
+        assertThat(divisionDTO1).isNotEqualTo(divisionDTO2);
+        divisionDTO2.setId(divisionDTO1.getId());
+        assertThat(divisionDTO1).isEqualTo(divisionDTO2);
+        divisionDTO2.setId(2L);
+        assertThat(divisionDTO1).isNotEqualTo(divisionDTO2);
+        divisionDTO1.setId(null);
+        assertThat(divisionDTO1).isNotEqualTo(divisionDTO2);
+    }
+
+    @Test
+    @Transactional
+    public void testEntityFromId() {
+        assertThat(divisionMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(divisionMapper.fromId(null)).isNull();
     }
 }

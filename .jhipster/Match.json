@@ -50,7 +50,7 @@
     "changelogDate": "20170816161056",
     "javadoc": "Class Match.\n@author arnaugarcia.",
     "entityTableName": "match",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
     "service": "no"
 }

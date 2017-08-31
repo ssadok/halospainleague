@@ -33,8 +33,7 @@
     "changelogDate": "20170816161057",
     "javadoc": "Class Map.\n@author arnaugarcia.",
     "entityTableName": "map",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
-    "service": "no",
-    "jpaMetamodelFiltering": true
+    "service": "no"
 }

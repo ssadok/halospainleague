@@ -5,6 +5,8 @@ import com.arnaugarcia.halospainleague.domain.MatchMode;
 
 import com.arnaugarcia.halospainleague.repository.MatchModeRepository;
 import com.arnaugarcia.halospainleague.web.rest.util.HeaderUtil;
+import com.arnaugarcia.halospainleague.service.dto.MatchModeDTO;
+import com.arnaugarcia.halospainleague.service.mapper.MatchModeMapper;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,25 +31,30 @@ public class MatchModeResource {
     private static final String ENTITY_NAME = "matchMode";
 
     private final MatchModeRepository matchModeRepository;
-    public MatchModeResource(MatchModeRepository matchModeRepository) {
+
+    private final MatchModeMapper matchModeMapper;
+    public MatchModeResource(MatchModeRepository matchModeRepository, MatchModeMapper matchModeMapper) {
         this.matchModeRepository = matchModeRepository;
+        this.matchModeMapper = matchModeMapper;
     }
 
     /**
      * POST  /match-modes : Create a new matchMode.
      *
-     * @param matchMode the matchMode to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new matchMode, or with status 400 (Bad Request) if the matchMode has already an ID
+     * @param matchModeDTO the matchModeDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new matchModeDTO, or with status 400 (Bad Request) if the matchMode has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/match-modes")
     @Timed
-    public ResponseEntity<MatchMode> createMatchMode(@RequestBody MatchMode matchMode) throws URISyntaxException {
-        log.debug("REST request to save MatchMode : {}", matchMode);
-        if (matchMode.getId() != null) {
+    public ResponseEntity<MatchModeDTO> createMatchMode(@RequestBody MatchModeDTO matchModeDTO) throws URISyntaxException {
+        log.debug("REST request to save MatchMode : {}", matchModeDTO);
+        if (matchModeDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new matchMode cannot already have an ID")).body(null);
         }
-        MatchMode result = matchModeRepository.save(matchMode);
+        MatchMode matchMode = matchModeMapper.toEntity(matchModeDTO);
+        matchMode = matchModeRepository.save(matchMode);
+        MatchModeDTO result = matchModeMapper.toDto(matchMode);
         return ResponseEntity.created(new URI("/api/match-modes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -56,22 +63,24 @@ public class MatchModeResource {
     /**
      * PUT  /match-modes : Updates an existing matchMode.
      *
-     * @param matchMode the matchMode to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated matchMode,
-     * or with status 400 (Bad Request) if the matchMode is not valid,
-     * or with status 500 (Internal Server Error) if the matchMode couldn't be updated
+     * @param matchModeDTO the matchModeDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated matchModeDTO,
+     * or with status 400 (Bad Request) if the matchModeDTO is not valid,
+     * or with status 500 (Internal Server Error) if the matchModeDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/match-modes")
     @Timed
-    public ResponseEntity<MatchMode> updateMatchMode(@RequestBody MatchMode matchMode) throws URISyntaxException {
-        log.debug("REST request to update MatchMode : {}", matchMode);
-        if (matchMode.getId() == null) {
-            return createMatchMode(matchMode);
+    public ResponseEntity<MatchModeDTO> updateMatchMode(@RequestBody MatchModeDTO matchModeDTO) throws URISyntaxException {
+        log.debug("REST request to update MatchMode : {}", matchModeDTO);
+        if (matchModeDTO.getId() == null) {
+            return createMatchMode(matchModeDTO);
         }
-        MatchMode result = matchModeRepository.save(matchMode);
+        MatchMode matchMode = matchModeMapper.toEntity(matchModeDTO);
+        matchMode = matchModeRepository.save(matchMode);
+        MatchModeDTO result = matchModeMapper.toDto(matchMode);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, matchMode.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, matchModeDTO.getId().toString()))
             .body(result);
     }
 
@@ -82,29 +91,31 @@ public class MatchModeResource {
      */
     @GetMapping("/match-modes")
     @Timed
-    public List<MatchMode> getAllMatchModes() {
+    public List<MatchModeDTO> getAllMatchModes() {
         log.debug("REST request to get all MatchModes");
-        return matchModeRepository.findAll();
+        List<MatchMode> matchModes = matchModeRepository.findAll();
+        return matchModeMapper.toDto(matchModes);
         }
 
     /**
      * GET  /match-modes/:id : get the "id" matchMode.
      *
-     * @param id the id of the matchMode to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the matchMode, or with status 404 (Not Found)
+     * @param id the id of the matchModeDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the matchModeDTO, or with status 404 (Not Found)
      */
     @GetMapping("/match-modes/{id}")
     @Timed
-    public ResponseEntity<MatchMode> getMatchMode(@PathVariable Long id) {
+    public ResponseEntity<MatchModeDTO> getMatchMode(@PathVariable Long id) {
         log.debug("REST request to get MatchMode : {}", id);
         MatchMode matchMode = matchModeRepository.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(matchMode));
+        MatchModeDTO matchModeDTO = matchModeMapper.toDto(matchMode);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(matchModeDTO));
     }
 
     /**
      * DELETE  /match-modes/:id : delete the "id" matchMode.
      *
-     * @param id the id of the matchMode to delete
+     * @param id the id of the matchModeDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/match-modes/{id}")

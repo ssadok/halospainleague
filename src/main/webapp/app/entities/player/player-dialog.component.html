@@ -151,16 +151,16 @@
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="halospainleagueApp.player.user" for="field_user">User</label>
-            <select class="form-control" id="field_user" name="user" [(ngModel)]="player.user" >
+            <select class="form-control" id="field_user" name="user" [(ngModel)]="player.userId" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="userOption.id === player.user?.id ? player.user : userOption" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+                <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
             </select>
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="halospainleagueApp.player.profileConfiguration" for="field_profileConfiguration">Profile Configuration</label>
-            <select class="form-control" id="field_profileConfiguration" name="profileConfiguration" [(ngModel)]="player.profileConfiguration" required>
+            <select class="form-control" id="field_profileConfiguration" name="profileConfiguration" [(ngModel)]="player.profileConfigurationId" required>
                 <option *ngIf="!editForm.value.profileConfiguration" [ngValue]="null" selected></option>
-                <option [ngValue]="profileConfigurationOption.id === player.profileConfiguration?.id ? player.profileConfiguration : profileConfigurationOption" *ngFor="let profileConfigurationOption of profileconfigurations; trackBy: trackProfileConfigurationById">{{profileConfigurationOption.id}}</option>
+                <option [ngValue]="profileConfigurationOption.id" *ngFor="let profileConfigurationOption of profileconfigurations; trackBy: trackProfileConfigurationById">{{profileConfigurationOption.id}}</option>
             </select>
         </div>
         <div [hidden]="!(editForm.controls.profileConfiguration?.dirty && editForm.controls.profileConfiguration?.invalid)">
@@ -171,9 +171,9 @@
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="halospainleagueApp.player.country" for="field_country">Country</label>
-            <select class="form-control" id="field_country" name="country" [(ngModel)]="player.country" >
+            <select class="form-control" id="field_country" name="country" [(ngModel)]="player.countryId" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="countryOption.id === player.country?.id ? player.country : countryOption" *ngFor="let countryOption of countries; trackBy: trackCountryById">{{countryOption.name}}</option>
+                <option [ngValue]="countryOption.id" *ngFor="let countryOption of countries; trackBy: trackCountryById">{{countryOption.name}}</option>
             </select>
         </div>
     </div>

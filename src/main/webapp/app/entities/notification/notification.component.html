@@ -37,8 +37,8 @@
                 <td>{{notification.token}}</td>
                 <td>{{notification.read}}</td>
                 <td>
-                    <div *ngIf="notification.player">
-                        <a [routerLink]="['../player', notification.player?.id ]" >{{notification.player?.name}}</a>
+                    <div *ngIf="notification.playerId">
+                        <a [routerLink]="['../player', notification.playerId  ]" >{{notification.playerName}}</a>
                     </div>
                 </td>
                 <td class="text-right">

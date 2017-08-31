@@ -24,8 +24,9 @@
         }
     ],
     "changelogDate": "20170816161054",
+    "javadoc": "Class Division.\n@author arnaugarcia.",
     "entityTableName": "division",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
     "service": "no"
 }

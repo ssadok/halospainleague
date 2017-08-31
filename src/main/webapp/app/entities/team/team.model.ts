@@ -29,7 +29,7 @@ export class Team implements BaseEntity {
         public premium?: boolean,
         public players?: BaseEntity[],
         public teamLists?: BaseEntity[],
-        public division?: BaseEntity,
+        public divisionId?: number,
         public torunaments?: BaseEntity[],
     ) {
         this.streak = false;

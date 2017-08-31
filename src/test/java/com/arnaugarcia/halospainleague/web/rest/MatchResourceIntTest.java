@@ -4,6 +4,8 @@ import com.arnaugarcia.halospainleague.HalospainleagueApp;
 
 import com.arnaugarcia.halospainleague.domain.Match;
 import com.arnaugarcia.halospainleague.repository.MatchRepository;
+import com.arnaugarcia.halospainleague.service.dto.MatchDTO;
+import com.arnaugarcia.halospainleague.service.mapper.MatchMapper;
 import com.arnaugarcia.halospainleague.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -47,6 +49,9 @@ public class MatchResourceIntTest {
     private MatchRepository matchRepository;
 
     @Autowired
+    private MatchMapper matchMapper;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -65,7 +70,7 @@ public class MatchResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final MatchResource matchResource = new MatchResource(matchRepository);
+        final MatchResource matchResource = new MatchResource(matchRepository, matchMapper);
         this.restMatchMockMvc = MockMvcBuilders.standaloneSetup(matchResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -96,9 +101,10 @@ public class MatchResourceIntTest {
         int databaseSizeBeforeCreate = matchRepository.findAll().size();
 
         // Create the Match
+        MatchDTO matchDTO = matchMapper.toDto(match);
         restMatchMockMvc.perform(post("/api/matches")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(match)))
+            .content(TestUtil.convertObjectToJsonBytes(matchDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Match in the database
@@ -116,11 +122,12 @@ public class MatchResourceIntTest {
 
         // Create the Match with an existing ID
         match.setId(1L);
+        MatchDTO matchDTO = matchMapper.toDto(match);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restMatchMockMvc.perform(post("/api/matches")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(match)))
+            .content(TestUtil.convertObjectToJsonBytes(matchDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -178,10 +185,11 @@ public class MatchResourceIntTest {
         updatedMatch
             .reference(UPDATED_REFERENCE)
             .duration(UPDATED_DURATION);
+        MatchDTO matchDTO = matchMapper.toDto(updatedMatch);
 
         restMatchMockMvc.perform(put("/api/matches")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedMatch)))
+            .content(TestUtil.convertObjectToJsonBytes(matchDTO)))
             .andExpect(status().isOk());
 
         // Validate the Match in the database
@@ -198,11 +206,12 @@ public class MatchResourceIntTest {
         int databaseSizeBeforeUpdate = matchRepository.findAll().size();
 
         // Create the Match
+        MatchDTO matchDTO = matchMapper.toDto(match);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restMatchMockMvc.perform(put("/api/matches")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(match)))
+            .content(TestUtil.convertObjectToJsonBytes(matchDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Match in the database
@@ -240,5 +249,28 @@ public class MatchResourceIntTest {
         assertThat(match1).isNotEqualTo(match2);
         match1.setId(null);
         assertThat(match1).isNotEqualTo(match2);
+    }
+
+    @Test
+    @Transactional
+    public void dtoEqualsVerifier() throws Exception {
+        TestUtil.equalsVerifier(MatchDTO.class);
+        MatchDTO matchDTO1 = new MatchDTO();
+        matchDTO1.setId(1L);
+        MatchDTO matchDTO2 = new MatchDTO();
+        assertThat(matchDTO1).isNotEqualTo(matchDTO2);
+        matchDTO2.setId(matchDTO1.getId());
+        assertThat(matchDTO1).isEqualTo(matchDTO2);
+        matchDTO2.setId(2L);
+        assertThat(matchDTO1).isNotEqualTo(matchDTO2);
+        matchDTO1.setId(null);
+        assertThat(matchDTO1).isNotEqualTo(matchDTO2);
+    }
+
+    @Test
+    @Transactional
+    public void testEntityFromId() {
+        assertThat(matchMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(matchMapper.fromId(null)).isNull();
     }
 }

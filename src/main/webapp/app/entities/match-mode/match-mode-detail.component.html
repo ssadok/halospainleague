@@ -22,8 +22,8 @@
         </dd>
         <dt><span jhiTranslate="halospainleagueApp.matchMode.match">Match</span></dt>
         <dd>
-            <div *ngIf="matchMode.match">
-                <a [routerLink]="['/match', matchMode.match?.id]">{{matchMode.match?.reference}}</a>
+            <div *ngIf="matchMode.matchId">
+                <a [routerLink]="['/match', matchMode.matchId]">{{matchMode.matchReference}}</a>
             </div>
         </dd>
     </dl>

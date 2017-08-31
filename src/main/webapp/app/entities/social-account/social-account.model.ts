@@ -14,7 +14,7 @@ export class SocialAccount implements BaseEntity {
         public nick?: string,
         public platform?: Platform,
         public token?: string,
-        public player?: BaseEntity,
+        public playerId?: number,
     ) {
     }
 }

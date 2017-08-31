@@ -5,6 +5,8 @@ import com.arnaugarcia.halospainleague.domain.Tournament;
 
 import com.arnaugarcia.halospainleague.repository.TournamentRepository;
 import com.arnaugarcia.halospainleague.web.rest.util.HeaderUtil;
+import com.arnaugarcia.halospainleague.service.dto.TournamentDTO;
+import com.arnaugarcia.halospainleague.service.mapper.TournamentMapper;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,25 +32,30 @@ public class TournamentResource {
     private static final String ENTITY_NAME = "tournament";
 
     private final TournamentRepository tournamentRepository;
-    public TournamentResource(TournamentRepository tournamentRepository) {
+
+    private final TournamentMapper tournamentMapper;
+    public TournamentResource(TournamentRepository tournamentRepository, TournamentMapper tournamentMapper) {
         this.tournamentRepository = tournamentRepository;
+        this.tournamentMapper = tournamentMapper;
     }
 
     /**
      * POST  /tournaments : Create a new tournament.
      *
-     * @param tournament the tournament to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new tournament, or with status 400 (Bad Request) if the tournament has already an ID
+     * @param tournamentDTO the tournamentDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new tournamentDTO, or with status 400 (Bad Request) if the tournament has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/tournaments")
     @Timed
-    public ResponseEntity<Tournament> createTournament(@Valid @RequestBody Tournament tournament) throws URISyntaxException {
-        log.debug("REST request to save Tournament : {}", tournament);
-        if (tournament.getId() != null) {
+    public ResponseEntity<TournamentDTO> createTournament(@Valid @RequestBody TournamentDTO tournamentDTO) throws URISyntaxException {
+        log.debug("REST request to save Tournament : {}", tournamentDTO);
+        if (tournamentDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new tournament cannot already have an ID")).body(null);
         }
-        Tournament result = tournamentRepository.save(tournament);
+        Tournament tournament = tournamentMapper.toEntity(tournamentDTO);
+        tournament = tournamentRepository.save(tournament);
+        TournamentDTO result = tournamentMapper.toDto(tournament);
         return ResponseEntity.created(new URI("/api/tournaments/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -57,22 +64,24 @@ public class TournamentResource {
     /**
      * PUT  /tournaments : Updates an existing tournament.
      *
-     * @param tournament the tournament to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated tournament,
-     * or with status 400 (Bad Request) if the tournament is not valid,
-     * or with status 500 (Internal Server Error) if the tournament couldn't be updated
+     * @param tournamentDTO the tournamentDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated tournamentDTO,
+     * or with status 400 (Bad Request) if the tournamentDTO is not valid,
+     * or with status 500 (Internal Server Error) if the tournamentDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/tournaments")
     @Timed
-    public ResponseEntity<Tournament> updateTournament(@Valid @RequestBody Tournament tournament) throws URISyntaxException {
-        log.debug("REST request to update Tournament : {}", tournament);
-        if (tournament.getId() == null) {
-            return createTournament(tournament);
+    public ResponseEntity<TournamentDTO> updateTournament(@Valid @RequestBody TournamentDTO tournamentDTO) throws URISyntaxException {
+        log.debug("REST request to update Tournament : {}", tournamentDTO);
+        if (tournamentDTO.getId() == null) {
+            return createTournament(tournamentDTO);
         }
-        Tournament result = tournamentRepository.save(tournament);
+        Tournament tournament = tournamentMapper.toEntity(tournamentDTO);
+        tournament = tournamentRepository.save(tournament);
+        TournamentDTO result = tournamentMapper.toDto(tournament);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, tournament.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, tournamentDTO.getId().toString()))
             .body(result);
     }
 
@@ -83,29 +92,31 @@ public class TournamentResource {
      */
     @GetMapping("/tournaments")
     @Timed
-    public List<Tournament> getAllTournaments() {
+    public List<TournamentDTO> getAllTournaments() {
         log.debug("REST request to get all Tournaments");
-        return tournamentRepository.findAllWithEagerRelationships();
+        List<Tournament> tournaments = tournamentRepository.findAllWithEagerRelationships();
+        return tournamentMapper.toDto(tournaments);
         }
 
     /**
      * GET  /tournaments/:id : get the "id" tournament.
      *
-     * @param id the id of the tournament to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the tournament, or with status 404 (Not Found)
+     * @param id the id of the tournamentDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the tournamentDTO, or with status 404 (Not Found)
      */
     @GetMapping("/tournaments/{id}")
     @Timed
-    public ResponseEntity<Tournament> getTournament(@PathVariable Long id) {
+    public ResponseEntity<TournamentDTO> getTournament(@PathVariable Long id) {
         log.debug("REST request to get Tournament : {}", id);
         Tournament tournament = tournamentRepository.findOneWithEagerRelationships(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(tournament));
+        TournamentDTO tournamentDTO = tournamentMapper.toDto(tournament);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(tournamentDTO));
     }
 
     /**
      * DELETE  /tournaments/:id : delete the "id" tournament.
      *
-     * @param id the id of the tournament to delete
+     * @param id the id of the tournamentDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/tournaments/{id}")

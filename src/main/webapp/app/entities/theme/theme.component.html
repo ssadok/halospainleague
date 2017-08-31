@@ -38,13 +38,13 @@
                 <td>{{theme.linkcolor}}</td>
                 <td>{{theme.backgroundcolor}}</td>
                 <td>
-                    <div *ngIf="theme.profileConfiguration">
-                        <a [routerLink]="['../profile-configuration', theme.profileConfiguration?.id ]" >{{theme.profileConfiguration?.id}}</a>
+                    <div *ngIf="theme.profileConfigurationId">
+                        <a [routerLink]="['../profile-configuration', theme.profileConfigurationId  ]" >{{theme.profileConfigurationId}}</a>
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="theme.messageRoom">
-                        <a [routerLink]="['../message-room', theme.messageRoom?.id ]" >{{theme.messageRoom?.title}}</a>
+                    <div *ngIf="theme.messageRoomId">
+                        <a [routerLink]="['../message-room', theme.messageRoomId  ]" >{{theme.messageRoomTitle}}</a>
                     </div>
                 </td>
                 <td class="text-right">

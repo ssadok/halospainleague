@@ -4,6 +4,8 @@ import com.arnaugarcia.halospainleague.HalospainleagueApp;
 
 import com.arnaugarcia.halospainleague.domain.Game;
 import com.arnaugarcia.halospainleague.repository.GameRepository;
+import com.arnaugarcia.halospainleague.service.dto.GameDTO;
+import com.arnaugarcia.halospainleague.service.mapper.GameMapper;
 import com.arnaugarcia.halospainleague.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -65,6 +67,9 @@ public class GameResourceIntTest {
     private GameRepository gameRepository;
 
     @Autowired
+    private GameMapper gameMapper;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -83,7 +88,7 @@ public class GameResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final GameResource gameResource = new GameResource(gameRepository);
+        final GameResource gameResource = new GameResource(gameRepository, gameMapper);
         this.restGameMockMvc = MockMvcBuilders.standaloneSetup(gameResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -118,9 +123,10 @@ public class GameResourceIntTest {
         int databaseSizeBeforeCreate = gameRepository.findAll().size();
 
         // Create the Game
+        GameDTO gameDTO = gameMapper.toDto(game);
         restGameMockMvc.perform(post("/api/games")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(game)))
+            .content(TestUtil.convertObjectToJsonBytes(gameDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Game in the database
@@ -142,11 +148,12 @@ public class GameResourceIntTest {
 
         // Create the Game with an existing ID
         game.setId(1L);
+        GameDTO gameDTO = gameMapper.toDto(game);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restGameMockMvc.perform(post("/api/games")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(game)))
+            .content(TestUtil.convertObjectToJsonBytes(gameDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -216,10 +223,11 @@ public class GameResourceIntTest {
             .photoContentType(UPDATED_PHOTO_CONTENT_TYPE)
             .rate(UPDATED_RATE)
             .platform(UPDATED_PLATFORM);
+        GameDTO gameDTO = gameMapper.toDto(updatedGame);
 
         restGameMockMvc.perform(put("/api/games")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedGame)))
+            .content(TestUtil.convertObjectToJsonBytes(gameDTO)))
             .andExpect(status().isOk());
 
         // Validate the Game in the database
@@ -240,11 +248,12 @@ public class GameResourceIntTest {
         int databaseSizeBeforeUpdate = gameRepository.findAll().size();
 
         // Create the Game
+        GameDTO gameDTO = gameMapper.toDto(game);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restGameMockMvc.perform(put("/api/games")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(game)))
+            .content(TestUtil.convertObjectToJsonBytes(gameDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Game in the database
@@ -282,5 +291,28 @@ public class GameResourceIntTest {
         assertThat(game1).isNotEqualTo(game2);
         game1.setId(null);
         assertThat(game1).isNotEqualTo(game2);
+    }
+
+    @Test
+    @Transactional
+    public void dtoEqualsVerifier() throws Exception {
+        TestUtil.equalsVerifier(GameDTO.class);
+        GameDTO gameDTO1 = new GameDTO();
+        gameDTO1.setId(1L);
+        GameDTO gameDTO2 = new GameDTO();
+        assertThat(gameDTO1).isNotEqualTo(gameDTO2);
+        gameDTO2.setId(gameDTO1.getId());
+        assertThat(gameDTO1).isEqualTo(gameDTO2);
+        gameDTO2.setId(2L);
+        assertThat(gameDTO1).isNotEqualTo(gameDTO2);
+        gameDTO1.setId(null);
+        assertThat(gameDTO1).isNotEqualTo(gameDTO2);
+    }
+
+    @Test
+    @Transactional
+    public void testEntityFromId() {
+        assertThat(gameMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(gameMapper.fromId(null)).isNull();
     }
 }

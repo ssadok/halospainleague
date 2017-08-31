@@ -4,6 +4,8 @@ import com.arnaugarcia.halospainleague.HalospainleagueApp;
 
 import com.arnaugarcia.halospainleague.domain.ResultMatch;
 import com.arnaugarcia.halospainleague.repository.ResultMatchRepository;
+import com.arnaugarcia.halospainleague.service.dto.ResultMatchDTO;
+import com.arnaugarcia.halospainleague.service.mapper.ResultMatchMapper;
 import com.arnaugarcia.halospainleague.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -44,6 +46,9 @@ public class ResultMatchResourceIntTest {
     private ResultMatchRepository resultMatchRepository;
 
     @Autowired
+    private ResultMatchMapper resultMatchMapper;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -62,7 +67,7 @@ public class ResultMatchResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ResultMatchResource resultMatchResource = new ResultMatchResource(resultMatchRepository);
+        final ResultMatchResource resultMatchResource = new ResultMatchResource(resultMatchRepository, resultMatchMapper);
         this.restResultMatchMockMvc = MockMvcBuilders.standaloneSetup(resultMatchResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -92,9 +97,10 @@ public class ResultMatchResourceIntTest {
         int databaseSizeBeforeCreate = resultMatchRepository.findAll().size();
 
         // Create the ResultMatch
+        ResultMatchDTO resultMatchDTO = resultMatchMapper.toDto(resultMatch);
         restResultMatchMockMvc.perform(post("/api/result-matches")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(resultMatch)))
+            .content(TestUtil.convertObjectToJsonBytes(resultMatchDTO)))
             .andExpect(status().isCreated());
 
         // Validate the ResultMatch in the database
@@ -111,11 +117,12 @@ public class ResultMatchResourceIntTest {
 
         // Create the ResultMatch with an existing ID
         resultMatch.setId(1L);
+        ResultMatchDTO resultMatchDTO = resultMatchMapper.toDto(resultMatch);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restResultMatchMockMvc.perform(post("/api/result-matches")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(resultMatch)))
+            .content(TestUtil.convertObjectToJsonBytes(resultMatchDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -170,10 +177,11 @@ public class ResultMatchResourceIntTest {
         ResultMatch updatedResultMatch = resultMatchRepository.findOne(resultMatch.getId());
         updatedResultMatch
             .reference(UPDATED_REFERENCE);
+        ResultMatchDTO resultMatchDTO = resultMatchMapper.toDto(updatedResultMatch);
 
         restResultMatchMockMvc.perform(put("/api/result-matches")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedResultMatch)))
+            .content(TestUtil.convertObjectToJsonBytes(resultMatchDTO)))
             .andExpect(status().isOk());
 
         // Validate the ResultMatch in the database
@@ -189,11 +197,12 @@ public class ResultMatchResourceIntTest {
         int databaseSizeBeforeUpdate = resultMatchRepository.findAll().size();
 
         // Create the ResultMatch
+        ResultMatchDTO resultMatchDTO = resultMatchMapper.toDto(resultMatch);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restResultMatchMockMvc.perform(put("/api/result-matches")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(resultMatch)))
+            .content(TestUtil.convertObjectToJsonBytes(resultMatchDTO)))
             .andExpect(status().isCreated());
 
         // Validate the ResultMatch in the database
@@ -231,5 +240,28 @@ public class ResultMatchResourceIntTest {
         assertThat(resultMatch1).isNotEqualTo(resultMatch2);
         resultMatch1.setId(null);
         assertThat(resultMatch1).isNotEqualTo(resultMatch2);
+    }
+
+    @Test
+    @Transactional
+    public void dtoEqualsVerifier() throws Exception {
+        TestUtil.equalsVerifier(ResultMatchDTO.class);
+        ResultMatchDTO resultMatchDTO1 = new ResultMatchDTO();
+        resultMatchDTO1.setId(1L);
+        ResultMatchDTO resultMatchDTO2 = new ResultMatchDTO();
+        assertThat(resultMatchDTO1).isNotEqualTo(resultMatchDTO2);
+        resultMatchDTO2.setId(resultMatchDTO1.getId());
+        assertThat(resultMatchDTO1).isEqualTo(resultMatchDTO2);
+        resultMatchDTO2.setId(2L);
+        assertThat(resultMatchDTO1).isNotEqualTo(resultMatchDTO2);
+        resultMatchDTO1.setId(null);
+        assertThat(resultMatchDTO1).isNotEqualTo(resultMatchDTO2);
+    }
+
+    @Test
+    @Transactional
+    public void testEntityFromId() {
+        assertThat(resultMatchMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(resultMatchMapper.fromId(null)).isNull();
     }
 }

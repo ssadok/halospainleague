@@ -9,8 +9,8 @@ export class Theme implements BaseEntity {
         public fontcolor?: string,
         public linkcolor?: string,
         public backgroundcolor?: string,
-        public profileConfiguration?: BaseEntity,
-        public messageRoom?: BaseEntity,
+        public profileConfigurationId?: number,
+        public messageRoomId?: number,
     ) {
         this.active = false;
     }

@@ -4,6 +4,8 @@ import com.arnaugarcia.halospainleague.HalospainleagueApp;
 
 import com.arnaugarcia.halospainleague.domain.Tournament;
 import com.arnaugarcia.halospainleague.repository.TournamentRepository;
+import com.arnaugarcia.halospainleague.service.dto.TournamentDTO;
+import com.arnaugarcia.halospainleague.service.mapper.TournamentMapper;
 import com.arnaugarcia.halospainleague.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -84,6 +86,9 @@ public class TournamentResourceIntTest {
     private TournamentRepository tournamentRepository;
 
     @Autowired
+    private TournamentMapper tournamentMapper;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -102,7 +107,7 @@ public class TournamentResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final TournamentResource tournamentResource = new TournamentResource(tournamentRepository);
+        final TournamentResource tournamentResource = new TournamentResource(tournamentRepository, tournamentMapper);
         this.restTournamentMockMvc = MockMvcBuilders.standaloneSetup(tournamentResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -143,9 +148,10 @@ public class TournamentResourceIntTest {
         int databaseSizeBeforeCreate = tournamentRepository.findAll().size();
 
         // Create the Tournament
+        TournamentDTO tournamentDTO = tournamentMapper.toDto(tournament);
         restTournamentMockMvc.perform(post("/api/tournaments")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(tournament)))
+            .content(TestUtil.convertObjectToJsonBytes(tournamentDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Tournament in the database
@@ -173,11 +179,12 @@ public class TournamentResourceIntTest {
 
         // Create the Tournament with an existing ID
         tournament.setId(1L);
+        TournamentDTO tournamentDTO = tournamentMapper.toDto(tournament);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restTournamentMockMvc.perform(post("/api/tournaments")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(tournament)))
+            .content(TestUtil.convertObjectToJsonBytes(tournamentDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -193,10 +200,11 @@ public class TournamentResourceIntTest {
         tournament.setMaxTeams(null);
 
         // Create the Tournament, which fails.
+        TournamentDTO tournamentDTO = tournamentMapper.toDto(tournament);
 
         restTournamentMockMvc.perform(post("/api/tournaments")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(tournament)))
+            .content(TestUtil.convertObjectToJsonBytes(tournamentDTO)))
             .andExpect(status().isBadRequest());
 
         List<Tournament> tournamentList = tournamentRepository.findAll();
@@ -283,10 +291,11 @@ public class TournamentResourceIntTest {
             .gamesPerRound(UPDATED_GAMES_PER_ROUND)
             .description(UPDATED_DESCRIPTION)
             .type(UPDATED_TYPE);
+        TournamentDTO tournamentDTO = tournamentMapper.toDto(updatedTournament);
 
         restTournamentMockMvc.perform(put("/api/tournaments")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedTournament)))
+            .content(TestUtil.convertObjectToJsonBytes(tournamentDTO)))
             .andExpect(status().isOk());
 
         // Validate the Tournament in the database
@@ -313,11 +322,12 @@ public class TournamentResourceIntTest {
         int databaseSizeBeforeUpdate = tournamentRepository.findAll().size();
 
         // Create the Tournament
+        TournamentDTO tournamentDTO = tournamentMapper.toDto(tournament);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restTournamentMockMvc.perform(put("/api/tournaments")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(tournament)))
+            .content(TestUtil.convertObjectToJsonBytes(tournamentDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Tournament in the database
@@ -355,5 +365,28 @@ public class TournamentResourceIntTest {
         assertThat(tournament1).isNotEqualTo(tournament2);
         tournament1.setId(null);
         assertThat(tournament1).isNotEqualTo(tournament2);
+    }
+
+    @Test
+    @Transactional
+    public void dtoEqualsVerifier() throws Exception {
+        TestUtil.equalsVerifier(TournamentDTO.class);
+        TournamentDTO tournamentDTO1 = new TournamentDTO();
+        tournamentDTO1.setId(1L);
+        TournamentDTO tournamentDTO2 = new TournamentDTO();
+        assertThat(tournamentDTO1).isNotEqualTo(tournamentDTO2);
+        tournamentDTO2.setId(tournamentDTO1.getId());
+        assertThat(tournamentDTO1).isEqualTo(tournamentDTO2);
+        tournamentDTO2.setId(2L);
+        assertThat(tournamentDTO1).isNotEqualTo(tournamentDTO2);
+        tournamentDTO1.setId(null);
+        assertThat(tournamentDTO1).isNotEqualTo(tournamentDTO2);
+    }
+
+    @Test
+    @Transactional
+    public void testEntityFromId() {
+        assertThat(tournamentMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(tournamentMapper.fromId(null)).isNull();
     }
 }

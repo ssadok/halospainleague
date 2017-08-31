@@ -25,8 +25,7 @@
     "changelogDate": "20170816161100",
     "javadoc": "Class Country.\n@author arnaugarcia.",
     "entityTableName": "country",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
-    "service": "no",
-    "jpaMetamodelFiltering": true
+    "service": "no"
 }

@@ -69,16 +69,16 @@
                 <td>{{player.address}}</td>
                 <td>{{player.timeZone}}</td>
                 <td>
-                    {{player.user?.login}}
+                    {{player.userLogin}}
                 </td>
                 <td>
-                    <div *ngIf="player.profileConfiguration">
-                        <a [routerLink]="['../profile-configuration', player.profileConfiguration?.id ]" >{{player.profileConfiguration?.id}}</a>
+                    <div *ngIf="player.profileConfigurationId">
+                        <a [routerLink]="['../profile-configuration', player.profileConfigurationId  ]" >{{player.profileConfigurationId}}</a>
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="player.country">
-                        <a [routerLink]="['../country', player.country?.id ]" >{{player.country?.name}}</a>
+                    <div *ngIf="player.countryId">
+                        <a [routerLink]="['../country', player.countryId  ]" >{{player.countryName}}</a>
                     </div>
                 </td>
                 <td class="text-right">

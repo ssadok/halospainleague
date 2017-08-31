@@ -29,7 +29,7 @@
     "changelogDate": "20170830133635",
     "javadoc": "Class Match.\n@author arnaugarcia.",
     "entityTableName": "team_list",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
     "service": "no"
 }

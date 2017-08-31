@@ -32,23 +32,23 @@
                 <td>{{match.reference}}</td>
                 <td>{{match.duration}}</td>
                 <td>
-                    <div *ngIf="match.resultMatch">
-                        <a [routerLink]="['../result-match', match.resultMatch?.id ]" >{{match.resultMatch?.reference}}</a>
+                    <div *ngIf="match.resultMatchId">
+                        <a [routerLink]="['../result-match', match.resultMatchId  ]" >{{match.resultMatchReference}}</a>
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="match.teamList">
-                        <a [routerLink]="['../team-list', match.teamList?.id ]" >{{match.teamList?.reference}}</a>
+                    <div *ngIf="match.teamListId">
+                        <a [routerLink]="['../team-list', match.teamListId  ]" >{{match.teamListReference}}</a>
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="match.tournament">
-                        <a [routerLink]="['../tournament', match.tournament?.id ]" >{{match.tournament?.name}}</a>
+                    <div *ngIf="match.tournamentId">
+                        <a [routerLink]="['../tournament', match.tournamentId  ]" >{{match.tournamentName}}</a>
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="match.map">
-                        <a [routerLink]="['../map', match.map?.id ]" >{{match.map?.name}}</a>
+                    <div *ngIf="match.mapId">
+                        <a [routerLink]="['../map', match.mapId  ]" >{{match.mapName}}</a>
                     </div>
                 </td>
                 <td class="text-right">

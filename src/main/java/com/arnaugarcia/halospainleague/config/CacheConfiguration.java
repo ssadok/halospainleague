@@ -50,11 +50,13 @@ public class CacheConfiguration {
             cm.createCache(com.arnaugarcia.halospainleague.domain.Tournament.class.getName() + ".matches", jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.Tournament.class.getName() + ".teams", jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.Division.class.getName(), jcacheConfiguration);
+            cm.createCache(com.arnaugarcia.halospainleague.domain.Division.class.getName() + ".teams", jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.Team.class.getName(), jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.Team.class.getName() + ".players", jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.Team.class.getName() + ".teamLists", jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.Team.class.getName() + ".torunaments", jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.Match.class.getName(), jcacheConfiguration);
+            cm.createCache(com.arnaugarcia.halospainleague.domain.Match.class.getName() + ".matchModes", jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.Map.class.getName(), jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.Map.class.getName() + ".matches", jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.ResultMatch.class.getName(), jcacheConfiguration);
@@ -80,8 +82,6 @@ public class CacheConfiguration {
             cm.createCache(com.arnaugarcia.halospainleague.domain.MatchMode.class.getName(), jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.TeamList.class.getName(), jcacheConfiguration);
             cm.createCache(com.arnaugarcia.halospainleague.domain.TeamList.class.getName() + ".teams", jcacheConfiguration);
-            cm.createCache(com.arnaugarcia.halospainleague.domain.Division.class.getName() + ".teams", jcacheConfiguration);
-            cm.createCache(com.arnaugarcia.halospainleague.domain.Match.class.getName() + ".matchModes", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -4,6 +4,8 @@ import com.arnaugarcia.halospainleague.HalospainleagueApp;
 
 import com.arnaugarcia.halospainleague.domain.Achievement;
 import com.arnaugarcia.halospainleague.repository.AchievementRepository;
+import com.arnaugarcia.halospainleague.service.dto.AchievementDTO;
+import com.arnaugarcia.halospainleague.service.mapper.AchievementMapper;
 import com.arnaugarcia.halospainleague.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -55,6 +57,9 @@ public class AchievementResourceIntTest {
     private AchievementRepository achievementRepository;
 
     @Autowired
+    private AchievementMapper achievementMapper;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -73,7 +78,7 @@ public class AchievementResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AchievementResource achievementResource = new AchievementResource(achievementRepository);
+        final AchievementResource achievementResource = new AchievementResource(achievementRepository, achievementMapper);
         this.restAchievementMockMvc = MockMvcBuilders.standaloneSetup(achievementResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -106,9 +111,10 @@ public class AchievementResourceIntTest {
         int databaseSizeBeforeCreate = achievementRepository.findAll().size();
 
         // Create the Achievement
+        AchievementDTO achievementDTO = achievementMapper.toDto(achievement);
         restAchievementMockMvc.perform(post("/api/achievements")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(achievement)))
+            .content(TestUtil.convertObjectToJsonBytes(achievementDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Achievement in the database
@@ -128,11 +134,12 @@ public class AchievementResourceIntTest {
 
         // Create the Achievement with an existing ID
         achievement.setId(1L);
+        AchievementDTO achievementDTO = achievementMapper.toDto(achievement);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restAchievementMockMvc.perform(post("/api/achievements")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(achievement)))
+            .content(TestUtil.convertObjectToJsonBytes(achievementDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -148,10 +155,11 @@ public class AchievementResourceIntTest {
         achievement.setTitle(null);
 
         // Create the Achievement, which fails.
+        AchievementDTO achievementDTO = achievementMapper.toDto(achievement);
 
         restAchievementMockMvc.perform(post("/api/achievements")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(achievement)))
+            .content(TestUtil.convertObjectToJsonBytes(achievementDTO)))
             .andExpect(status().isBadRequest());
 
         List<Achievement> achievementList = achievementRepository.findAll();
@@ -166,10 +174,11 @@ public class AchievementResourceIntTest {
         achievement.setType(null);
 
         // Create the Achievement, which fails.
+        AchievementDTO achievementDTO = achievementMapper.toDto(achievement);
 
         restAchievementMockMvc.perform(post("/api/achievements")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(achievement)))
+            .content(TestUtil.convertObjectToJsonBytes(achievementDTO)))
             .andExpect(status().isBadRequest());
 
         List<Achievement> achievementList = achievementRepository.findAll();
@@ -232,10 +241,11 @@ public class AchievementResourceIntTest {
             .description(UPDATED_DESCRIPTION)
             .score(UPDATED_SCORE)
             .type(UPDATED_TYPE);
+        AchievementDTO achievementDTO = achievementMapper.toDto(updatedAchievement);
 
         restAchievementMockMvc.perform(put("/api/achievements")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedAchievement)))
+            .content(TestUtil.convertObjectToJsonBytes(achievementDTO)))
             .andExpect(status().isOk());
 
         // Validate the Achievement in the database
@@ -254,11 +264,12 @@ public class AchievementResourceIntTest {
         int databaseSizeBeforeUpdate = achievementRepository.findAll().size();
 
         // Create the Achievement
+        AchievementDTO achievementDTO = achievementMapper.toDto(achievement);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restAchievementMockMvc.perform(put("/api/achievements")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(achievement)))
+            .content(TestUtil.convertObjectToJsonBytes(achievementDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Achievement in the database
@@ -296,5 +307,28 @@ public class AchievementResourceIntTest {
         assertThat(achievement1).isNotEqualTo(achievement2);
         achievement1.setId(null);
         assertThat(achievement1).isNotEqualTo(achievement2);
+    }
+
+    @Test
+    @Transactional
+    public void dtoEqualsVerifier() throws Exception {
+        TestUtil.equalsVerifier(AchievementDTO.class);
+        AchievementDTO achievementDTO1 = new AchievementDTO();
+        achievementDTO1.setId(1L);
+        AchievementDTO achievementDTO2 = new AchievementDTO();
+        assertThat(achievementDTO1).isNotEqualTo(achievementDTO2);
+        achievementDTO2.setId(achievementDTO1.getId());
+        assertThat(achievementDTO1).isEqualTo(achievementDTO2);
+        achievementDTO2.setId(2L);
+        assertThat(achievementDTO1).isNotEqualTo(achievementDTO2);
+        achievementDTO1.setId(null);
+        assertThat(achievementDTO1).isNotEqualTo(achievementDTO2);
+    }
+
+    @Test
+    @Transactional
+    public void testEntityFromId() {
+        assertThat(achievementMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(achievementMapper.fromId(null)).isNull();
     }
 }

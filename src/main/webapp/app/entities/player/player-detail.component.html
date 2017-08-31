@@ -80,18 +80,18 @@
         </dd>
         <dt><span jhiTranslate="halospainleagueApp.player.user">User</span></dt>
         <dd>
-            {{player.user?.login}}
+            {{player.userLogin}}
         </dd>
         <dt><span jhiTranslate="halospainleagueApp.player.profileConfiguration">Profile Configuration</span></dt>
         <dd>
-            <div *ngIf="player.profileConfiguration">
-                <a [routerLink]="['/profile-configuration', player.profileConfiguration?.id]">{{player.profileConfiguration?.id}}</a>
+            <div *ngIf="player.profileConfigurationId">
+                <a [routerLink]="['/profile-configuration', player.profileConfigurationId]">{{player.profileConfigurationId}}</a>
             </div>
         </dd>
         <dt><span jhiTranslate="halospainleagueApp.player.country">Country</span></dt>
         <dd>
-            <div *ngIf="player.country">
-                <a [routerLink]="['/country', player.country?.id]">{{player.country?.name}}</a>
+            <div *ngIf="player.countryId">
+                <a [routerLink]="['/country', player.countryId]">{{player.countryName}}</a>
             </div>
         </dd>
     </dl>

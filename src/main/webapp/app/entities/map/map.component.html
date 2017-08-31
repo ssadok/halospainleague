@@ -41,8 +41,8 @@
                     <span *ngIf="map.cover">{{map.coverContentType}}, {{byteSize(map.cover)}}</span>
                 </td>
                 <td>
-                    <div *ngIf="map.game">
-                        <a [routerLink]="['../game', map.game?.id ]" >{{map.game?.name}}</a>
+                    <div *ngIf="map.gameId">
+                        <a [routerLink]="['../game', map.gameId  ]" >{{map.gameName}}</a>
                     </div>
                 </td>
                 <td class="text-right">

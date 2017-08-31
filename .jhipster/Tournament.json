@@ -78,8 +78,7 @@
     "changelogDate": "20170816161053",
     "javadoc": "Class Tournament.\n@author arnaugarcia.",
     "entityTableName": "tournament",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
-    "service": "no",
-    "jpaMetamodelFiltering": true
+    "service": "no"
 }
